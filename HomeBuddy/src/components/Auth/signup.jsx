@@ -71,14 +71,30 @@ const SignupPage = () => {
 
       // TODO: replace with API call
       await new Promise(resolve => setTimeout(resolve, 1500));
-      alert('Registration successful! Check your email for verification.');
-      navigate('/login');
-    } catch {
-      setError('Registration failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      
+      const newUser = {
+        id: Date.now(),
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        role: formData.role,
+        verified: true
+      };
+
+      localStorage.setItem('currentUser', JSON.stringify(newUser));
+
+      if (formData.role === 'landlord') {
+        navigate('/landlord-dashboard');
+      } else {
+        navigate('/Student-dashboard');
+      }
+
+  } catch (err) {
+    console.error("Signup error:", err);
+    setError("Something went wrong. Please try again.");
+  } finally {
+    setIsLoading(false);
+  }
+}
 
   return (
     <AuthContainer>
