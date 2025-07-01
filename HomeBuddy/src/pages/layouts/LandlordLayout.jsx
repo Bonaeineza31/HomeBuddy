@@ -1,6 +1,6 @@
 import React from 'react';
-import Sidebar from '../components/Landlord/LandlordSidebar';
-import '../styles/Landlord.css';
+import Sidebar from '../../components/Landlord/LandlordSidebar';
+import '../../styles/Landlord.css';
 
 const LandlordLayout = ({children}) => {
   return (
