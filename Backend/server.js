@@ -1,34 +1,41 @@
 require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const app = express();
 
-// Database connection
-mongoose.connect(process.env.DB_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
-
-// Middleware
+// ===== Middleware =====
 app.use(express.json());
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/properties', require('./routes/properties'));
-app.use('/api/admin', require('./routes/admin'));
+// ===== Dummy /api/auth/register Route =====
+app.post('/api/auth/register', (req, res) => {
+  const { username, email, password } = req.body;
 
-// Health check
-app.get('/', (req, res) => res.send('HomeBuddy API v1.0'));
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
 
-// Error handling
+  // Simulate success response (no DB)
+  return res.status(201).json({
+    message: 'User registered successfully',
+    user: {
+      username,
+      email
+    }
+  });
+});
+
+// ===== Health Check Route =====
+app.get('/', (req, res) => {
+  res.send('HomeBuddy API v1.0 is running');
+});
+
+// ===== Error Handling =====
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Internal Server Error' });
 });
 
+// ===== Start Server =====
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`API Docs: http://localhost:${PORT}/api-docs`);
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });
-
-module.exports = app;
