@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from '../Backend/routes/authroutes.js';
+import fileUpload from 'express-fileupload';
 
 dotenv.config();
 
@@ -9,22 +10,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// Basic middlewares
 app.use(express.json());
+app.use(fileUpload({ useTempFiles: true }));
 
-// Basic logging middleware
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
-});
+
 
 // Routes
 app.use('/auth', authRoutes);
 
-// // Health check route
-// app.get('/', (req, res) => {
-//   res.send('✅ API is running');
-// });
 
 // MongoDB connection
 const connectDB = async () => {

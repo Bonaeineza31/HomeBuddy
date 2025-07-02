@@ -1,12 +1,10 @@
-import express from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/authmodel.js';
+import cloudinary from '../utils/cloudinary.js';
 
-const router = express.Router();
-
-// Login route
-export const login =async (req, res) => {
+// LOGIN CONTROLLER
+export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -29,13 +27,16 @@ export const login =async (req, res) => {
   }
 };
 
-// Signup route
-export const signup =async (req, res) => {
+// SIGNUP CONTROLLER
+export const signup = async (req, res) => {
   try {
-    const {firstName, lastName, email, role, university,country,password,confirmPassword,idType,idDocument,criminalRecord,} = req.body;
+    const { firstName, lastName, email, role, university, country, password, confirmPassword, idType} = req.body;
 
-    if ( !firstName ||
-      !lastName ||!email || !role || !password || !confirmPassword ||!idType ||!idDocument || !criminalRecord) {
+    // Validate required fields
+    if (
+      !firstName || !lastName || !email || !role || !password || !confirmPassword ||
+      !idType || !req.files?.idDocument || !req.files?.criminalRecord
+    ) {
       return res.status(400).json({ error: 'Please fill in all required fields.' });
     }
 
@@ -47,21 +48,34 @@ export const signup =async (req, res) => {
       return res.status(400).json({ error: 'Password must be at least 8 characters long.' });
     }
 
+    // Upload ID Document to Cloudinary
+    const idDocUpload = await cloudinary.uploader.upload(
+      req.files.idDocument.tempFilePath,
+      { folder: 'homebuddy/ids' }
+    );
+
+    // Upload Criminal Record to Cloudinary
+    const criminalUpload = await cloudinary.uploader.upload(
+      req.files.criminalRecord.tempFilePath,
+      { folder: 'homebuddy/criminal_records' }
+    );
+
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({ firstName, lastName, email, role, university, country,password: hashedPassword, idType,idDocument,criminalRecord });
-
+    // Create new user
+    const user = new User({
+      firstName, lastName, email, role, university, country,password: hashedPassword,idType,idDocumentUrl: idDocUpload.secure_url,criminalRecordUrl: criminalUpload.secure_url, });
     await user.save();
 
+    // Generate JWT
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
       expiresIn: '1h',
     });
 
-    res.json({ token, user });
+    res.status(201).json({ token, user });
   } catch (error) {
     console.error('Signup error:', error);
     res.status(500).json({ error: 'Failed to create user account.' });
   }
 };
-
-
