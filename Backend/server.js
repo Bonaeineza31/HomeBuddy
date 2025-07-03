@@ -1,45 +1,41 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import dotenv from 'dotenv';
-import authRoutes from '../Backend/routes/authroutes.js';
-
-dotenv.config();
-
+require('dotenv').config();
+const express = require('express');
 const app = express();
-const PORT = process.env.PORT || 5000;
-const MONGO_URI = process.env.MONGO_URI;
 
-// Basic middlewares
+// ===== Middleware =====
 app.use(express.json());
 
-// Basic logging middleware
-app.use((req, res, next) => {
-  console.log(`${req.method} ${req.url}`);
-  next();
+// ===== Dummy /api/auth/register Route =====
+app.post('/api/auth/register', (req, res) => {
+  const { username, email, password } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+
+  // Simulate success response (no DB)
+  return res.status(201).json({
+    message: 'User registered successfully',
+    user: {
+      username,
+      email
+    }
+  });
 });
 
-// Routes
-app.use('/auth', authRoutes);
+// ===== Health Check Route =====
+app.get('/', (req, res) => {
+  res.send('HomeBuddy API v1.0 is running');
+});
 
-// // Health check route
-// app.get('/', (req, res) => {
-//   res.send('✅ API is running');
-// });
+// ===== Error Handling =====
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
 
-// MongoDB connection
-const connectDB = async () => {
-  try {
-    await mongoose.connect(MONGO_URI);
-    console.log(' Connected to MongoDB');
-  } catch (error) {
-    console.error('MongoDB connection error:', error.message);
-    process.exit(1);
-  }
-};
-
-// Start server after DB connects
-connectDB().then(() => {
-  app.listen(PORT, () => {
-    console.log(` Server running at http://localhost:${PORT}`);
-  });
+// ===== Start Server =====
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server running on http://localhost:${PORT}`);
 });

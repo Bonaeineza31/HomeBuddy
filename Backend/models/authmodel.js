@@ -14,12 +14,12 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique: true, // Ensures that the email is unique
+      unique: true,
     },
     role: {
       type: String,
       required: true,
-      enum: ['user', 'admin'], // Can be extended with more roles if needed
+      enum: ['user', 'landlord', 'admin'], 
     },
     university: {
       type: String,
@@ -33,22 +33,21 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    idType: {
+    idType: { 
+      type: String, 
+      required: true 
+    },
+    idDocumentUrl: { 
+      type: String, 
+      required: true 
+    },
+    criminalRecordUrl: { 
       type: String,
-      required: true,
-    },
-    idDocument: {
-      type: String,
-      required: true,
-    },
-    criminalRecord: {
-      type: Boolean,
-      required: true,
-    },
+       required: true
+       },
   },
   { timestamps: true } 
 );
-
 
 const User = mongoose.model('User', userSchema);
 
