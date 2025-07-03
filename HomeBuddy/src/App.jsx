@@ -5,8 +5,12 @@ import Home from './components/Home/home';
 import LoginPage from './components/Auth/login';
 import SignupPage from './components/Auth/signup';
 import LandlordDashboard from './pages/Landlord/LandlordDashboard';
-import LandlordLayout from './layouts/LandlordLayout';
+import LandlordLayout from './pages/layouts/LandlordLayout';
 /*import StudentDashboard from '';*/
+import StudentHome from './pages/Student/Home';
+import StudentListing from './pages/Student/Listing';
+import StudentSaved from './pages/Student/Saved';
+import StudentContact from './pages/Student/Contact';
 
 function App() {
   return (
@@ -20,6 +24,10 @@ function App() {
         </LandlordLayout>
       } 
       />
+      <Route path='/student' element={<StudentHome />}></Route>
+      <Route path='/listing' element={<StudentListing />}></Route>
+      <Route path='/saved' element={<StudentSaved />}></Route>
+      <Route path='/contact' element={<StudentContact />}></Route>
     </Routes>
   );
 }
