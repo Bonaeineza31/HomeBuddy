@@ -1,8 +1,10 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
+
 const SECRET = process.env.JWT_SECRET || 'fallbacksecret';
 
-function authenticate(req, res, next) {
+const authenticate = (req, res, next) => {
   const authHeader = req.headers.authorization;
+
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Unauthorized: Token missing' });
   }
@@ -12,9 +14,9 @@ function authenticate(req, res, next) {
     const decoded = jwt.verify(token, SECRET);
     req.user = decoded;
     next();
-  } catch {
+  } catch (err) {
     res.status(401).json({ error: 'Invalid or expired token' });
   }
-}
+};
 
-module.exports = authenticate;
+export default authenticate;
