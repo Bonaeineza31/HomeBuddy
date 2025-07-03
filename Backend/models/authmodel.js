@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
     role: {
       type: String,
       required: true,
-      enum: ['user', 'landlord', 'admin'], 
+      enum: ['student', 'landlord', 'admin'], 
     },
     university: {
       type: String,
@@ -45,6 +45,18 @@ const userSchema = new mongoose.Schema(
       type: String,
        required: true
        },
+
+   isApproved: { 
+    type: Boolean,
+     default: false
+     },
+  approvalStatus:{ type: String,
+   enum: ['pending', 'approved', 'rejected'],
+   default: 'pending'
+   },
+  rejectionReason: { 
+    type: String
+   },
   },
   { timestamps: true } 
 );
