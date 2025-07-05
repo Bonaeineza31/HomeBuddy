@@ -1,87 +1,66 @@
-import React, { useState } from "react";
-import { HiHomeModern } from "react-icons/hi2";
-import { Link } from 'react-router-dom';
+import React from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter, FaTiktok } from "react-icons/fa6";
-import { IoIosMenu } from "react-icons/io";
-import { IoClose } from "react-icons/io5";
-import '../../styles/Contact.css';
+import styles from '../../styles/Contact.module.css';
+import Navbar from "../../components/Navbar";
 
 const StudentContact = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <>
-      <nav className="navigation">
-        <div className="nav-top">
-          <div className="logopart">
-            <HiHomeModern className="logo" aria-label="Homebuddy logo" />
-            <p>Homebuddy</p>
-          </div>
-          <button className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
-            {menuOpen ? <IoClose size={28} /> : <IoIosMenu size={28} />}
-          </button>
-        </div>
-        <ul className={menuOpen ? "nav-links open" : "nav-links"}>
-          <li><Link to="/student" className="nav-link">Home</Link></li>
-          <li><Link to="/saved" className="nav-link">Saved</Link></li>
-          <li><Link to="/listing" className="nav-link">Listings</Link></li>
-          <li><Link to="/contact" className="nav-link">Contact Us</Link></li>
-        </ul>
-      </nav>
+      <Navbar />
 
-      <header className="header">
+      <header className={styles.header}>
         <h1>Contact Us</h1>
       </header>
 
-      <main className="message">
-        <section className="txtpart">
+      <main className={styles.message}>
+        <section className={styles.txtpart}>
           <form>
-            <div className="names">
-              <div className="first">
+            <div className={styles.names}>
+              <div className={styles.first}>
                 <label htmlFor="firstName">First Name</label>
                 <input type="text" id="firstName" name="firstName" placeholder="First name" />
               </div>
-              <div className="last">
+              <div className={styles.last}>
                 <label htmlFor="lastName">Last Name</label>
                 <input type="text" id="lastName" name="lastName" placeholder="Last name" />
               </div>
             </div>
 
-            <div className="mail">
-              <div className="email">
+            <div className={styles.mail}>
+              <div className={styles.email}>
                 <label htmlFor="email">Email</label>
                 <input type="email" id="email" name="email" placeholder="Email address" />
               </div>
-              <div className="phone">
+              <div className={styles.phone}>
                 <label htmlFor="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" placeholder="Phone number" />
               </div>
             </div>
 
-            <div className="textarea">
+            <div className={styles.textarea}>
               <label htmlFor="message">Your Message</label>
               <textarea id="message" name="message" placeholder="Your message"></textarea>
             </div>
 
-            <button type="submit" className="submit">Send Message</button>
+            <button type="submit" className={styles.submit}>Send Message</button>
           </form>
         </section>
 
-        <aside className="address">
-          <div className="loc">
+        <aside className={styles.address}>
+          <div className={styles.loc}>
             <h3>Address</h3>
             <p>KN 5 Avenue <br /> Kigali, Rwanda</p>
           </div>
 
-          <div className="contactinfo">
+          <div className={styles.contactinfo}>
             <h3>Our Contacts</h3>
             <p>+123456 <br /> homebuddy@gmail.com</p>
           </div>
 
-          <div className="socials">
+          <div className={styles.socials}>
             <h3>Stay Connected</h3>
-            <div className="icon">
+            <div className={styles.icon}>
               <FaFacebook aria-label="Facebook" />
               <FaInstagram aria-label="Instagram" />
               <FaTiktok aria-label="TikTok" />

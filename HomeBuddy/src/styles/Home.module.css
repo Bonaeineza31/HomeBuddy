@@ -1,0 +1,567 @@
+/* Home.module.css */
+
+:root {
+  --primary-blue: navy; /* Changed to your primary blue */
+  --secondary-blue: #1e2a78;
+  --other-blue: #3730a3;
+  --accent-blue: #1d4ed8;
+  --primary-white: #fff;
+  --secondary-white: #f5f5f5;
+  --dark-blue: #141c4a; /* Darker blue for search button */
+  --text-dark: #333;
+  --white: #ffffff;
+  --light-gray: #f0f2f5;
+  --border-color: #e0e0e0;
+  --input-border-color: #d0d0d0;
+  --input-focus-shadow: 0 0 0 2px rgba(30, 42, 120, 0.2);
+  --filter-height: 48px;
+  --curvy-border-radius: 15px; /* New variable for consistent curvy borders */
+}
+
+/* Main wrapper */
+.main {
+  padding-top: 0;
+  background-color: var(--light-gray);
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.heroSection {
+  background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  min-height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--white);
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+
+.heroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: -1;
+}
+
+.heroTitle {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+/* Filter Form */
+.filterForm {
+  background-color: var(--white);
+  border-radius: 30px; /* Adjusted to 30px for curvier look */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  max-width: 1000px;
+  width: 90%;
+  z-index: 2;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Main Horizontal Filter Bar */
+.mainFilterBar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 1.25rem;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+}
+
+.filterField {
+  flex: 1;
+  min-width: 120px;
+  position: relative;
+  
+}
+
+/* Base styles for all inputs and react-select controls */
+.filterInput,
+.react-select__control {
+  width: 100%;
+  height: var(--filter-height);
+  padding: 0 1rem;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--curvy-border-radius); /* Applied curvy border radius */
+  background-color: var(--white);
+  color: var(--text-dark);
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+}
+
+.filterInput::placeholder {
+  color: #888;
+}
+
+.filterInput:hover,
+.react-select__control:hover {
+  border-color: #b0b0b0;
+}
+
+.filterInput:focus,
+.react-select__control--is-focused {
+  border-color: var(--primary-blue);
+  outline: none;
+  box-shadow: var(--input-focus-shadow);
+}
+
+/* Adjustments for react-select components */
+/* Simplified react-select overrides*/
+.react-select__control {
+  min-height: var(--filter-height);
+  padding: 0;
+  border-radius: var(--curvy-border-radius); /* Applied curvy border radius */
+}
+
+.react-select__value-container {
+  padding: 0 1rem;
+}
+
+.react-select__single-value,
+.react-select__input {
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.react-select__placeholder {
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.react-select__indicator {
+  color: var(--text-dark);
+  padding: 8px;
+  transition: color 0.3s ease;
+}
+
+.react-select__indicator:hover {
+  color: var(--text-dark);
+}
+
+.react-select__indicator-separator {
+  display: none;
+}
+
+/* Dropdown menu (options container) */
+.react-select__menu {
+  background-color: var(--white); 
+  border-radius: var(--curvy-border-radius); 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+  z-index: 10000;
+  margin-top: 0.5rem;
+}
+
+/* Individual dropdown options */
+.react-select__option {
+  color: var(--text-dark); 
+  background-color: var(--text-dark); /* Dark background for options */
+  padding: 0.8rem 1rem;
+}
+
+.react-select__option--is-focused {
+  background-color: var(--text-dark); /* Primary blue for focus, stands out on dark */
+  color: var(--text-dark); /* White text on focused blue */
+}
+
+.react-select__option--is-selected {
+  background-color: var(--primary-blue); /* Primary blue for selected */
+  color: var(--dark-blue); /* White text on selected blue */
+}
+
+/* Specific styling for date input icon
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0);
+  cursor: pointer;
+  opacity: 1;
+}
+input[type="date"]:focus::-webkit-calendar-picker-indicator {
+  filter: invert(0);
+} */
+
+/* Advanced Button Container */
+.advancedButtonContainer {
+  position: relative;
+  height: var(--filter-height);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Advanced Button */
+.advancedBtn {
+  background-color: var(--white);
+  color: var(--text-dark);
+  padding: 0 1.2rem;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--curvy-border-radius); /* Applied curvy border radius */
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: var(--filter-height);
+  min-width: 120px;
+  flex-grow: 1;
+}
+
+.advancedBtn:hover {
+  border-color: #b0b0b0;
+  background-color: var(--light-gray);
+}
+
+/* .advancedBtn:focus {
+  outline: none;
+  border-color: var(--primary-blue);
+  box-shadow: var(--input-focus-shadow);
+} */
+
+.advancedArrow {
+  font-size: 0.8rem;
+}
+
+/* Search Button */
+.searchBtn {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: 0 2rem;
+  border: none;
+  border-radius: var(--curvy-border-radius); 
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  white-space: nowrap;
+  height: var(--filter-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.searchBtn:hover {
+  background-color: var(--other-blue);
+}
+
+/* Advanced Filters Dropdown */
+.advancedFiltersDropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  left: auto;
+  background-color: var(--primary-white); /* Dark background for advanced dropdown */
+  border-radius: var(--curvy-border-radius); /* Curvy border radius */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); /* Stronger shadow for dark dropdown */
+  padding: 1.25rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  z-index: 1000;
+  min-width: 300px;
+  max-width: 450px;
+  box-sizing: border-box;
+}
+
+/* React-select specific overrides for the advanced dropdown */
+/* Ensure these also pick up the new styling variables */
+.react-select-advanced__control {
+  min-height: var(--filter-height);
+  padding: 0;
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--curvy-border-radius); /* Applied curvy border radius */
+  background-color: var(--white); /* Control itself remains white */
+  box-shadow: none;
+}
+
+.react-select-advanced__control:hover {
+  border-color: #b0b0b0;
+}
+
+.react-select-advanced__control--is-focused {
+  border-color: var(--primary-blue);
+  box-shadow: var(--input-focus-shadow);
+}
+
+.react-select-advanced__value-container {
+  padding: 0 1rem;
+}
+
+.react-select-advanced__single-value,
+.react-select-advanced__input {
+  color: var(--text-dark);
+  margin: 0;
+}
+
+.react-select-advanced__placeholder {
+  color: #888;
+  margin: 0;
+}
+
+.react-select-advanced__indicator {
+  color: #888;
+  padding: 8px;
+}
+
+.react-select-advanced__indicator:hover {
+  color: var(--text-dark);
+}
+
+.react-select-advanced__indicator-separator {
+  display: none;
+}
+
+/* Advanced dropdown menu (options container) - should be dark */
+.react-select-advanced__menu {
+  background-color: var(--text-dark); /* Dark background for advanced dropdown options */
+  border-radius: var(--curvy-border-radius); /* Curvy border radius */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  margin-top: 0.5rem;
+}
+
+/* Advanced individual dropdown options */
+.react-select-advanced__option {
+  color: var(--white); /* White text for dark background */
+  background-color: var(--text-dark); /* Dark background for options */
+  padding: 0.8rem 1rem;
+}
+
+.react-select-advanced__option--is-focused {
+  background-color: var(--secondary-blue); /* Primary blue for focus, stands out on dark */
+  color: var(--white);
+}
+
+.react-select-advanced__option--is-selected {
+  background-color: var(--primary-blue); /* Primary blue for selected */
+  color: var(--white);
+}
+
+
+/* Existing properties grid styles */
+.mostviewed {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.mostviewed h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--text-dark);
+  font-size: 2.2rem;
+}
+
+.all {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.listing {
+  background-color: var(--white);
+  border-radius: var(--curvy-border-radius); /* Curvy border radius */
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.listing:hover {
+  transform: translateY(-5px);
+}
+
+.listing img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.listing-details {
+  padding: 1rem;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.text-group h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--text-dark);
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.description {
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.bottom-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary-blue);
+}
+
+.check {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: var(--curvy-border-radius); /* Curvy border radius */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.check:hover {
+  background-color: var(--secondary-blue); /* Hover effect using one of your blues */
+}
+
+/* Heart Icon for saved properties */
+.heartIcon {
+  cursor: pointer;
+}
+
+.see-more {
+  display: block;
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.see-more:hover {
+  color: var(--accent-blue); /* Changed to one of your blues for consistency */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .mainFilterBar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .filterField {
+    flex-basis: calc(50% - 0.75rem / 2);
+    min-width: unset;
+  }
+  .advancedButtonContainer {
+    flex-basis: calc(50% - 0.75rem / 2);
+    min-width: unset;
+  }
+  .searchBtn {
+    flex-basis: 100%;
+  }
+  .filterForm {
+    width: 95%;
+  }
+  .advancedFiltersDropdown {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    padding: 1rem;
+    gap: 0.8rem;
+    left: 0;
+    right: auto;
+    transform: translateX(0%);
+    max-width: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .mainFilterBar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1rem;
+    gap: 0.8rem;
+  }
+  .filterField,
+  .advancedButtonContainer,
+  .searchBtn {
+    width: 100%;
+    flex-basis: auto;
+    min-width: unset;
+  }
+  .advancedFiltersDropdown {
+    grid-template-columns: 1fr;
+    padding: 0.8rem;
+    top: calc(100% + 10px);
+    left: 0;
+    right: auto;
+  }
+  .mostviewed {
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+  .mostviewed h1 {
+    font-size: 1.8rem;
+  }
+  .all {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .description {
+    height: auto;
+    -webkit-line-clamp: unset;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 1.8rem;
+  }
+}

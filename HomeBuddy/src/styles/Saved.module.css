@@ -1,0 +1,180 @@
+.navigation {
+  width: 100%;
+  background-color: black;
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.nav-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.logopart {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo {
+  font-size: 2rem;
+}
+
+.menu-icon {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 1rem;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: black;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    padding: 1rem 2rem;
+    gap: 1rem;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+}
+
+/* Main layout */
+.all-listings {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  margin-top: 8rem;
+}
+
+.properties {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Each property card */
+.property {
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(240, 240, 240, 0.7);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.property:hover {
+  transform: translateY(-2px);
+}
+
+.list-image {
+  width: 35%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.details {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Top part */
+.save {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.save-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.save-text h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  color: #666;
+  font-size: 0.95rem;
+  margin-top: 0.25rem;
+}
+
+/* Description */
+.description {
+  margin: 1rem 0;
+  text-align: justify;
+  color: #333;
+}
+
+/* Bottom part */
+.lower {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #222;
+}
+
+.check {
+  background-color: #3b7ae6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.check:hover {
+  background-color: #295cc7;
+}
+
+

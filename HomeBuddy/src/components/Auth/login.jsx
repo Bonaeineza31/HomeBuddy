@@ -6,9 +6,18 @@ import './Auth.css';
 const mockUsers = [
   {
     id: 'user_001',
-    email: 'atete.norette@example.com',
+    email: 'student@example.com',
     password: 'password123',
     name: 'Atete Norette',
+    role: 'student',
+    verified: true
+  },
+  {
+    id: 'user_002',
+    email: 'landlord@example.com',
+    password: 'password123',
+    name: 'John Landlord',
+    role: 'landlord',
     verified: true
   }
 ];
@@ -16,7 +25,7 @@ const mockUsers = [
 const authenticateUser = (email, password) => {
   const user = mockUsers.find(u => u.email === email && u.password === password);
   if (user) {
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    // Store user data in memory (not localStorage as it's not supported)
     return { success: true, user };
   }
   return { success: false, error: 'Invalid email or password' };
@@ -60,7 +69,16 @@ const LoginForm = () => {
       const authResult = authenticateUser(formData.email, formData.password);
 
       if (authResult.success) {
-        navigate('/dashboard'); // or wherever you want to redirect after login
+        // Redirect based on user role
+        if (authResult.user.role === 'student') {
+          navigate('/student', { 
+            state: { user: authResult.user } 
+          });
+        } else if (authResult.user.role === 'landlord') {
+          navigate('/dashboard', { 
+            state: { user: authResult.user } 
+          });
+        }
       } else {
         setError(authResult.error);
       }
@@ -135,6 +153,13 @@ const LoginForm = () => {
             Get Started
           </Link>
         </p>
+      </div>
+
+      {/* Demo credentials for testing */}
+      <div className="demo-credentials">
+        <h4>Demo Credentials:</h4>
+        <p><strong>Student:</strong> student@example.com / password123</p>
+        <p><strong>Landlord:</strong> landlord@example.com / password123</p>
       </div>
     </AuthContainer>
   );
