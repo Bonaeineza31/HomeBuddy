@@ -20,6 +20,7 @@ import StudentContact from './pages/Student/Contact';
 import AdminLayout from './Admin/AdminLayout';
 import AdminDashboard from './Admin/Admindashboard';
 import AdminApprovals from './Admin/approval';
+import AdminListing from './Admin/AdminListing';
 
 function App() {
   return (
@@ -50,6 +51,7 @@ function App() {
         <Route index element={<AdminDashboard />} />
         <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="approvals" element={<AdminApprovals />} />
+          <Route path="listings" element={<AdminListing />} />
         {/* You can add more like:
         <Route path="users" element={<Users />} />
         <Route path="listings" element={<AdminListings />} />
