@@ -1,41 +1,65 @@
-require('dotenv').config();
-const express = require('express');
+import express from 'express';
+import cors from 'cors'
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import fileUpload from 'express-fileupload';
+import authRoutes from '../Backend/routes/authroutes.js';
+import userRoutes from '../Backend/routes/userroutes.js';
+dotenv.config();
+
 const app = express();
+const PORT = process.env.PORT || 5000;
+const MONGO_URI = process.env.MONGO_URI;
 
-// ===== Middleware =====
+// Body parser middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// ===== Dummy /api/auth/register Route =====
-app.post('/api/auth/register', (req, res) => {
-  const { username, email, password } = req.body;
+// Enable file upload middleware
+app.use(fileUpload({
+  useTempFiles: true,
+  tempFileDir: './tmp' // You can also use '/tmp'
+}));
 
-  if (!username || !email || !password) {
-    return res.status(400).json({ message: 'All fields are required' });
-  }
-
-  // Simulate success response (no DB)
-  return res.status(201).json({
-    message: 'User registered successfully',
-    user: {
-      username,
-      email
-    }
-  });
+// Basic request logging
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
 });
+app.use(cors({
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+}));
+app.options('*', cors());
 
-// ===== Health Check Route =====
+
+// Routes
+app.use('/auth', authRoutes);
+app.use('/admin', userRoutes);
+
+// Optional: Health check
 app.get('/', (req, res) => {
-  res.send('HomeBuddy API v1.0 is running');
+  res.send('✅ API is running');
 });
 
-// ===== Error Handling =====
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Internal Server Error' });
-});
+// MongoDB connection
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log('✅Connected to MongoDB');
+  } catch (error) {
+    console.error(' MongoDB connection error:', error.message);
+    process.exit(1);
+  }
+};
 
-// ===== Start Server =====
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`✅ Server running on http://localhost:${PORT}`);
+// Start server after DB connection
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(` Server running at http://localhost:${PORT}`);
+  });
 });

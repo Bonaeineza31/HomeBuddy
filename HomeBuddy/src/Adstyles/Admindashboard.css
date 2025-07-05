@@ -1,0 +1,118 @@
+/* src/Adstyles/Admindashboard.css */
+
+.admin-dashboard {
+  padding: 2rem;
+  background-color: #f8f9fc;
+  min-height: 100vh;
+  color: #1e1e2d;
+}
+
+.dashboard-header h2 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.2rem;
+  color: #2a2a36;
+}
+
+.dashboard-header p {
+  color: #6c757d;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.card-count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #343a40;
+  margin: 0;
+}
+
+.dashboard-card h4 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #007bff;
+}
+
+.dashboard-actions {
+  margin-bottom: 2.5rem;
+}
+
+.dashboard-actions h3 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #2c2c3a;
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #ffffff;
+  color: #212529;
+  padding: 0.75rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.action-btn:hover {
+  background-color: #e9ecef;
+}
+
+.dashboard-bottom {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.bottom-section {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+}
+
+.bottom-section h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.bottom-section p {
+  color: #6c757d;
+  font-size: 0.9rem;
+}
