@@ -1,0 +1,225 @@
+/* Navbar.module.css */
+
+:root{
+    --primary-blue: navy;
+    --other-blue: #3730a3 ;
+    --accent-blue: #1d4ed8;
+    --primary-white: #fff;
+    --secondary-white: #f5f5f5;
+}
+
+.navigation {
+  width: 100%;
+  background-color: var(--primary-white); 
+  color: var(--main-blue);
+  position: sticky; 
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 8px;
+}
+
+.nav-container { 
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.8rem 2rem; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logopart {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+  font-weight: 700;
+  font-size: 1.4rem;
+  cursor: pointer;
+  user-select: none;
+  color: var(--primary-blue); 
+}
+
+.logo {
+  font-size: 2rem;
+  color: var(--primary-blue); 
+}
+
+.menu-icon {
+  background: none;
+  border: none;
+  color: var(--primary-blue); 
+  cursor: pointer;
+  display: none; 
+}
+
+/* Nav links container */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.8rem; 
+  margin: 0;
+  padding: 0px;
+  align-items: center;
+}
+
+/* Individual nav links */
+.nav-link {
+  color: #333; 
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.3rem 0; 
+  position: relative; 
+  transition: color 0.3s ease; 
+}
+
+/* Active link styling using NavLink */
+.nav-link.activeLink {
+    font-weight: 500; 
+    color: var(--primary-blue);
+}
+
+.nav-link.activeLink::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px; 
+    width: 100%;
+    height: 2px; 
+    background-color: var(--primary-blue); 
+    border-radius: 2px;
+}
+
+.nav-link:hover,
+.nav-link:focus {
+  color: var(--accent-blue);
+  outline: none;
+  text-decoration: none; 
+}
+
+.nav-link:hover::after,
+.nav-link:focus::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px; 
+    width: 100%;
+    height: 2px; 
+    background-color: var(--accent-blue); 
+    border-radius: 2px;
+}
+
+
+/* Special buttons (Be a Roommate and Profile) */
+.roommate-btn {
+  background-color: var(--primary-blue); /* Deep blue background */
+  color: white; /* White text */
+  padding: 0.6rem 1.2rem; /* Generous padding */
+  border-radius: 8px; /* Fully rounded */
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.roommate-btn:hover,
+.roommate-btn:focus {
+  background-color: var(--accent-blue); 
+  outline: none;
+  color: white; 
+}
+.roommate-btn:hover::after,
+.roommate-btn:focus::after {
+content: none;
+}
+.profile-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  text-decoration: none; 
+}
+
+.profile-link:hover,
+.profile-link:focus {
+  color: var(--accent-blue); /* Profile link hover color */
+}
+
+/* No underline on hover for profile link */
+.profile-link:hover::after,
+.profile-link:focus::after {
+    content: none;
+}
+
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-container {
+    padding: 0.8rem 1.5rem; /* Adjust padding for smaller screens */
+  }
+
+  .nav-links {
+    position: absolute; /* Changed from fixed to absolute, relative to .navigation */
+    top: 100%; /* Positions it directly below the navbar */
+    left: 0;
+    right: 0;
+    background-color: white; /* White background for mobile menu */
+    flex-direction: column;
+    gap: 0; /* Remove gap, use padding on list items */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+    border-top: 1px solid var(--light-gray-border); /* Subtle separator */
+  }
+
+  .nav-links.open {
+    max-height: 400px; /* Adjust as needed to fit all links */
+    padding-bottom: 1rem;
+  }
+
+  .nav-link {
+    font-size: 1.1rem;
+    padding: 0.8rem 1.5rem; /* Add padding to make each link clickable */
+    width: 100%;
+    display: block;
+    color: var(--primary-blue); /* Text color for mobile links */
+    border-bottom: 1px solid var(--light-gray-border); /* Separator between links */
+  }
+
+  .nav-link:last-of-type {
+    border-bottom: none; /* No border for the last link */
+  }
+
+  .nav-link.activeLink::after,
+  .nav-link:hover::after,
+  .nav-link:focus::after {
+    /* Hide the underline effect for mobile to keep it clean */
+    content: none;
+  }
+
+  .roommate-btn {
+    width: calc(100% - 3rem); /* Full width minus padding */
+    margin: 1rem 1.5rem 0.5rem; /* Center the button with horizontal margin, add bottom margin */
+    text-align: center;
+    justify-content: center; /* Center content of the button */
+    font-size: 1.1rem;
+    padding: 0.8rem 0; /* Adjust padding */
+    border-radius: 8px; /* Slightly less rounded for mobile */
+  }
+
+  .profile-link {
+    width: calc(100% - 3rem); /* Full width minus padding */
+    margin: 0.5rem 1.5rem 1rem; /* Center and add margins */
+    justify-content: center; /* Center content */
+    font-size: 1.1rem;
+    padding: 0.8rem 0; /* Adjust padding */
+    border: 1px solid var(--primary-blue); /* Add border for definition */
+    border-radius: 8px; /* Consistent rounding with roommate button */
+  }
+}
