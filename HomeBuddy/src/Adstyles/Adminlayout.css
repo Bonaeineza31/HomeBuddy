@@ -1,0 +1,65 @@
+/* src/Adstyles/Adminlayout.css */
+
+.admin-layout-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  background-color: var(--bg-main);
+  color: var(--text-color);
+}
+
+/* Sidebar stays fixed on the left */
+.admin-layout-container .admin-sidebar {
+  width: 240px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: var(--sidebar-bg);
+  z-index: 100;
+}
+
+/* Main area includes navbar + content */
+.admin-main-content {
+  margin-left: 240px;
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - 240px);
+  height: 100vh;
+}
+
+/* Navbar sits at the top */
+.admin-main-content .admin-navbar {
+  height: 64px;
+  background-color: var(--navbar-bg);
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  border-bottom: 1px solid var(--border-color);
+  z-index: 90;
+}
+
+/* Main outlet scrolls independently */
+.admin-outlet {
+  flex: 1;
+  padding: 1rem 2rem;
+  overflow-y: auto;
+  background-color: var(--bg-main);
+}
+
+/* Light / dark mode variables */
+:root {
+  --sidebar-bg: #ffffff;
+  --navbar-bg: #f9f9f9;
+  --bg-main: #f4f6fc;
+  --text-color: #1c1c1c;
+  --border-color: #e1e1e1;
+}
+
+body.dark-mode {
+  --sidebar-bg: #1a1a1a;
+  --navbar-bg: #111111;
+  --bg-main: #0e0e0e;
+  --text-color: #f0f0f0;
+  --border-color: #333;
+}

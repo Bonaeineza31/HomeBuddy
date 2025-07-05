@@ -1,33 +1,60 @@
-// src/App.jsx
+// src/App.jsx (Final Update)
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
+
 import Home from './components/Home/home';
 import LoginPage from './components/Auth/login';
 import SignupPage from './components/Auth/signup';
+
+// Landlord
 import LandlordDashboard from './pages/Landlord/LandlordDashboard';
 import LandlordLayout from './pages/layouts/LandlordLayout';
-/*import StudentDashboard from '';*/
+
+// Student
 import StudentHome from './pages/Student/Home';
 import StudentListing from './pages/Student/Listing';
 import StudentSaved from './pages/Student/Saved';
 import StudentContact from './pages/Student/Contact';
 
+// Admin
+import AdminLayout from './Admin/AdminLayout';
+import AdminDashboard from './Admin/Admindashboard';
+import AdminApprovals from './Admin/approval';
+
 function App() {
   return (
     <Routes>
+      {/* Public */}
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
-      <Route path="/landlord-dashboard" element={
-        <LandlordLayout>
-          <LandlordDashboard />
-        </LandlordLayout>
-      } 
+
+      {/* Landlord */}
+      <Route
+        path="/landlord-dashboard"
+        element={
+          <LandlordLayout>
+            <LandlordDashboard />
+          </LandlordLayout>
+        }
       />
-      <Route path='/student' element={<StudentHome />}></Route>
-      <Route path='/listing' element={<StudentListing />}></Route>
-      <Route path='/saved' element={<StudentSaved />}></Route>
-      <Route path='/contact' element={<StudentContact />}></Route>
+
+      {/* Student */}
+      <Route path="/student" element={<StudentHome />} />
+      <Route path="/listing" element={<StudentListing />} />
+      <Route path="/saved" element={<StudentSaved />} />
+      <Route path="/contact" element={<StudentContact />} />
+
+      {/* Admin Panel - uses layout with nested routes */}
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route index element={<AdminDashboard />} />
+        <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="approvals" element={<AdminApprovals />} />
+        {/* You can add more like:
+        <Route path="users" element={<Users />} />
+        <Route path="listings" element={<AdminListings />} />
+        */}
+      </Route>
     </Routes>
   );
 }
