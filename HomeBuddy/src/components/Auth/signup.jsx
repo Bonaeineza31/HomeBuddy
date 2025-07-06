@@ -1,15 +1,7 @@
 // src/components/Auth/signup.jsx
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import './Auth.css';
-
-const AuthContainer = ({ children }) => (
-  <div className="auth-container">
-    <div className="auth-card">
-      {children}
-    </div>
-  </div>
-);
+import { useNavigate,Link } from 'react-router-dom';
+import './signup.css';
 
 const SignupPage = () => {
   const navigate = useNavigate();
@@ -25,8 +17,9 @@ const SignupPage = () => {
     confirmPassword: '',
     idType: 'national_id',
     idDocument: null,
-    criminalRecord: null
+    criminalRecord: null,
   });
+
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -41,182 +34,127 @@ const SignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (
-      !formData.firstName || !formData.lastName || !formData.email ||
-      !formData.password || !formData.confirmPassword ||
-      !formData.idDocument || !formData.criminalRecord
-    ) {
-      setError('Please fill in all required fields.');
-      return;
+    setError('');
+
+    const {
+      firstName, lastName, email, password, confirmPassword,
+      role, university, idDocument, criminalRecord, idType
+    } = formData;
+
+    if (!firstName || !lastName || !email || !password || !confirmPassword || !idDocument || !criminalRecord) {
+      return setError('Please fill in all required fields.');
     }
 
-    if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match.');
-      return;
+    if (password !== confirmPassword) {
+      return setError('Passwords do not match.');
     }
 
-    if (formData.password.length < 8) {
-      setError('Password must be at least 8 characters long.');
-      return;
+    if (password.length < 8) {
+      return setError('Password must be at least 8 characters.');
     }
 
-    if (formData.role === 'student' && !formData.university) {
-      setError('Please select your university.');
-      return;
+    if (role === 'student' && !university) {
+      return setError('Please enter your university.');
     }
 
-    setIsLoading(true);
     try {
-      console.log('Signup data:', formData);
+      setIsLoading(true);
 
-      // TODO: replace with API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const newUser = {
-        id: Date.now(),
-        name: `${formData.firstName} ${formData.lastName}`,
-        email: formData.email,
-        role: formData.role,
-        verified: true
-      };
+      const data = new FormData();
+      Object.entries(formData).forEach(([key, value]) => {
+        data.append(key, value);
+      });
 
-      localStorage.setItem('currentUser', JSON.stringify(newUser));
+      const response = await fetch('http://localhost:3000/auth/signup', {
+        method: 'POST',
+        body: data,
+      });
 
-      if (formData.role === 'landlord') {
-        navigate('/landlord-dashboard');
-      } else {
-        navigate('/Student-dashboard');
+      const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.error || 'Signup failed');
       }
 
-  } catch (err) {
-    console.error("Signup error:", err);
-    setError("Something went wrong. Please try again.");
-  } finally {
-    setIsLoading(false);
-  }
-}
+      alert('Account created! Awaiting admin approval.');
+      navigate('/login');
+
+    } catch (err) {
+      console.error('Signup error:', err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <AuthContainer>
-      <div className="auth-header">
-        <h1>Create an Account</h1>
-        <p>Join our trusted rental community</p>
-      </div>
+    <div className="auth-container">
+      <div className="auth-card">
+        <h2>Create an Account</h2>
+        {error && <p className="error-message">⚠️ {error}</p>}
+        <form onSubmit={handleSubmit} className="auth-form">
 
-      <form onSubmit={handleSubmit} className="auth-form">
-        {error && (
-          <div className="error-message">
-            <span className="error-icon">⚠️</span> {error}
-          </div>
-        )}
-
-        <div className="form-group">
           <label>Role *</label>
           <select name="role" value={formData.role} onChange={(e) => {
             setRole(e.target.value);
             handleInputChange(e);
-          }} className="form-select" required>
+          }} required>
             <option value="student">Student</option>
             <option value="landlord">Landlord</option>
           </select>
-        </div>
+           <label>First Name *</label>
+          <input type="text" name="firstName" placeholder="First Name " value={formData.firstName} onChange={handleInputChange} required />
+          <label>Last Name *</label>
+          <input type="text" name="lastName" placeholder="Last Name *" value={formData.lastName} onChange={handleInputChange} required />
+          <label>Email*</label>
+          <input type="email" name="email" placeholder="Email *" value={formData.email} onChange={handleInputChange} required />
 
-        <div className="form-row">
-          <div className="form-group">
-            <label>First Name *</label>
-            <input type="text" name="firstName" value={formData.firstName}
-              onChange={handleInputChange} className="form-input" required />
-          </div>
-          <div className="form-group">
-            <label>Last Name *</label>
-            <input type="text" name="lastName" value={formData.lastName}
-              onChange={handleInputChange} className="form-input" required />
-          </div>
-        </div>
-
-        <div className="form-group">
-          <label>Email Address *</label>
-          <input type="email" name="email" value={formData.email}
-            onChange={handleInputChange} className="form-input" required />
-        </div>
-
-        {role === 'student' && (
-          <>
-            <div className="form-group">
-              <label>University *</label>
-              <select name="university" value={formData.university}
-                onChange={handleInputChange} className="form-select" required>
-                <option value="">-- Select --</option>
-                <option value="ALU">African Leadership University</option>
-              </select>
-            </div>
-            <div className="form-group">
+          {role === 'student' && (
+            <>
+            <label>University </label>
+              <input type="text" name="university" placeholder="University " value={formData.university} onChange={handleInputChange} required />
               <label>Country *</label>
-              <select name="country" value={formData.country}
-                onChange={handleInputChange} className="form-select" required>
+              <select name="country" value={formData.country} onChange={handleInputChange} required>
                 <option value="Rwanda">Rwanda</option>
                 <option value="Uganda">Uganda</option>
                 <option value="Congo">Congo</option>
                 <option value="Kenya">Kenya</option>
-                <option value="Nigeria">Nigeria</option>
               </select>
-            </div>
-          </>
-        )}
-
-        <div className="form-group">
+            </>
+          )}
           <label>Password *</label>
-          <input type="password" name="password" value={formData.password}
-            onChange={handleInputChange} className="form-input" required />
-        </div>
-        <div className="form-group">
+          <input type="password" name="password" placeholder="Password " value={formData.password} onChange={handleInputChange} required />
           <label>Confirm Password *</label>
-          <input type="password" name="confirmPassword" value={formData.confirmPassword}
-            onChange={handleInputChange} className="form-input" required />
-        </div>
+          <input type="password" name="confirmPassword" placeholder="Confirm Password " value={formData.confirmPassword} onChange={handleInputChange} required />
 
-        <div className="form-group">
           <label>ID Type *</label>
-          <select name="idType" value={formData.idType}
-            onChange={handleInputChange} className="form-select" required>
+          <select name="idType" value={formData.idType} onChange={handleInputChange} required>
             <option value="national_id">National ID</option>
             <option value="passport">Passport</option>
             <option value="student_id">Student ID</option>
             <option value="driver_license">Driver’s License</option>
           </select>
-        </div>
 
-        <div className="form-group">
           <label>Upload ID Document *</label>
-          <input type="file" name="idDocument" onChange={handleInputChange}
-            className="form-input file-input" accept="image/*,application/pdf" required />
-        </div>
+          <input type="file" name="idDocument" accept="image/*,application/pdf" onChange={handleInputChange} required />
 
-        <div className="form-group">
-          <label>Criminal Record Certificate *</label>
-        <p className="form-help">
-            Upload a recent certificate from <a href="https://support.irembo.gov.rw/en/support/solutions/articles/47001147721-how-to-apply-for-a-criminal-record-certificate" target="_blank" rel="noreferrer"> <span>irembo.gov.rw</span></a> for safety verification. 
-            It takes 2-3 business days for us to review and accept your account creation
-          </p>
-          <input type="file" name="criminalRecord" onChange={handleInputChange}
-            className="form-input file-input" accept="application/pdf,image/*" required />
+          <label>Upload Criminal Record *</label>
+          <input type="file" name="criminalRecord" accept="application/pdf,image/*" onChange={handleInputChange} required />
 
-        </div>
-
-        <div className="form-actions">
-          <button type="submit" className="btn btn-primary btn-full" disabled={isLoading}>
-            {isLoading ? 'Creating Account...' : 'Create Account'}
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? 'Creating...' : 'Create Account'}
           </button>
-        </div>
-      </form>
-
-      <div className="auth-switch">
-        <p>Already have an account? <Link to="/login" className="link-button">Sign In</Link></p>
+        </form>
+        <div className="auth-switch">
+       <p>
+         Already have an account?{' '}
+         <Link to="/login" className="link-button">
+           Sign In
+          </Link>
+        </p>
+          </div>
       </div>
-    </AuthContainer>
+    </div>
   );
 };
-
-
 
 export default SignupPage;

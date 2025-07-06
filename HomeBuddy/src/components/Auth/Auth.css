@@ -120,6 +120,22 @@
   gap: 1.5rem;
 }
 
+.auth-form select {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1.5px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #fff;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.auth-form select:focus {
+  border-color: #7fe8c9; /* match your app's primary color */
+}
+
 .form-group {
   display: flex;
   flex-direction: column;

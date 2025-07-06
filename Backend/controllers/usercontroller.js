@@ -28,10 +28,32 @@ export const approveUser = async (req, res) => {
 
     // Send approval email
     await sendEmail({
-      to: user.email,
-      subject: 'Your HomeBuddy Account Has Been Approved',
-      html: `<p>Hello ${user.firstName},</p><p>Your account has been approved. You can now log in using your email and password.</p>`
-    });
+        to: user.email,
+        subject: '🎉 Welcome to HomeBuddy – Your Account Has Been Approved!',
+        html: `
+        <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; background-color: #f4f4f4; border-radius: 8px;">
+        <h2 style="color: #2c2c3a;">Welcome to HomeBuddy, ${user.firstName}!</h2>
+        <p>Your account has been <strong>successfully approved</strong> by our team.</p>
+      
+        <p>You can now log in using your email and the password you created during registration:</p>
+         <div style="background-color: #ffffff; padding: 12px 16px; border-radius: 4px; margin: 16px 0;">
+        <strong>Email:</strong> ${user.email}<br/>
+        <strong>Password:</strong> [Your password you registered with] 
+      <p>If you've forgotten your password, simply use the <a href="http://localhost:5173/forgot-password">Forgot Password</a> option to reset it.</p>
+
+        <br/><em style="color: #666;">(If you’ve forgotten your password, you can reset it at login)</em>
+      </div>
+
+      <a href="http://localhost:5173/login" style="display: inline-block; background-color: #2c2c3a; color: white; padding: 12px 20px; text-decoration: none; border-radius: 4px; font-weight: bold;">
+        👉 Log in to HomeBuddy
+      </a>
+
+      <p style="margin-top: 20px;">Need help getting started? Visit our <a href="http://localhost:5173" style="color: #2c2c3a;">homepage</a> to explore listings, read safety tips, and more.</p>
+      
+      <p style="font-size: 14px; color: #888;">This is an automated message from HomeBuddy. Please don’t reply directly to this email.</p>
+    </div>
+  `
+});
 
     console.log(` User ${user.email} approved successfully`);
     res.json({ message: 'User approved and notified.' });

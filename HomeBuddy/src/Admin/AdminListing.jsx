@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Plus, Edit2, Trash2, MapPin, Wifi, Car, Shirt, ArrowLeft, Camera, X, HomeIcon } from 'lucide-react';
-import '../Adstyles/Adminlistings.css';
+import '../Adstyles/Adminlisting.css';
 import { IoPeople } from 'react-icons/io5';
 
 const AdminListing = () => {

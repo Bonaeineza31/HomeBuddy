@@ -2,60 +2,17 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './Auth.css';
-
-const mockUsers = [
-  {
-    id: 'user_001',
-    email: 'student@example.com',
-    password: 'password123',
-    name: 'Atete Norette',
-    role: 'student',
-    verified: true
-  },
-  {
-    id: 'user_002',
-    email: 'landlord@example.com',
-    password: 'password123',
-    name: 'John Landlord',
-    role: 'landlord',
-    verified: true
-  }
-];
-
-const authenticateUser = (email, password) => {
-  const user = mockUsers.find(u => u.email === email && u.password === password);
-  if (user) {
-    // Store user data in memory (not localStorage as it's not supported)
-    return { success: true, user };
-  }
-  return { success: false, error: 'Invalid email or password' };
-};
-
-const AuthContainer = ({ children }) => {
-  return (
-    <div className="auth-container">
-      <div className="auth-card">
-        {children}
-      </div>
-    </div>
-  );
-};
+// import { toast } from 'react-toastify'; // optional if using toast
 
 const LoginForm = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    setFormData(prev => ({ ...prev, [name]: value }));
     if (error) setError('');
   };
 
@@ -65,103 +22,101 @@ const LoginForm = () => {
     setError('');
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      const authResult = authenticateUser(formData.email, formData.password);
+      const response = await fetch('http://localhost:3000/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
 
-      if (authResult.success) {
-        // Redirect based on user role
-        if (authResult.user.role === 'student') {
-          navigate('/student', { 
-            state: { user: authResult.user } 
-          });
-        } else if (authResult.user.role === 'landlord') {
-          navigate('/dashboard', { 
-            state: { user: authResult.user } 
-          });
-        }
-      } else {
-        setError(authResult.error);
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Login failed');
       }
+
+      // Save token and role
+      localStorage.setItem('accessToken', result.token);
+      localStorage.setItem('userRole', result.user.role);
+
+      // Optional: toast.success('Login successful!');
+
+      // Redirect based on role
+      if (result.user.role === 'admin') {
+        navigate('/admin');
+      } else if (result.user.role === 'student') {
+        navigate('/student-dashboard');
+      } else if (result.user.role === 'landlord') {
+        navigate('/landlord-dashboard');
+      } else {
+        navigate('/');
+      }
+
     } catch (err) {
-      setError('Something went wrong. Please try again.');
+      console.error('Login error:', err);
+      setError(err.message || 'Something went wrong. Please try again.');
+      // toast.error(err.message || 'Login failed');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <AuthContainer>
-      <div className="auth-header">
-        <h1>Welcome Back</h1>
-        <p>Sign in to your account</p>
-      </div>
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
+          <h1>Welcome Back</h1>
+          <p>Sign in to your account</p>
+        </div>
 
-      <form onSubmit={handleSubmit} className="auth-form">
-        {error && (
-          <div className="error-message">
-            <span className="error-icon">⚠️</span>
-            {error}
+        <form onSubmit={handleSubmit} className="auth-form">
+          {error && (
+            <div className="error-message">
+              <span className="error-icon">⚠️</span> {error}
+            </div>
+          )}
+
+          <div className="form-group">
+            <label>Email Address</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleInputChange}
+              className="form-input"
+              placeholder="your.email@example.com"
+              required
+            />
           </div>
-        )}
 
-        <div className="form-group">
-          <label htmlFor="email">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleInputChange}
-            className="form-input"
-            placeholder="your.email@example.com"
-            required
-          />
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleInputChange}
+              className="form-input"
+              placeholder="Enter your password"
+              required
+            />
+          </div>
+
+          <div className="form-actions">
+            <button type="submit" className="btn btn-primary btn-full" disabled={isLoading}>
+              {isLoading ? 'Signing In...' : 'Sign In'}
+            </button>
+          </div>
+
+          <div className="form-footer">
+            <Link to="/forgot-password" className="link">Forgot your password?</Link>
+          </div>
+        </form>
+
+        <div className="auth-switch">
+          <p>Don't have an account? <Link to="/signup" className="link-button">Get Started</Link></p>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleInputChange}
-            className="form-input"
-            placeholder="Enter your password"
-            required
-          />
-        </div>
-
-        <div className="form-actions">
-          <button 
-            type="submit" 
-            className="btn btn-primary btn-full"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Signing In...' : 'Sign In'}
-          </button>
-        </div>
-
-        <div className="form-footer">
-          <Link to="/forgot-password" className="link">Forgot your password?</Link>
-        </div>
-      </form>
-
-      <div className="auth-switch">
-        <p>Don't have an account? 
-          <Link to="/signup" className="link-button">
-            Get Started
-          </Link>
-        </p>
       </div>
-
-      {/* Demo credentials for testing */}
-      <div className="demo-credentials">
-        <h4>Demo Credentials:</h4>
-        <p><strong>Student:</strong> student@example.com / password123</p>
-        <p><strong>Landlord:</strong> landlord@example.com / password123</p>
-      </div>
-    </AuthContainer>
+    </div>
   );
 };
 
