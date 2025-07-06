@@ -68,6 +68,7 @@ const SignupPage = () => {
       const response = await fetch('https://homebuddy-yn9v.onrender.com/auth/signup', {
         method: 'POST',
         body: data,
+         credentials: 'include' 
       });
 
       const result = await response.json();

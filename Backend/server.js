@@ -19,10 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-  origin: 'https://home-buddy-eta.vercel.app', // change this if frontend is deployed
+  origin: ['https://home-buddy-eta.vercel.app', 'http://localhost:5173'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
+
 
 app.options('*', cors()); // Preflight requests
 
