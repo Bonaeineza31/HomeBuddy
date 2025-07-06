@@ -18,7 +18,7 @@ const AdminApprovals = () => {
   const fetchPendingUsers = async () => {
     try {
       console.log("accessToken being sent:", localStorage.getItem('accessToken'));
-      const response = await fetch('http://localhost:3000/admin/pending', {
+      const response = await fetch('https://homebuddy-yn9v.onrender.com/admin/pending', {
         headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
       });
       
@@ -38,7 +38,7 @@ const AdminApprovals = () => {
 
   const handleApprove = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:3000/admin/approve/${userId}`, {
+      const response = await fetch(`https://homebuddy-yn9v.onrender.com/admin/approve/${userId}`, {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${localStorage.getItem('accessToken')}` }
       });
@@ -66,7 +66,7 @@ const AdminApprovals = () => {
     }
     
     try {
-      const response = await fetch(`http://localhost:3000/admin/reject/${userId}`, {
+      const response = await fetch(`https://homebuddy-yn9v.onrender.com/admin/reject/${userId}`, {
         method: 'POST',
         headers: { 
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,

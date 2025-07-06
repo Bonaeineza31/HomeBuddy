@@ -22,7 +22,7 @@ const LoginForm = () => {
     setError('');
 
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
+      const response = await fetch('https://homebuddy-yn9v.onrender.com/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -44,7 +44,7 @@ const LoginForm = () => {
       if (result.user.role === 'admin') {
         navigate('/admin');
       } else if (result.user.role === 'student') {
-        navigate('/student-dashboard');
+        navigate('/student');
       } else if (result.user.role === 'landlord') {
         navigate('/landlord-dashboard');
       } else {

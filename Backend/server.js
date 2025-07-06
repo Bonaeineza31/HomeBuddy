@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({
-  origin: 'http://localhost:5173', // change this if frontend is deployed
+  origin: 'https://home-buddy-eta.vercel.app', // change this if frontend is deployed
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 }));
@@ -64,6 +64,6 @@ const connectDB = async () => {
 // Start server
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}`);
+    console.log(`🚀 Server running at https://homebuddy-yn9v.onrender.com/`);
   });
 });

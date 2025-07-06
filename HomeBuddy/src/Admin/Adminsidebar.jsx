@@ -17,7 +17,7 @@ const AdminSidebar = () => {
     { to: '/admin/documents', label: 'Documents', icon: <FileText /> },
     { to: '/admin/reviews', label: 'Reviews', icon: <MessageSquare /> },
     { to: '/admin/settings', label: 'Profile Settings', icon: <Settings /> },
-    { to: '/logout', label: 'Logout', icon: <LogOut /> }
+    { to: '/login', label: 'Logout', icon: <LogOut /> }
   ];
 
   return (
