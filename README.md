@@ -4,7 +4,7 @@
 
 ## Why HomeBuddy?
 
-Finding reliable accommodation can be stressful—especially for international students navigating a new country. HomeBuddy exists to:
+Finding reliable accommodation can be stressful, especially for international students navigating a new country. HomeBuddy exists to:
 
 - Simplify the student housing search process.
 - Match students with roommates who share similar values, habits, and lifestyles.
