@@ -17,20 +17,35 @@ export const login = async (req, res) => {
     if (!isValidPassword)
       return res.status(401).json({ error: 'Invalid email or password' });
 
+    // 🚫 Check approval
+    if (!user.isApproved || user.approvalStatus !== 'approved') {
+      return res.status(403).json({
+        error: 'Your account is pending approval. Please wait for admin verification.',
+      });
+    }
+
     const token = jwt.sign(
       { userId: user._id, role: user.role },
       process.env.SECRET_KEY,
       { expiresIn: '1h' }
     );
 
+    // Set secure cookie
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'None',
+      maxAge: 3600000, // 1 hour
+    });
+
     res.json({
-      token,
+      message: 'Login successful',
       user: {
         _id: user._id,
         email: user.email,
         role: user.role,
-        profile: user.profile
-      }
+        profile: user.profile,
+      },
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -47,11 +62,17 @@ export const signup = async (req, res) => {
       country, password, confirmPassword, idType
     } = req.body;
 
+    // Required field validation
     if (
-      !firstName || !lastName || !email || !role || !password || !confirmPassword ||
-      !idType || !req.files?.idDocument || !req.files?.criminalRecord
+      !firstName || !lastName || !email || !role || !password ||
+      !confirmPassword || !idType || !req.files?.idDocument || !req.files?.criminalRecord
     ) {
       return res.status(400).json({ error: 'Please fill in all required fields.' });
+    }
+
+    // Student-specific check
+    if (role === 'student' && !university) {
+      return res.status(400).json({ error: 'University is required for students.' });
     }
 
     if (password !== confirmPassword) {
@@ -59,7 +80,7 @@ export const signup = async (req, res) => {
     }
 
     if (password.length < 8) {
-      return res.status(400).json({ error: 'Password must be at least 8 characters long.' });
+      return res.status(400).json({ error: 'Password must be at least 8 characters.' });
     }
 
     const existing = await User.findOne({ email });
@@ -80,12 +101,11 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const user = new User({
+    const userData = {
       firstName,
       lastName,
       email,
       role,
-      university,
       country,
       password: hashedPassword,
       idType,
@@ -93,8 +113,14 @@ export const signup = async (req, res) => {
       criminalRecordUrl: criminalUpload.secure_url,
       isApproved: false,
       approvalStatus: 'pending',
-    });
+    };
 
+    // Include university only if student
+    if (role === 'student') {
+      userData.university = university;
+    }
+
+    const user = new User(userData);
     await user.save();
 
     // Notify Admin
@@ -102,18 +128,23 @@ export const signup = async (req, res) => {
       to: process.env.ADMIN_EMAIL,
       subject: `🔔 New ${role} Registration - Approval Needed`,
       html: `
-        <h3>New ${role.charAt(0).toUpperCase() + role.slice(1)} Registered</h3>
-        <p>Please review and approve or reject this new account:</p>
-        <ul>
-          <li><strong>Name:</strong> ${firstName} ${lastName}</li>
-          <li><strong>Email:</strong> ${email}</li>
-          <li><strong>Role:</strong> ${role}</li>
-          <li><strong>University:</strong> ${university}</li>
-          <li><strong>Country:</strong> ${country}</li>
-          <li><strong>ID Type:</strong> ${idType}</li>
-        </ul>
-        <p>Visit the <strong>Admin Dashboard</strong> to review this request.</p>
-      `
+      <h3>New ${role.charAt(0).toUpperCase() + role.slice(1)} Registered</h3>
+      <p>Please review and approve or reject this new account:</p>
+    <ul>
+      <li><strong>Name:</strong> ${firstName} ${lastName}</li>
+      <li><strong>Email:</strong> ${email}</li>
+      <li><strong>Role:</strong> ${role}</li>
+      ${role === 'student' ? `<li><strong>University:</strong> ${university}</li>` : ''}
+      <li><strong>Country:</strong> ${country}</li>
+      <li><strong>ID Type:</strong> ${idType}</li>
+    </ul>
+  <p>
+    👉 <a href="https://home-buddy-eta.vercel.app/admin" target="_blank" style="font-weight: bold; color: #2c2c3a;">
+      Go to Admin Dashboard
+    </a>
+  </p>
+`
+,
     });
 
     res.status(201).json({
@@ -122,8 +153,8 @@ export const signup = async (req, res) => {
         id: user._id,
         email: user.email,
         role: user.role,
-        approvalStatus: user.approvalStatus
-      }
+        approvalStatus: user.approvalStatus,
+      },
     });
   } catch (error) {
     console.error('Signup error:', error);

@@ -21,9 +21,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       enum: ['student', 'landlord', 'admin'], 
     },
-    university: {
+     university: {
       type: String,
-      required: true,
+      required: function () {
+        return this.role === 'student';
+      },
     },
     country: {
       type: String,
