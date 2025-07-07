@@ -2,8 +2,6 @@
 
 **HomeBuddy** is a modern web application designed to help students in Rwanda find safe and convenient housing while also connecting them with compatible roommates. Built with collaboration, comfort, and community in mind, HomeBuddy simplifies the search for a new place to live for all students in Rwanda.
 
----
-
 ## Why HomeBuddy?
 
 Finding reliable accommodation can be stressful—especially for international students navigating a new country. HomeBuddy exists to:
@@ -12,8 +10,6 @@ Finding reliable accommodation can be stressful—especially for international s
 - Match students with roommates who share similar values, habits, and lifestyles.
 - Help landlords list and manage properties easily.
 - Build trust through verified listings and user reviews.
-
----
 
 ## Features
 
@@ -33,21 +29,13 @@ Finding reliable accommodation can be stressful—especially for international s
 - Clean, responsive UI for mobile and desktop
 - Fast, intuitive experience with React
 
----
-
 ## Tech Stack
 
 - Frontend: React.js
-
-Backend: Node.js, Express.js
-
-Database: MongoDB
-
-Version Control: Git & GitHub
-
-Collaboration: GitHub, Trello
-
----
+- Backend: Node.js, Express.js
+- Database: MongoDB
+- Version Control: Git & GitHub
+- Collaboration: GitHub, Trello
 
 ## Getting Started
 
