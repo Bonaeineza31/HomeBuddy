@@ -5,7 +5,6 @@ import cloudinary from '../utils/cloudinary.js';
 import { sendEmail } from '../utils/email.js';
 
 // LOGIN CONTROLLER
-// LOGIN CONTROLLER
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -18,9 +17,11 @@ export const login = async (req, res) => {
     if (!isValidPassword)
       return res.status(401).json({ error: 'Invalid email or password' });
 
-    //  Block unapproved users (except admins)
+    // ✅ Block unapproved users (except admin)
     if (!user.isApproved && user.role !== 'admin') {
-      return res.status(403).json({ error: 'Your account is not approved yet. Please wait for admin approval.' });
+      return res.status(403).json({
+        error: 'Your account is not approved yet. Please wait for admin approval.'
+      });
     }
 
     const token = jwt.sign(
@@ -44,7 +45,6 @@ export const login = async (req, res) => {
   }
 };
 
-
 // SIGNUP CONTROLLER
 export const signup = async (req, res) => {
   try {
@@ -53,7 +53,7 @@ export const signup = async (req, res) => {
       country, password, confirmPassword, idType
     } = req.body;
 
-    // Required field validation
+    // Validate fields
     if (
       !firstName || !lastName || !email || !role || !password ||
       !confirmPassword || !idType || !req.files?.idDocument || !req.files?.criminalRecord
@@ -61,7 +61,6 @@ export const signup = async (req, res) => {
       return res.status(400).json({ error: 'Please fill in all required fields.' });
     }
 
-    // Student-specific check
     if (role === 'student' && !university) {
       return res.status(400).json({ error: 'University is required for students.' });
     }
@@ -79,7 +78,7 @@ export const signup = async (req, res) => {
       return res.status(400).json({ error: 'Email already registered.' });
     }
 
-    // Upload files to Cloudinary
+    // Upload files
     const idDocUpload = await cloudinary.uploader.upload(
       req.files.idDocument.tempFilePath,
       { folder: 'homebuddy/ids' }
@@ -92,51 +91,51 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    // Auto-approve if admin
+    const isAdmin = role === 'admin';
+
     const userData = {
       firstName,
       lastName,
       email,
       role,
+      university: role === 'student' ? university : undefined,
       country,
       password: hashedPassword,
       idType,
       idDocumentUrl: idDocUpload.secure_url,
       criminalRecordUrl: criminalUpload.secure_url,
-      isApproved: false,
-      approvalStatus: 'pending',
+      isApproved: isAdmin,
+      approvalStatus: isAdmin ? 'approved' : 'pending',
     };
-
-    // Include university only if student
-    if (role === 'student') {
-      userData.university = university;
-    }
 
     const user = new User(userData);
     await user.save();
 
-    // Notify Admin
-    await sendEmail({
-      to: process.env.ADMIN_EMAIL,
-      subject: `🔔 New ${role} Registration - Approval Needed`,
-      html: `
-      <h3>New ${role.charAt(0).toUpperCase() + role.slice(1)} Registered</h3>
-      <p>Please review and approve or reject this new account:</p>
-    <ul>
-      <li><strong>Name:</strong> ${firstName} ${lastName}</li>
-      <li><strong>Email:</strong> ${email}</li>
-      <li><strong>Role:</strong> ${role}</li>
-      ${role === 'student' ? `<li><strong>University:</strong> ${university}</li>` : ''}
-      <li><strong>Country:</strong> ${country}</li>
-      <li><strong>ID Type:</strong> ${idType}</li>
-    </ul>
-  <p>
-    👉 <a href="https://home-buddy-eta.vercel.app/admin" target="_blank" style="font-weight: bold; color: #2c2c3a;">
-      Go to Admin Dashboard
-    </a>
-  </p>
-`
-,
-    });
+    // Notify admin (if not an admin registering)
+    if (!isAdmin) {
+      await sendEmail({
+        to: process.env.ADMIN_EMAIL,
+        subject: `🔔 New ${role} Registration - Approval Needed`,
+        html: `
+          <h3>New ${role.charAt(0).toUpperCase() + role.slice(1)} Registered</h3>
+          <p>Please review and approve or reject this new account:</p>
+          <ul>
+            <li><strong>Name:</strong> ${firstName} ${lastName}</li>
+            <li><strong>Email:</strong> ${email}</li>
+            <li><strong>Role:</strong> ${role}</li>
+            ${role === 'student' ? `<li><strong>University:</strong> ${university}</li>` : ''}
+            <li><strong>Country:</strong> ${country}</li>
+            <li><strong>ID Type:</strong> ${idType}</li>
+          </ul>
+          <p>
+            👉 <a href="https://home-buddy-eta.vercel.app/admin" target="_blank" style="font-weight: bold; color: #2c2c3a;">
+              Go to Admin Dashboard
+            </a>
+          </p>
+        `
+      });
+    }
 
     res.status(201).json({
       message: 'Account created. Awaiting admin approval.',
