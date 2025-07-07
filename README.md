@@ -57,8 +57,6 @@ Finding reliable accommodation can be stressful, especially for international st
    npm run dev
 4. Open your browser at `http://localhost:5173`
 
----
-
 ## Team & Contributions
 This is a collaborative student project.
 - Ariane, Norette, Shem, Shina - UI/UX design and Frontend
