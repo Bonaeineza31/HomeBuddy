@@ -9,25 +9,27 @@ import userRoutes from './routes/userroutes.js';
 // Load environment variables
 dotenv.config();
 
-// Initialize app
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
+
+// ✅ CORS Configuration
+const corsOptions = {
+  origin: ['https://home-buddy-eta.vercel.app', 'http://localhost:5173'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
+// ✅ Handle preflight requests for all routes
+app.options('*', cors(corsOptions));
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors({
-  origin: ['https://home-buddy-eta.vercel.app', 'http://localhost:5173'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
-}));
-
-
-app.options('*', cors()); // Preflight requests
-
-// Enable file upload
+// Enable file uploads
 app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: './tmp'
@@ -48,7 +50,7 @@ app.get('/', (req, res) => {
   res.send('✅ API is running');
 });
 
-// MongoDB connection
+// Connect to MongoDB
 const connectDB = async () => {
   try {
     await mongoose.connect(MONGO_URI, {
@@ -62,7 +64,7 @@ const connectDB = async () => {
   }
 };
 
-// Start server
+// Start server after DB is connected
 connectDB().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Server running at https://homebuddy-yn9v.onrender.com/`);
