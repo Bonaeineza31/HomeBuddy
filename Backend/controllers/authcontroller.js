@@ -5,6 +5,7 @@ import cloudinary from '../utils/cloudinary.js';
 import { sendEmail } from '../utils/email.js';
 
 // LOGIN CONTROLLER
+// LOGIN CONTROLLER
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -17,11 +18,9 @@ export const login = async (req, res) => {
     if (!isValidPassword)
       return res.status(401).json({ error: 'Invalid email or password' });
 
-    // 🚫 Check approval
-    if (!user.isApproved || user.approvalStatus !== 'approved') {
-      return res.status(403).json({
-        error: 'Your account is pending approval. Please wait for admin verification.',
-      });
+    //  Block unapproved users (except admins)
+    if (!user.isApproved && user.role !== 'admin') {
+      return res.status(403).json({ error: 'Your account is not approved yet. Please wait for admin approval.' });
     }
 
     const token = jwt.sign(
@@ -30,22 +29,14 @@ export const login = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Set secure cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'None',
-      maxAge: 3600000, // 1 hour
-    });
-
     res.json({
-      message: 'Login successful',
+      token,
       user: {
         _id: user._id,
         email: user.email,
         role: user.role,
-        profile: user.profile,
-      },
+        profile: user.profile
+      }
     });
   } catch (error) {
     console.error('Login error:', error);
