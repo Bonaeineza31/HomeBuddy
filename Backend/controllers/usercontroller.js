@@ -4,12 +4,11 @@ import { sendEmail } from '../utils/email.js';
 // ✅ Get all pending registrations (student & landlord only)
 export const getPendingUsers = async (req, res) => {
   try {
-    console.log('Fetching pending users...');
     const pendingUsers = await User.find({
-      role: { $in: ['student', 'landlord'] },
       approvalStatus: 'pending',
+      role: { $in: ['student', 'landlord'] } 
     });
-    console.log(`Found ${pendingUsers.length} pending users`);
+
     res.json(pendingUsers);
   } catch (error) {
     console.error('Error fetching pending users:', error);
