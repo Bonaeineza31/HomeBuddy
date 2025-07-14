@@ -126,6 +126,8 @@
 
 .save-text h4 {
   margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .save-text .location {
