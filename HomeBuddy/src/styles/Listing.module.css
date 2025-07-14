@@ -134,6 +134,7 @@
   display: flex;
   align-items: center;
   color: gray;
+  font-size: 0.95rem;
   margin-top: 0.25rem;
 }
 
