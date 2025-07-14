@@ -45,7 +45,7 @@ export const approveUser = async (req, res) => {
 export const rejectUser = async (req, res) => {
   try {
     const { reason } = req.body;
-    
+
     if (!reason || !reason.trim()) {
       return res.status(400).json({ error: 'Rejection reason is required' });
     }
@@ -73,3 +73,18 @@ export const rejectUser = async (req, res) => {
     res.status(500).json({ error: 'Failed to reject user' });
   }
 };
+
+// ✅ Get logged-in user's profile
+export const getUserProfile = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('❌ Error fetching profile:', error);
+    res.status(500).json({ error: 'Failed to retrieve user profile' });
+  }
+};
+
