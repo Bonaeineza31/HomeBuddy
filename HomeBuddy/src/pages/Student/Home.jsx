@@ -323,7 +323,7 @@ const StudentHome = () => {
               );
             })}
           </div>
-          <Link to="/listings" className={styles["see-more"]}>See more</Link>
+          <Link to="/listing" className={styles["see-more"]}>See more</Link>
         </div>
       </div>
     </>
