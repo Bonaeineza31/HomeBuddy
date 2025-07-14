@@ -153,7 +153,7 @@
 }
 
 .check {
-  background-color: rgb(68, 116, 231);
+  background-color: rgb(0, 0, 128);
   color: white;
   border: none;
   border-radius: 10px;
@@ -162,7 +162,7 @@
 }
 
 .check:hover {
-  background-color: rgb(44, 76, 149);
+  background-color: #1d4ed8;
 }
 
 @media (max-width: 768px) {
