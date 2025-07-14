@@ -148,7 +148,8 @@
 
 .price {
   font-weight: bold;
-  color: #333;
+  color: navy;
+  font-size: 1.3rem;
 }
 
 .check {
