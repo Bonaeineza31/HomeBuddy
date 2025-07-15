@@ -4,6 +4,7 @@ import { HiHomeModern } from "react-icons/hi2";
 import { FaUser } from "react-icons/fa6";
 import { IoIosMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
+import { HiChatBubbleLeftEllipsis } from "react-icons/hi2";
 import styles from '../../../HomeBuddy/src/styles/Navbar.module.css';  
 
 const Navbar = () => {
@@ -70,6 +71,12 @@ const Navbar = () => {
           <li>
             <Link to="/be-roommate" className={`${styles["nav-link"]} ${styles["roommate-btn"]}`}>
               Be a Roommate
+            </Link>
+          </li>
+          <li>
+            <Link to="/chat" className={`${styles["nav-link"]} ${styles["chat-link"]}`}>
+              <HiChatBubbleLeftEllipsis size={20} />
+              <span>Messages</span>
             </Link>
           </li>
           <li>
