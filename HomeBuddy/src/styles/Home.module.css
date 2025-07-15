@@ -1,13 +1,13 @@
 /* Home.module.css */
 
 :root {
-  --primary-blue: navy; /* Changed to your primary blue */
+  --primary-blue: navy; 
   --secondary-blue: #1e2a78;
   --other-blue: #3730a3;
   --accent-blue: #1d4ed8;
   --primary-white: #fff;
   --secondary-white: #f5f5f5;
-  --dark-blue: #141c4a; /* Darker blue for search button */
+  --dark-blue: #141c4a; 
   --text-dark: #333;
   --white: #ffffff;
   --light-gray: #f0f2f5;
@@ -15,7 +15,7 @@
   --input-border-color: #d0d0d0;
   --input-focus-shadow: 0 0 0 2px rgba(30, 42, 120, 0.2);
   --filter-height: 48px;
-  --curvy-border-radius: 15px; /* New variable for consistent curvy borders */
+  --curvy-border-radius: 20px; 
 }
 
 /* Main wrapper */
@@ -126,8 +126,8 @@
   box-shadow: var(--input-focus-shadow);
 }
 
-/* Adjustments for react-select components */
-/* Simplified react-select overrides*/
+/* react-select components */
+/* react-select overrides*/
 .react-select__control {
   min-height: var(--filter-height);
   padding: 0;
@@ -175,21 +175,21 @@
 /* Individual dropdown options */
 .react-select__option {
   color: var(--text-dark); 
-  background-color: var(--text-dark); /* Dark background for options */
+  background-color: var(--text-dark); 
   padding: 0.8rem 1rem;
 }
 
 .react-select__option--is-focused {
-  background-color: var(--text-dark); /* Primary blue for focus, stands out on dark */
-  color: var(--text-dark); /* White text on focused blue */
+  background-color: var(--text-dark); 
+  color: var(--text-dark); 
 }
 
 .react-select__option--is-selected {
-  background-color: var(--primary-blue); /* Primary blue for selected */
-  color: var(--dark-blue); /* White text on selected blue */
+  background-color: var(--primary-blue); 
+  color: var(--dark-blue); 
 }
 
-/* Specific styling for date input icon
+/* styling for date input icon
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(0);
   cursor: pointer;
@@ -274,9 +274,9 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   top: calc(100% + 10px);
   right: 0;
   left: auto;
-  background-color: var(--primary-white); /* Dark background for advanced dropdown */
-  border-radius: var(--curvy-border-radius); /* Curvy border radius */
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); /* Stronger shadow for dark dropdown */
+  background-color: var(--primary-white); 
+  border-radius: var(--curvy-border-radius); 
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); 
   padding: 1.25rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -288,13 +288,13 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 }
 
 /* React-select specific overrides for the advanced dropdown */
-/* Ensure these also pick up the new styling variables */
+
 .react-select-advanced__control {
   min-height: var(--filter-height);
   padding: 0;
   border: 1px solid var(--input-border-color);
-  border-radius: var(--curvy-border-radius); /* Applied curvy border radius */
-  background-color: var(--white); /* Control itself remains white */
+  border-radius: var(--curvy-border-radius); 
+  background-color: var(--white);
   box-shadow: none;
 }
 
@@ -335,10 +335,10 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   display: none;
 }
 
-/* Advanced dropdown menu (options container) - should be dark */
+/* Advanced dropdown menu (options container) */
 .react-select-advanced__menu {
-  background-color: var(--text-dark); /* Dark background for advanced dropdown options */
-  border-radius: var(--curvy-border-radius); /* Curvy border radius */
+  background-color: var(--text-dark); 
+  border-radius: var(--curvy-border-radius); 
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   z-index: 10000;
   margin-top: 0.5rem;
@@ -346,23 +346,23 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 
 /* Advanced individual dropdown options */
 .react-select-advanced__option {
-  color: var(--white); /* White text for dark background */
-  background-color: var(--text-dark); /* Dark background for options */
+  color: var(--white); 
+  background-color: var(--text-dark); 
   padding: 0.8rem 1rem;
 }
 
 .react-select-advanced__option--is-focused {
-  background-color: var(--secondary-blue); /* Primary blue for focus, stands out on dark */
+  background-color: var(--secondary-blue); 
   color: var(--white);
 }
 
 .react-select-advanced__option--is-selected {
-  background-color: var(--primary-blue); /* Primary blue for selected */
+  background-color: var(--primary-blue); 
   color: var(--white);
 }
 
 
-/* Existing properties grid styles */
+/* properties grid styles */
 .mostviewed {
   padding: 2rem;
   max-width: 1200px;
@@ -426,6 +426,22 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   font-size: 0.9rem;
 }
 
+.locationAndRoommates {
+  display: flex; 
+  align-items: center;
+  gap: 15px;
+  margin-top: 5px; 
+  flex-wrap: wrap; 
+}
+
+.roommateCount {
+  font-size: 0.9em;
+  color: #666;    
+  /* margin-top: 5px; */
+  display: flex;    
+  align-items: center; 
+}
+
 .description {
   font-size: 0.95rem;
   color: #555;
@@ -435,8 +451,8 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  --webkit-line-clamp: 3;
+  --webkit-box-orient: vertical;
 }
 
 .bottom-row {
@@ -462,7 +478,7 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 }
 
 .check:hover {
-  background-color: var(--secondary-blue); /* Hover effect using one of your blues */
+  background-color: var(--secondary-blue); 
 }
 
 /* Heart Icon for saved properties */
@@ -482,7 +498,7 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 }
 
 .see-more:hover {
-  color: var(--accent-blue); /* Changed to one of your blues for consistency */
+  color: var(--accent-blue); 
 }
 
 

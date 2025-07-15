@@ -15,7 +15,6 @@ function Detail() {
     return <p className='unavailable'>Property no longer available!</p>;
   }
 
-  // ✅ Filter out the current property
   const otherProperties = allProperties.filter(p => p.id !== property.id);
 
   return (
@@ -64,8 +63,8 @@ function Detail() {
             <PropertyCard 
               key={other.id}
               property={other}
-              isSaved={false}        // Use your real saved logic if needed
-              toggleSave={() => {}}  // Or your real handler
+              isSaved={false}        
+              toggleSave={() => {}}  
             />
           ))}
         </div>

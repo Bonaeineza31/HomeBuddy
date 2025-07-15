@@ -1,12 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
 import { Link } from 'react-router-dom';
-import { HiHomeModern } from "react-icons/hi2";
-import { FaLocationDot, FaRegHeart, FaHeart, FaUser } from "react-icons/fa6";
+import { FaLocationDot, FaRegHeart, FaHeart, FaUser } from "react-icons/fa6"; // Added FaUser
 import p1 from '../../assets/property1.jfif';
 import p2 from '../../assets/property2.jfif';
 import p3 from '../../assets/property3.jfif';
-import p4 from '../../assets/property4.jfif'; // Corrected path
+import p4 from '../../assets/property4.jfif';
 import p5 from '../../assets/property5.jfif';
 import p6 from '../../assets/property6.jfif';
 import styles from '../../styles/Home.module.css';
@@ -25,7 +24,7 @@ const properties = [
     description: "Modern two-bedroom apartment with great lighting and free Wi-Fi.",
     wifi: "yes",
     furnished: "yes",
-    availableBeds: 2,
+    availableBeds: 4,
     roommate: 1
   },
   {
@@ -37,8 +36,8 @@ const properties = [
     description: "Spacious apartment near major shops. Fully furnished with balcony view.",
     wifi: "yes",
     furnished: "yes",
-    availableBeds: 3,
-    roommate: 2
+    availableBeds: 4,
+    roommate: 3
   },
   {
     id: 3,
@@ -49,7 +48,7 @@ const properties = [
     description: "Bright unit with shared kitchen and all bills included.",
     wifi: "yes",
     furnished: "no",
-    availableBeds: 1,
+    availableBeds: 3,
     roommate: 2
   },
   {
@@ -61,8 +60,8 @@ const properties = [
     description: "Affordable and compact space with easy transport access.",
     wifi: "no",
     furnished: "yes",
-    availableBeds: 2,
-    roommate: 3
+    availableBeds: 4,
+    roommate: 0
   },
   {
     id: 5,
@@ -73,7 +72,7 @@ const properties = [
     description: "Luxury flat with all modern fittings and a private bedroom.",
     wifi: "yes",
     furnished: "yes",
-    availableBeds: 1,
+    availableBeds: 2,
     roommate: 1
   },
   {
@@ -85,7 +84,7 @@ const properties = [
     description: "Student-friendly space with fast internet and calm surroundings.",
     wifi: "yes",
     furnished: "no",
-    availableBeds: 2,
+    availableBeds: 3,
     roommate: 2
   }
 ];
@@ -145,13 +144,6 @@ const StudentHome = () => {
   const advancedDropdownRef = useRef(null);
   const advancedButtonRef = useRef(null);
 
-  // Amenities state and handler REMOVED
-  // const [amenities, setAmenities] = useState({
-  //   wifi: false,
-  //   laundry: false,
-  //   parking: false,
-  //   kitchen: false,
-  // });
   const [closeToCampus, setCloseToCampus] = useState(null);
   const [preferredGender, setPreferredGender] = useState(null);
   const [squareFeet, setSquareFeet] = useState(null);
@@ -165,15 +157,6 @@ const StudentHome = () => {
     });
   };
 
-  // handleAmenityChange function REMOVED
-  // const handleAmenityChange = (e) => {
-  //   const { name, checked } = e.target;
-  //   setAmenities((prevAmenities) => ({
-  //     ...prevAmenities,
-  //     [name]: checked,
-  //   }));
-  // };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log({
@@ -181,17 +164,13 @@ const StudentHome = () => {
       situation: situation ? situation.value : null,
       location: location ? location.value : null,
       maxPrice,
-      // Advanced options
-      // amenities, // No longer included in the log
       closeToCampus: closeToCampus ? closeToCampus.value : null,
       preferredGender: preferredGender ? preferredGender.value : null,
       squareFeet: squareFeet ? squareFeet.value : null,
     });
-    // Add your filtering logic here
-    setShowAdvancedFilters(false); // Close advanced filters on search
+    setShowAdvancedFilters(false);
   };
 
-  // Close advanced dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -209,18 +188,14 @@ const StudentHome = () => {
     };
   }, [advancedDropdownRef, advancedButtonRef]);
 
-
   return (
     <>
       <Navbar />
       <div className={styles.main}>
         <div className={styles.heroSection}>
-          
           <h1 className={styles.heroTitle}>Let's find Your new Home</h1>
           <form className={styles.filterForm} onSubmit={handleSubmit}>
-            {/* Main Horizontal Filter Bar */}
             <div className={styles.mainFilterBar}>
-              {/* Property Type */}
               <div className={styles.filterField}>
                 <Select
                   options={propertyTypeOptions}
@@ -230,8 +205,6 @@ const StudentHome = () => {
                   onChange={setPropertyType}
                 />
               </div>
-
-              {/* Situation */}
               <div className={styles.filterField}>
                 <Select
                   options={situationOptions}
@@ -241,8 +214,6 @@ const StudentHome = () => {
                   onChange={setSituation}
                 />
               </div>
-
-              {/* Location */}
               <div className={styles.filterField}>
                 <Select
                   options={locationOptions}
@@ -252,8 +223,6 @@ const StudentHome = () => {
                   onChange={setLocation}
                 />
               </div>
-
-              {/* Max Price */}
               <div className={styles.filterField}>
                 <input
                   type="number"
@@ -265,8 +234,6 @@ const StudentHome = () => {
                   onChange={(e) => setMaxPrice(e.target.value)}
                 />
               </div>
-
-              {/* Advanced Button */}
               <div className={styles.advancedButtonContainer}>
                 <button
                   type="button"
@@ -276,31 +243,8 @@ const StudentHome = () => {
                 >
                   Advanced <span className={styles.advancedArrow}>{showAdvancedFilters ? '▲' : '▼'}</span>
                 </button>
-
-                {/* Advanced Filters Dropdown (Conditionally Rendered) */}
                 {showAdvancedFilters && (
                   <div className={styles.advancedFiltersDropdown} ref={advancedDropdownRef}>
-                    {/* Amenities Checkboxes */}
-                    {/* <div className={`${styles.filterField} ${styles.amenities}`}>
-                      <label className={styles.amenityCheckbox}>
-                        <input type="checkbox" name="wifi" checked={amenities.wifi} onChange={handleAmenityChange} />
-                        Wi-Fi
-                      </label>
-                      <label className={styles.amenityCheckbox}>
-                        <input type="checkbox" name="laundry" checked={amenities.laundry} onChange={handleAmenityChange} />
-                        Laundry
-                      </label>
-                      <label className={styles.amenityCheckbox}>
-                        <input type="checkbox" name="parking" checked={amenities.parking} onChange={handleAmenityChange} />
-                        Parking
-                      </label>
-                      <label className={styles.amenityCheckbox}>
-                        <input type="checkbox" name="kitchen" checked={amenities.kitchen} onChange={handleAmenityChange} />
-                        Kitchen
-                      </label>
-                    </div> */}
-
-                    {/* Close to Campus */}
                     <div className={styles.filterField}>
                       <Select
                         options={campusOptions}
@@ -310,8 +254,6 @@ const StudentHome = () => {
                         onChange={setCloseToCampus}
                       />
                     </div>
-
-                    {/* Preferred Gender */}
                     <div className={styles.filterField}>
                       <Select
                         options={preferredGenderOptions}
@@ -321,8 +263,6 @@ const StudentHome = () => {
                         onChange={setPreferredGender}
                       />
                     </div>
-
-                    {/* Square Feet */}
                     <div className={styles.filterField}>
                       <Select
                         options={squareFeetOptions}
@@ -335,8 +275,6 @@ const StudentHome = () => {
                   </div>
                 )}
               </div>
-
-              {/* Search Button */}
               <button type="submit" className={styles.searchBtn}>
                 <i className="fa fa-search"></i> Search
               </button>
@@ -350,6 +288,10 @@ const StudentHome = () => {
           <div className={styles.all}>
             {properties.map((property) => {
               const isSaved = savedProperties.some((p) => p.id === property.id);
+              const currentRoommates = property.roommate || 0;
+              const totalCapacity = property.availableBeds;
+              const roommateDisplay = `${currentRoommates}/${totalCapacity}`;
+
               return (
                 <div className={styles.listing} key={property.id}>
                   <img src={property.mainImage} alt={`Property in ${property.location}`} />
@@ -357,7 +299,14 @@ const StudentHome = () => {
                     <div className={styles["top-row"]}>
                       <div className={styles["text-group"]}>
                         <h4>House name</h4>
-                        <p className={styles.location}><FaLocationDot /> {property.location}</p>
+                        {/* New wrapper for location and roommates */}
+                        <div className={styles.locationAndRoommates}>
+                          <p className={styles.location}>
+                            <FaLocationDot color="4361EE" /> {property.location}</p>
+                          <p className={styles.roommateCount}>
+                            <FaUser color="3F37C9" size={14} style={{ marginRight: '5px' }} /> {roommateDisplay}
+                          </p>
+                        </div>
                       </div>
                       {isSaved ? (
                         <FaHeart
@@ -384,11 +333,10 @@ const StudentHome = () => {
                       <p className={styles.price}>{property.price}</p>
                       <Link
                         to={`/property/${property.id}`}
-                        state={{ property:property, allProperties:properties }}
+                        state={{ property: property, allProperties: properties }}
                       >
                         <button className={styles.check}>View</button>
                       </Link>
-
                     </div>
                   </div>
                 </div>
