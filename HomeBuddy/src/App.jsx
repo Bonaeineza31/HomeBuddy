@@ -51,7 +51,7 @@ function App() {
       <Route path="/contact" element={<StudentContact />} />
       <Route path="/property/:id" element={<Detail />} />
       <Route path="/be-roommate" element={<RoommateForm />} />
-      <Route path="/profile" element={<Profile />} />
+      {/* <Route path="/profile" element={<Profile />} /> */}
 
       {/* Admin Panel - uses layout with nested routes */}
       <Route path="/admin" element={<AdminLayout />}>
