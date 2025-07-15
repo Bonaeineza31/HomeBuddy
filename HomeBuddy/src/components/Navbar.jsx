@@ -69,9 +69,14 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <Link to="/be-roommate" className={`${styles["nav-link"]} ${styles["roommate-btn"]}`}>
-              Be a Roommate
-            </Link>
+            <NavLink
+              to="/be-roomate"
+              className={({ isActive }) =>
+                isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
+              }
+            >
+              Be a roommate
+            </NavLink>
           </li>
           <li>
             <Link to="/chat" className={`${styles["nav-link"]} ${styles["chat-link"]}`}>
