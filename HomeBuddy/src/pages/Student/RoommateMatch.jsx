@@ -4,6 +4,8 @@ import {
   Mail, User, Search, Filter
 } from 'lucide-react';
 
+import Navbar from '../../components/Navbar';
+
 
 const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
   const [formData, setFormData] = useState({
@@ -59,8 +61,10 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="roommate-container">
-      {/* ✅ Form header with progress bar */}
+      {/*Form header with progress bar */}
       <div className="form-header">
         <h1>
           <Home size={30} style={{ marginRight: '8px' }} />
@@ -90,7 +94,7 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
       </div>
 
       <div className="roommate-form">
-        {/* ✅ Step 1 - Personal Information */}
+        {/* Step 1 - Personal Information */}
         {currentStep === 1 && (
           <div className="form-step">
             <h2><User size={24} style={{ marginRight: '8px' }} />Tell Us About Yourself</h2>
@@ -197,7 +201,7 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
           </div>
         )}
 
-        {/* ✅ Step 2 - Housing Preferences */}
+        {/*Housing Preferences */}
         {currentStep === 2 && (
           <div className="form-step">
             <h2><Home size={24} style={{ marginRight: '8px' }} />Housing Preferences</h2>
@@ -300,7 +304,7 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
           </div>
         )}
 
-        {/* ✅ Step 3 - Amenities (placeholder) */}
+        {/*Amenities (placeholder) */}
         {currentStep === 3 && (
           <div className="form-step">
             <h2><Filter size={24} style={{ marginRight: '8px' }} />Amenities & Features</h2>
@@ -308,7 +312,7 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
           </div>
         )}
 
-        {/* ✅ Step 4 - Lifestyle Preferences (placeholder) */}
+        {/* Lifestyle Preferences (placeholder) */}
         {currentStep === 4 && (
           <div className="form-step">
             <h2><Users size={24} style={{ marginRight: '8px' }} />Lifestyle Preferences</h2>
@@ -316,7 +320,7 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
           </div>
         )}
 
-        {/* ✅ Form navigation */}
+        {/* Form navigation */}
         <div className="form-navigation">
           {currentStep > 1 && (
             <button type="button" onClick={prevStep} className="btn-secondary">
@@ -337,6 +341,7 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
