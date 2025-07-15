@@ -451,8 +451,8 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  --webkit-line-clamp: 3;
+  --webkit-box-orient: vertical;
 }
 
 .bottom-row {
