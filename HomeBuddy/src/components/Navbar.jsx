@@ -70,7 +70,7 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
-              to="/be-roomate"
+              to="/be-roommate"
               className={({ isActive }) =>
                 isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
               }
