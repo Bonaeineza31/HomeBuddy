@@ -1,4 +1,5 @@
 import React from 'react';
+import { HiHomeModern } from "react-icons/hi2";
 import '../../styles/Landlord.css';
 
 const LandlordSidebar = ({ currentPage, setCurrentPage, isOpen, setIsOpen }) => {
@@ -29,7 +30,7 @@ const LandlordSidebar = ({ currentPage, setCurrentPage, isOpen, setIsOpen }) => 
     <div className={`sidebar ${isOpen ? "open" : ""}`}>
       <div className="sidebar-header">
         <div className="sidebar-brand">
-          <div className="sidebar-brand-icon">🏨</div>
+          <div className="sidebar-brand-icon">{HiHomeModern}</div>
           <div className="sidebar-brand-text">
             <h3>HomeBuddy</h3>
             <p>Landlord Portal</p>

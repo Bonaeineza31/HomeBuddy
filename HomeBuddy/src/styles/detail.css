@@ -1,0 +1,65 @@
+.main {
+    width: 100%;
+    height: 80vh;
+    border-radius: 10px;
+}
+
+.images {
+    width: 60%;
+}
+
+.property-description{
+    width: 35%;
+}
+
+.unavailable{
+    margin: 20% auto;
+}
+
+h2{
+    font-weight: bold;
+    
+}
+
+.other-properties h2{
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.all-details {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 20px 10px;
+    gap: 2rem;
+}
+
+.different-angles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin-top: 10px;
+}
+
+.different-angles img{
+    width: 20%;
+    height: 25vh;
+    border-radius: 20px;
+}
+
+.attributes {
+    display:  flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.roommates, .beds {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.roommates p, .beds p {
+    font-size: 0.8rem;
+}

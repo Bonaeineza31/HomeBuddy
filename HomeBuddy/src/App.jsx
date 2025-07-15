@@ -15,6 +15,8 @@ import StudentHome from './pages/Student/Home';
 import StudentListing from './pages/Student/Listing';
 import StudentSaved from './pages/Student/Saved';
 import StudentContact from './pages/Student/Contact';
+import Detail from './pages/Student/detail';
+
 
 // Admin
 import AdminLayout from './Admin/AdminLayout';
@@ -45,6 +47,7 @@ function App() {
       <Route path="/listing" element={<StudentListing />} />
       <Route path="/saved" element={<StudentSaved />} />
       <Route path="/contact" element={<StudentContact />} />
+      <Route path="/property/:id" element={<Detail />} />
 
       {/* Admin Panel - uses layout with nested routes */}
       <Route path="/admin" element={<AdminLayout />}>

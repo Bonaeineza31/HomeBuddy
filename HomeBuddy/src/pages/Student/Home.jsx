@@ -16,12 +16,78 @@ import Navbar from "../../components/Navbar";
 import propertyHero from '../../../src/assets/bg.jfif';
 
 const properties = [
-  { id: 1, img: p1, location: 'Kimironko', price: '$600/month' },
-  { id: 2, img: p2, location: 'Remera', price: '$1000/month' },
-  { id: 3, img: p3, location: 'Gikondo', price: '$800/month' },
-  { id: 4, img: p4, location: 'Nyabugogo', price: '$500/month' },
-  { id: 5, img: p5, location: 'Kiyovu', price: '$900/month' },
-  { id: 6, img: p6, location: 'Kacyiru', price: '$650/month' }
+  {
+    id: 1,
+    location: 'Kimironko',
+    price: '$600/month',
+    mainImage: p1,
+    otherImages: [p2, p3],
+    description: "Modern two-bedroom apartment with great lighting and free Wi-Fi.",
+    wifi: "yes",
+    furnished: "yes",
+    availableBeds: 2,
+    roommate: 1
+  },
+  {
+    id: 2,
+    location: 'Remera',
+    price: '$1000/month',
+    mainImage: p2,
+    otherImages: [p1, p3],
+    description: "Spacious apartment near major shops. Fully furnished with balcony view.",
+    wifi: "yes",
+    furnished: "yes",
+    availableBeds: 3,
+    roommate: 2
+  },
+  {
+    id: 3,
+    location: 'Gikondo',
+    price: '$800/month',
+    mainImage: p3,
+    otherImages: [p4, p5],
+    description: "Bright unit with shared kitchen and all bills included.",
+    wifi: "yes",
+    furnished: "no",
+    availableBeds: 1,
+    roommate: 2
+  },
+  {
+    id: 4,
+    location: 'Nyabugogo',
+    price: '$500/month',
+    mainImage: p4,
+    otherImages: [p6, p1],
+    description: "Affordable and compact space with easy transport access.",
+    wifi: "no",
+    furnished: "yes",
+    availableBeds: 2,
+    roommate: 3
+  },
+  {
+    id: 5,
+    location: 'Kiyovu',
+    price: '$900/month',
+    mainImage: p5,
+    otherImages: [p2, p6],
+    description: "Luxury flat with all modern fittings and a private bedroom.",
+    wifi: "yes",
+    furnished: "yes",
+    availableBeds: 1,
+    roommate: 1
+  },
+  {
+    id: 6,
+    location: 'Kacyiru',
+    price: '$650/month',
+    mainImage: p6,
+    otherImages: [p3, p4],
+    description: "Student-friendly space with fast internet and calm surroundings.",
+    wifi: "yes",
+    furnished: "no",
+    availableBeds: 2,
+    roommate: 2
+  }
 ];
 
 // Options for the main filters
@@ -286,7 +352,7 @@ const StudentHome = () => {
               const isSaved = savedProperties.some((p) => p.id === property.id);
               return (
                 <div className={styles.listing} key={property.id}>
-                  <img src={property.img} alt={`Property in ${property.location}`} />
+                  <img src={property.mainImage} alt={`Property in ${property.location}`} />
                   <div className={styles["listing-details"]}>
                     <div className={styles["top-row"]}>
                       <div className={styles["text-group"]}>
@@ -316,7 +382,13 @@ const StudentHome = () => {
                     </p>
                     <div className={styles["bottom-row"]}>
                       <p className={styles.price}>{property.price}</p>
-                      <button className={styles.check}>View</button>
+                      <Link
+                        to={`/property/${property.id}`}
+                        state={{ property:property, allProperties:properties }}
+                      >
+                        <button className={styles.check}>View</button>
+                      </Link>
+
                     </div>
                   </div>
                 </div>
