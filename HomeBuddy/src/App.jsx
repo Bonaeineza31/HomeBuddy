@@ -17,7 +17,7 @@ import StudentSaved from './pages/Student/Saved';
 import StudentContact from './pages/Student/Contact';
 import Detail from './pages/Student/detail';
 import RoommateForm from './pages/Student/RoommateMatch';
-import Profile from './pages/Student/profile';
+// import Profile from './pages/Student/profile';
 
 
 // Admin
