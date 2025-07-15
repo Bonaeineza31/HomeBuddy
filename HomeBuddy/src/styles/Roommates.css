@@ -1,0 +1,21 @@
+
+.suggested-roommates {
+    margin: 20px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.suggested-roommates h2{
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.all-roommates {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}

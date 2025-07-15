@@ -1,0 +1,40 @@
+
+.profilecard {
+    display: flex;
+    width: 70%;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+.profilecard img {
+    border-radius: 50%;
+}
+
+.roommate-description {
+    width: 40%;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.text-roommate {
+    background-color: navy;
+    color: white;
+    font-weight: bold;
+    width: 7rem;
+    height: 2rem;
+    border-radius: 10px;
+    align-self: flex-end;
+}
+
+.rm-gender{
+    color: gray;
+}
+
+.budget span, .looking span {
+    font-weight: bold;
+}
