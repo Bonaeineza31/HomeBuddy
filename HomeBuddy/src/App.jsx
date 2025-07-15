@@ -17,6 +17,7 @@ import StudentSaved from './pages/Student/Saved';
 import StudentContact from './pages/Student/Contact';
 import Detail from './pages/Student/detail';
 import SuggestedRoommates from './pages/Student/Roommates';
+import Chat from './pages/Student/Chat';
 
 
 // Admin
@@ -50,6 +51,7 @@ function App() {
       <Route path="/contact" element={<StudentContact />} />
       <Route path="/property/:id" element={<Detail />} />
       <Route path="/be-roommate" element={<SuggestedRoommates />} />
+      <Route path="/chat" element={<Chat />} />
 
       {/* Admin Panel - uses layout with nested routes */}
       <Route path="/admin" element={<AdminLayout />}>
