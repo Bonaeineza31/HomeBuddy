@@ -27,3 +27,28 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
     socialLevel: '',
     additionalRequirements: ''
   });
+   const [currentStep, setCurrentStep] = useState(1);
+  
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const nextStep = () => {
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+  // TODO: Implement results display in next commit
+    console.log('Form submitted:', formData);
+    alert('Form submitted! Results display coming soon...');
+  };
