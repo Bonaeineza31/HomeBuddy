@@ -3,7 +3,7 @@ import {
   MapPin, Wifi, Car, Home, Users, DollarSign, Calendar, Phone,
   Mail, User, Search, Filter
 } from 'lucide-react';
-import './roommatecard.css';
+
 
 const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
   const [formData, setFormData] = useState({
