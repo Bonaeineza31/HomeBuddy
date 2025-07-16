@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from 'react-router-dom';
-import { MapPin, Map, Heart, Wifi, Bed, Users, Home } from "lucide-react";
+import { MapPin, Heart, Wifi, Bed, Users, Home, Map } from "lucide-react";
 import p1 from '../../assets/property1.jfif';
 import p2 from '../../assets/property2.jfif';
 import p3 from '../../assets/property3.jfif';
@@ -99,9 +99,6 @@ const properties = [
 
 const StudentListing = () => {
   const [savedProperties, setSavedProperties] = useState([]);
-  const [showMapModal, setShowMapModal] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState(null);
-  const [userLocation, setUserLocation] = useState(null);
 
   const toggleSave = (property) => {
     setSavedProperties((prevSaved) => {
@@ -112,114 +109,10 @@ const StudentListing = () => {
     });
   };
 
-  const handleShowMap = (property) => {
-    setSelectedProperty(property);
-    setShowMapModal(true);
-  };
-
-  const handleGetLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          setUserLocation([position.coords.latitude, position.coords.longitude]);
-        },
-        (error) => {
-          console.error("Error getting location:", error);
-          setUserLocation([-1.9706, 30.0588]);
-        }
-      );
-    } else {
-      setUserLocation([-1.9706, 30.0588]);
-    }
-  };
-
-  const calculateDistance = (lat1, lon1, lat2, lon2) => {
-    const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLon = (lon2 - lon1) * Math.PI / 180;
-    const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
-              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-              Math.sin(dLon/2) * Math.sin(dLon/2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-    return R * c;
-  };
-
-  const GoogleMap = ({ lat, lng, userLat, userLng }) => {
-    const mapSrc = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${lat},${lng}&zoom=15`;
-    const fallbackSrc = `https://maps.google.com/maps?q=${lat},${lng}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-    
-    return (
-      <div className={styles.mapContainer}>
-        <iframe
-          src={fallbackSrc}
-          width="100%"
-          height="300"
-          style={{ border: 0, borderRadius: '10px' }}
-          allowFullScreen=""
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          title="Property Location"
-        />
-      </div>
-    );
-  };
-
-  const MapModal = () => {
-    if (!showMapModal || !selectedProperty) return null;
-
-    const distance = userLocation ? 
-      calculateDistance(userLocation[0], userLocation[1], selectedProperty.coordinates[0], selectedProperty.coordinates[1]) : 
-      null;
-
-    return (
-      <div className={styles.mapModal}>
-        <div className={styles.mapContent}>
-          <div className={styles.mapHeader}>
-            <h3>Property Location</h3>
-            <button 
-              className={styles.closeBtn}
-              onClick={() => setShowMapModal(false)}
-            >
-              ×
-            </button>
-          </div>
-          <div className={styles.mapBody}>
-            <div className={styles.propertyInfo}>
-              <h4>{selectedProperty.houseName}</h4>
-              <p className={styles.modalLocation}>
-                <MapPin size={16} /> {selectedProperty.location}
-              </p>
-              <p className={styles.modalPrice}>{selectedProperty.price}</p>
-            </div>
-            
-            <div className={styles.locationActions}>
-              <button 
-                className={styles.locationBtn}
-                onClick={handleGetLocation}
-              >
-                Get My Location
-              </button>
-              
-              {distance && (
-                <div className={styles.distanceInfo}>
-                  <p>Distance from your location: <strong>{distance.toFixed(2)} km</strong></p>
-                  <p className={distance <= 5 ? styles.nearSchool : styles.farSchool}>
-                    {distance <= 5 ? "✓ Close to campus" : "⚠ Far from campus"}
-                  </p>
-                </div>
-              )}
-            </div>
-
-            <GoogleMap 
-              lat={selectedProperty.coordinates[0]} 
-              lng={selectedProperty.coordinates[1]}
-              userLat={userLocation ? userLocation[0] : null}
-              userLng={userLocation ? userLocation[1] : null}
-            />
-          </div>
-        </div>
-      </div>
-    );
+  const handleMapClick = (property) => {
+    const { coordinates } = property;
+    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${coordinates[0]},${coordinates[1]}&travelmode=driving`;
+    window.open(googleMapsUrl, '_blank');
   };
 
   return (
@@ -232,11 +125,20 @@ const StudentListing = () => {
               const isSaved = savedProperties.some((item) => item.id === property.id);
               return (
                 <div className={styles.property} key={property.id}>
-                  <img
-                    src={property.mainImage}
-                    alt={`Property in ${property.location}`}
-                    className={styles.listImage}
-                  />
+                  <div className={styles.imageContainer}>
+                    <img
+                      src={property.mainImage}
+                      alt={`Property in ${property.location}`}
+                      className={styles.listImage}
+                    />
+                    <div 
+                      className={styles.mapOverlay}
+                      onClick={() => handleMapClick(property)}
+                    >
+                      <Map size={24} />
+                      <span>View on Map</span>
+                    </div>
+                  </div>
                   
                   <div className={styles.details}>
                     <div className={styles.save}>
@@ -281,12 +183,6 @@ const StudentListing = () => {
                     <div className={styles.lower}>
                       <p className={styles.price}>{property.price}</p>
                       <div className={styles.actions}>
-                        <button 
-                          className={styles.mapButton}
-                          onClick={() => handleShowMap(property)}
-                        >
-                          <Map size={16} /> Map
-                        </button>
                         <Link 
                           to={`/property/property${property.id}`} 
                           state={{property: property, allProperties: properties}}
@@ -302,10 +198,8 @@ const StudentListing = () => {
           </div>
         </div>
       </div>
-
-      <MapModal />
     </>
   );
 };
 
-export default StudentListing;
+export default StudentListing
