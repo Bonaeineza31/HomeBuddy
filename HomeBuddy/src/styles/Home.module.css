@@ -573,7 +573,7 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   }
   .description {
     height: auto;
-    -webkit-line-clamp: unset;
+    --webkit-line-clamp: unset;
   }
 }
 
