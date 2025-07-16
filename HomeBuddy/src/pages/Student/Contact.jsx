@@ -9,9 +9,9 @@ const StudentContact = () => {
     <>
       <Navbar />
 
-      <header className={styles.header}>
+      {/* <header className={styles.header}>
         <h1>Contact Us</h1>
-      </header>
+      </header> */}
 
       <main className={styles.message}>
         <section className={styles.txtpart}>

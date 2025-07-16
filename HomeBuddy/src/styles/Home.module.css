@@ -67,6 +67,7 @@
   background-color: var(--white);
   border-radius: 30px; /* Adjusted to 30px for curvier look */
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  color: black;
   max-width: 1000px;
   width: 90%;
   z-index: 2;

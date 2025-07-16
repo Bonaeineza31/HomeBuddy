@@ -96,8 +96,6 @@
 
 /* Each property card */
 .property {
-  display: flex;
-  flex-direction: row;
   background-color: rgba(240, 240, 240, 0.7);
   border-radius: 12px;
   overflow: hidden;
@@ -111,7 +109,7 @@
 
 .listImage {
   width: 35%;
-  height: 250px;
+  height: 280px;
   object-fit: cover;
 }
 
