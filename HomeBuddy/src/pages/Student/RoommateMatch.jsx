@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../../components/Navbar';
 import { MapPin, Wifi, Car, Home, Users, DollarSign, Calendar, Phone, Mail, User, Search, Filter, Shirt, BookOpen, Trees, Building2, Shield, Droplets, Zap, Bus, Store, Building, MessageCircle, Heart, UserCheck } from 'lucide-react';
 import '../../styles/roommatecard.css';
 
@@ -281,6 +282,8 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
   }
 
   return (
+    <>
+    <Navbar/>
     <div className="roommate-container">
       <div className="form-header">
         <h1><Home size={30} style={{ marginRight: '8px' }} />Find Your Perfect Student Housing</h1>
@@ -642,6 +645,7 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
