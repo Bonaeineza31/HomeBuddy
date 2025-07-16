@@ -1,89 +1,172 @@
-.header {
-  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0,0,0,0.6)),
-    url('../assets/Balcon.jfif') center/cover no-repeat;
-  width: 100%;
-  height: 35vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-}
-
-.header h1 {
-  text-align: center;
-  margin: 0; 
-}
+/* Contact.module.css */
 
 .message {
   display: flex;
-  flex-wrap: wrap; 
-  gap: 2rem;
-  padding: 2rem;
+  justify-content: center;
+  gap: 40px;
+  padding: 40px 20px;
+  max-width: 1200px;
+  margin: 40px auto 0 auto; 
+  position: relative;
+  z-index: 1;
 }
 
 .txtpart {
-  flex: 1 1 60%;
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 2;
 }
 
-input,
-textarea {
-  border: 2px solid black;
-  border-radius: 10px;
-  width: 100%;
-  font-size: 1rem;
-  padding: 0.75rem;
+.txtpart form {
+  display: flex;
+  flex-direction: column;
 }
 
 .names,
 .mail {
   display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-.names > div,
-.mail > div {
+.first,
+.last,
+.email,
+.phone {
   flex: 1;
-  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #aaa;
 }
 
 textarea {
-  height: 200px;
+  min-height: 120px;
   resize: vertical;
 }
 
+.textarea {
+  margin-bottom: 20px;
+}
+
 .submit {
-  display: inline-block;
-  margin-top: 1rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #3b7ae6;
+  background-color: #007bff;
   color: white;
+  padding: 12px 20px;
   border: none;
-  border-radius: 10px;
+  border-radius: 4px;
   cursor: pointer;
-  font-weight: bold;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.submit:hover {
+  background-color: #4361EE;
 }
 
 .address {
-  flex: 1 1 30%;
-  background-color: rgb(59, 122, 230);
+  background-color: #4361EE;
   color: white;
-  border-radius: 20px;
-  padding: 2rem;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.contactinfo,
-.loc,
-.socials {
-  margin-bottom: 2rem;
+.address h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 1.5em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 10px;
 }
 
 .address p {
-  margin: 0.5rem 0 0 0.5rem;
+  margin-bottom: 10px;
+  line-height: 1.6;
 }
 
-.socials .icon {
+.contactinfo p {
+  margin-bottom: 0;
+}
+
+.socials {
+  margin-top: 20px;
+}
+
+.icon {
   display: flex;
-  gap: 1rem;
-  font-size: 1.5rem;
+  gap: 20px;
+  font-size: 1.8em;
+}
+
+.icon svg {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.icon svg:hover {
+  transform: scale(1.1);
+}
+
+/* Responsiveness */
+
+@media (max-width: 768px) {
+  .message {
+    flex-direction: column;
+    padding: 20px;
+    margin-top: 20px; 
+  }
+
+  .names,
+  .mail {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .first,
+  .last,
+  .email,
+  .phone {
+    margin-bottom: 20px;
+  }
+
+  .address {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .txtpart,
+  .address {
+    padding: 20px;
+  }
 }
