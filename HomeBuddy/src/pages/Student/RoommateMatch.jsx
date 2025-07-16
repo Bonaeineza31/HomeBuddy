@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { MapPin, Wifi, Car, Home, Users, DollarSign, Calendar, Phone, Mail, User, Search, Filter, Shirt, BookOpen, Trees, Building2, Shield, Droplets, Zap, Bus, Store, Building, MessageCircle, Heart, UserCheck } from 'lucide-react';
-// import './roommatecard.css';
+import '../../styles/roommatecard.css';
 
 const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
   const [formData, setFormData] = useState({
