@@ -79,7 +79,7 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <Link to="/chat" className={`${styles["nav-link"]} ${styles["chat-link"]}`}>
+            <Link to="/messages" className={`${styles["nav-link"]} ${styles["chat-link"]}`}>
               <MessageSquare size={18} />
               <span>Messages</span>
             </Link>
