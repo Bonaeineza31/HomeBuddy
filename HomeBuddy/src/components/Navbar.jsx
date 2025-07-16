@@ -4,6 +4,7 @@ import { HiHomeModern } from "react-icons/hi2";
 import { FaUser } from "react-icons/fa6";
 import { IoIosMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
+import { MessageSquare } from 'lucide-react';
 import styles from '../../../HomeBuddy/src/styles/Navbar.module.css';  
 
 const Navbar = () => {
@@ -68,8 +69,19 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <Link to="/be-roommate" className={`${styles["nav-link"]} ${styles["roommate-btn"]}`}>
-              Be a Roommate
+            <NavLink
+              to="/be-roommate"
+              className={({ isActive }) =>
+                isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
+              }
+            >
+              Be a roommate
+            </NavLink>
+          </li>
+          <li>
+            <Link to="/chat" className={`${styles["nav-link"]} ${styles["chat-link"]}`}>
+              <MessageSquare size={18} />
+              <span>Messages</span>
             </Link>
           </li>
           <li>

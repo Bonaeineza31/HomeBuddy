@@ -153,6 +153,23 @@ content: none;
     content: none;
 }
 
+.chat-link {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--primary-blue);
+  text-decoration: none;
+}
+.chat-link:hover,
+.chat-link:focus {
+  color: var(--accent-blue);
+}
+.chat-link:hover::after,
+.chat-link:focus::after {
+  content: none;
+}
+
 
 /* Mobile styles */
 @media (max-width: 768px) {
@@ -221,5 +238,14 @@ content: none;
     padding: 0.8rem 0; /* Adjust padding */
     border: 1px solid var(--primary-blue); /* Add border for definition */
     border-radius: 8px; /* Consistent rounding with roommate button */
+  }
+  .chat-link {
+    width: calc(100% - 3rem);
+    margin: 0.5rem 1.5rem 1rem;
+    justify-content: center;
+    font-size: 1.1rem;
+    padding: 0.8rem 0;
+    border: 1px solid var(--primary-blue);
+    border-radius: 8px;
   }
 }
