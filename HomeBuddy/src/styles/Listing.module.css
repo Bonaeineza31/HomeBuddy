@@ -93,7 +93,7 @@
 .property {
   display: flex;
   flex-direction: row;
-  background-color: rgba(128, 128, 128, 0.1);
+  background-color: #fff;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -101,7 +101,7 @@
 
 .list-image {
   width: 35%;
-  height: 250px;
+  height: 280px;
   object-fit: cover;
 }
 
