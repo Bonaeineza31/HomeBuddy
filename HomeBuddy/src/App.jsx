@@ -17,7 +17,7 @@ import StudentSaved from './pages/Student/Saved';
 import StudentContact from './pages/Student/Contact';
 import Detail from './pages/Student/detail';
 import RoommateForm from './pages/Student/RoommateMatch';
-import Chat from './pages/Student/Chat';
+import Messages from './pages/Student/Messages';
 import Profile from './pages/Student/Profile';
 
 
@@ -52,9 +52,8 @@ function App() {
       <Route path="/contact" element={<StudentContact />} />
       <Route path="/property/:id" element={<Detail />} />
       <Route path="/be-roommate" element={<RoommateForm />} />
-      <Route path="/messages" element={<Chat />} />
+      <Route path="/messages" element={<Messages />} />
       <Route path="/profile" element={<Profile />} />
-      {/* <Route path="/profile" element={<Profile />} /> */}
 
       {/* Admin Panel - uses layout with nested routes */}
       <Route path="/admin" element={<AdminLayout />}>
@@ -62,7 +61,7 @@ function App() {
         <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="approvals" element={<AdminApprovals />} />
           <Route path="listings" element={<AdminListing />} />
-        {/* You can add more like:
+        {/* We can add more like:
         <Route path="users" element={<Users />} />
         <Route path="listings" element={<AdminListings />} />
         */}
