@@ -17,6 +17,7 @@ import StudentSaved from './pages/Student/Saved';
 import StudentContact from './pages/Student/Contact';
 import Detail from './pages/Student/detail';
 import RoommateForm from './pages/Student/RoommateMatch';
+import Chat from './pages/Student/Chat';
 import Profile from './pages/Student/Profile';
 
 
@@ -51,6 +52,7 @@ function App() {
       <Route path="/contact" element={<StudentContact />} />
       <Route path="/property/:id" element={<Detail />} />
       <Route path="/be-roommate" element={<RoommateForm />} />
+      <Route path="/messages" element={<Chat />} />
       <Route path="/profile" element={<Profile />} />
       {/* <Route path="/profile" element={<Profile />} /> */}
 

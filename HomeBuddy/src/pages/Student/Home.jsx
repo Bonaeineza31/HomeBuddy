@@ -427,7 +427,7 @@ const StudentHome = () => {
                     </p>
                     <div className={styles["bottom-row"]}>
                       <p className={styles.price}>{property.priceText}</p>
-                      <button 
+                      <button
                         className={styles.check}
                         onClick={() => handleViewProperty(property)}
                       >

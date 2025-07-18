@@ -131,7 +131,7 @@ const StudentListing = () => {
                       alt={`Property in ${property.location}`}
                       className={styles.listImage}
                     />
-                    <div 
+                    <div
                       className={styles.mapOverlay}
                       onClick={() => handleMapClick(property)}
                     >
@@ -183,8 +183,8 @@ const StudentListing = () => {
                     <div className={styles.lower}>
                       <p className={styles.price}>{property.price}</p>
                       <div className={styles.actions}>
-                        <Link 
-                          to={`/property/property${property.id}`} 
+                        <Link
+                          to={`/property/property${property.id}`}
                           state={{property: property, allProperties: properties}}
                         >
                           <button className={styles.viewButton}>View</button>

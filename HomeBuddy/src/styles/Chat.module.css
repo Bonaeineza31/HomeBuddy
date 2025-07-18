@@ -1,0 +1,401 @@
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #f0f2f5;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar {
+  width: 350px;
+  background-color: #fff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  min-width: 300px;
+}
+
+.sidebarHidden {
+  display: none;
+}
+
+.sidebarHeader {
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+}
+
+.sidebarTitle {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: navy;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.titleIcon {
+  color: navy;
+}
+
+.searchContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  margin-left: 265px;
+  color: #666;
+  z-index: 1;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.5rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 20px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contactsList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.contactItemActive {
+  background-color: #f0f2f5;
+}
+
+.contactAvatar {
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  flex-shrink: 0;
+}
+
+.avatarIcon {
+  color: #666;
+}
+
+.onlineIndicator {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background-color: #22c55e;
+  border-radius: 50%;
+  border: 2px solid #fff;
+}
+
+.contactInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.contactHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.contactName {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contactTime {
+  font-size: 0.8rem;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.contactDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.contactType {
+  font-size: 0.8rem;
+  color: #666;
+  font-weight: 500;
+}
+
+.propertyInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.locationIcon {
+  color: #4361EE;
+}
+
+.propertyLocation {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.lastMessage {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.unreadBadge {
+  background-color: navy;
+  color: #fff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* Chat Area Styles */
+.chatArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+.chatAreaHidden {
+  display: none;
+}
+
+.chatHeader {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #fff;
+  gap: 1rem;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: navy;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chatHeaderInfo {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.chatAvatar {
+  position: relative;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+}
+
+.chatContactInfo {
+  flex: 1;
+}
+
+.chatContactName {
+  margin: 0 0 0.25rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.chatContactDetails {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.chatPropertyInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.chatActions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+/* Messages */
+.messagesContainer {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #f8f9fa;
+}
+
+.messageWrapper {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.messageWrapperOwn {
+  justify-content: flex-end;
+}
+
+.message {
+  max-width: 70%;
+  padding: 0.75rem 1rem;
+  border-radius: 20px;
+  position: relative;
+}
+
+.messageOwn {
+  background-color: navy;
+  color: #fff;
+  margin-left: auto;
+}
+
+.messageOther {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #e0e0e0;
+}
+
+.messageText {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.messageTime {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+/* Message Input */
+.messageForm {
+  display: flex;
+  padding: 1rem;
+  border-top: 1px solid #e0e0e0;
+  background-color: #fff;
+  gap: 0.75rem;
+}
+
+.messageInput {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #d0d0d0;
+  border-radius: 20px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sendButton {
+  background-color: navy;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.sendButton:hover,
+.sendButton:active {
+    background-color: #1d4ed8;
+}
+
+/* Empty State */
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+}
+
+.emptyStateIcon {
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.emptyStateTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.emptyStateText {
+  font-size: 1rem;
+  color: #666;
+  margin: 0;
+}
