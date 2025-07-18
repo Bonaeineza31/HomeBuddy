@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { FaUser, FaPaperPlane, FaLocationDot } from "react-icons/fa6";
 import { FaSearch } from 'react-icons/fa';
 import { MessageSquare, Phone, Video, MoreVertical, ArrowLeft } from 'lucide-react';
-import styles from "../../styles/Chat.module.css";
+import styles from "../../styles/Messages.module.css";
 
 // Sample data
 const mockContacts = [
@@ -88,7 +88,7 @@ const mockMessages = {
   ]
 };
 
-const Chat = () => {
+const Messages = () => {
   const [contacts, setContacts] = useState(mockContacts);
   const [selectedContact, setSelectedContact] = useState(null);
   const [messages, setMessages] = useState(mockMessages);
@@ -319,4 +319,4 @@ const Chat = () => {
   );
 };
 
-export default Chat;
+export default Messages;
