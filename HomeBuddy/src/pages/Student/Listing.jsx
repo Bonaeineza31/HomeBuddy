@@ -10,19 +10,19 @@ import p6 from '../../assets/property6.jfif';
 import styles from '../../styles/Listing.module.css';
 import Navbar from "../../components/Navbar";
 
-// property data 
+// property data
 const rawProperties = [
   {
     id: 1,
     location: 'Kimironko',
-    totalPrice: 600, 
+    totalPrice: 600,
     mainImage: p1,
     otherImages: [p2, p3],
     description: "Modern two-bedroom apartment with great lighting and free Wi-Fi. Property is Modern and is in a calm quiet neighbourhood, commutes are easy with nearby bus station 5 minute walk from location",
     wifi: "yes",
     furnished: "yes",
     availableBeds: 2,
-    roommate: 1, 
+    roommate: 1,
     coordinates: [-1.9441, 30.1056],
     houseName: "Sunrise Apartments"
   },
@@ -49,8 +49,8 @@ const rawProperties = [
     description: "Bright unit with shared kitchen and all bills included.",
     wifi: "yes",
     furnished: "no",
-    availableBeds: 1,
-    roommate: 2,
+    availableBeds: 3,
+    roommate: 2, // Note: roommate > availableBeds here, implies capacity is less than current occupants, you might want to review data.
     coordinates: [-1.9706, 30.0588],
     houseName: "Student Haven"
   },
@@ -63,8 +63,8 @@ const rawProperties = [
     description: "Affordable and compact space with easy transport access.",
     wifi: "no",
     furnished: "yes",
-    availableBeds: 2,
-    roommate: 3,
+    availableBeds: 4,
+    roommate: 3, 
     coordinates: [-1.9536, 30.0588],
     houseName: "Budget Comfort"
   },
@@ -101,7 +101,7 @@ const rawProperties = [
 // 'pricePerPerson' 
 const properties = rawProperties.map(p => ({
   ...p,
-  pricePerPerson: (p.totalPrice / Math.max(1, p.roommate)).toFixed(0)
+  pricePerPerson: (p.totalPrice / Math.max(1, p.availableBeds)).toFixed(0)
 }));
 
 const StudentListing = () => {
@@ -118,7 +118,7 @@ const StudentListing = () => {
 
   const handleMapClick = (property) => {
     const { coordinates } = property;
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${coordinates[0]},${coordinates[1]}`;
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${property.location}`;
     window.open(googleMapsUrl, '_blank');
   };
 
@@ -182,13 +182,14 @@ const StudentListing = () => {
                       <span className={styles.amenity}>
                         <Bed size={14} /> {property.availableBeds} beds
                       </span>
+                      {/* Display "X currently / Y total beds" */}
                       <span className={styles.amenity}>
-                        <Users size={14} /> {property.roommate} roommates
+                        <Users size={14} /> {property.roommate} currently / {property.availableBeds} total
                       </span>
                     </div>
 
                     <div className={styles.lower}>
-                      {/* Only display the per-person price */}
+                      {/* Display only the per-person price, calculated from totalPrice / availableBeds */}
                       <p className={styles.price}>
                         ${property.pricePerPerson}/person
                       </p>
