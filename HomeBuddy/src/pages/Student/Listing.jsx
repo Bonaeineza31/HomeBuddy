@@ -10,25 +10,26 @@ import p6 from '../../assets/property6.jfif';
 import styles from '../../styles/Listing.module.css';
 import Navbar from "../../components/Navbar";
 
-const properties = [
+// property data 
+const rawProperties = [
   {
     id: 1,
     location: 'Kimironko',
-    price: '$600/month',
+    totalPrice: 600, 
     mainImage: p1,
     otherImages: [p2, p3],
-    description: "Modern two-bedroom apartment with great lighting and free Wi-Fi.",
+    description: "Modern two-bedroom apartment with great lighting and free Wi-Fi. Property is Modern and is in a calm quiet neighbourhood, commutes are easy with nearby bus station 5 minute walk from location",
     wifi: "yes",
     furnished: "yes",
     availableBeds: 2,
-    roommate: 1,
+    roommate: 1, 
     coordinates: [-1.9441, 30.1056],
     houseName: "Sunrise Apartments"
   },
   {
     id: 2,
     location: 'Remera',
-    price: '$1000/month',
+    totalPrice: 1000,
     mainImage: p2,
     otherImages: [p1, p3],
     description: "Spacious apartment near major shops. Fully furnished with balcony view.",
@@ -42,7 +43,7 @@ const properties = [
   {
     id: 3,
     location: 'Gikondo',
-    price: '$800/month',
+    totalPrice: 800,
     mainImage: p3,
     otherImages: [p4, p5],
     description: "Bright unit with shared kitchen and all bills included.",
@@ -56,7 +57,7 @@ const properties = [
   {
     id: 4,
     location: 'Nyabugogo',
-    price: '$500/month',
+    totalPrice: 500,
     mainImage: p4,
     otherImages: [p6, p1],
     description: "Affordable and compact space with easy transport access.",
@@ -70,7 +71,7 @@ const properties = [
   {
     id: 5,
     location: 'Kiyovu',
-    price: '$900/month',
+    totalPrice: 900,
     mainImage: p5,
     otherImages: [p2, p6],
     description: "Luxury flat with all modern fittings and a private bedroom.",
@@ -84,10 +85,10 @@ const properties = [
   {
     id: 6,
     location: 'Kacyiru',
-    price: '$650/month',
+    totalPrice: 650,
     mainImage: p6,
     otherImages: [p3, p4],
-    description: "Student-friendly space with fast internet and calm surroundings.",
+    description: "Student-friendly space with fast internet and calm surroundings. The property is modern and is in a quiet environment",
     wifi: "yes",
     furnished: "no",
     availableBeds: 2,
@@ -96,6 +97,12 @@ const properties = [
     houseName: "Scholar's Den"
   }
 ];
+
+// 'pricePerPerson' 
+const properties = rawProperties.map(p => ({
+  ...p,
+  pricePerPerson: (p.totalPrice / Math.max(1, p.roommate)).toFixed(0)
+}));
 
 const StudentListing = () => {
   const [savedProperties, setSavedProperties] = useState([]);
@@ -111,7 +118,7 @@ const StudentListing = () => {
 
   const handleMapClick = (property) => {
     const { coordinates } = property;
-    const googleMapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${coordinates[0]},${coordinates[1]}&travelmode=driving`;
+    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${coordinates[0]},${coordinates[1]}`;
     window.open(googleMapsUrl, '_blank');
   };
 
@@ -139,7 +146,7 @@ const StudentListing = () => {
                       <span>View on Map</span>
                     </div>
                   </div>
-                  
+
                   <div className={styles.details}>
                     <div className={styles.save}>
                       <div className={styles.saveText}>
@@ -181,7 +188,10 @@ const StudentListing = () => {
                     </div>
 
                     <div className={styles.lower}>
-                      <p className={styles.price}>{property.price}</p>
+                      {/* Only display the per-person price */}
+                      <p className={styles.price}>
+                        ${property.pricePerPerson}/person
+                      </p>
                       <div className={styles.actions}>
                         <Link
                           to={`/property/property${property.id}`}
@@ -202,4 +212,4 @@ const StudentListing = () => {
   );
 };
 
-export default StudentListing
+export default StudentListing;
