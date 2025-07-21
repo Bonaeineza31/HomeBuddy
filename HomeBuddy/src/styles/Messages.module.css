@@ -28,13 +28,10 @@
   margin: 0 0 1rem 0;
   font-size: 1.5rem;
   font-weight: 700;
-}
-.linkTitle {
+  color: navy;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  text-decoration: none;
-  color: navy;
 }
 
 .titleIcon {
