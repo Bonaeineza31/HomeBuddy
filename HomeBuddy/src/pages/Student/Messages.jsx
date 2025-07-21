@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import {Link} from "react-router-dom";
 import { FaUser, FaPaperPlane, FaLocationDot } from "react-icons/fa6";
 import { FaSearch } from 'react-icons/fa';
 import { MessageSquare, Phone, Video, MoreVertical, ArrowLeft } from 'lucide-react';
@@ -163,8 +164,10 @@ const Messages = () => {
       >
         <div className={styles.sidebarHeader}>
           <h2 className={styles.sidebarTitle}>
-            <MessageSquare size={24} className={styles.titleIcon} />
-            Messages
+            <Link to="/student" className={styles.linkTitle}>
+              <MessageSquare size={24} className={styles.titleIcon} />
+              Messages
+            </Link>
           </h2>
           
           {/* Search Bar */}
