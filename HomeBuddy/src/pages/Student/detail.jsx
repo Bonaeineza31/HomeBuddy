@@ -5,8 +5,7 @@ import { IoBed } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import Navbar from '../../components/Navbar';
 import PropertyCard from '../../components/PropertyCard';
-import styles from '../../styles/Home.module.css'; // Assuming you might still use some global styles
-import '../../styles/detail.css'; // Your specific detail page styles
+import '../../styles/detail.css';
 
 function Detail() {
   const location = useLocation();
@@ -16,7 +15,7 @@ function Detail() {
   const [isSaved, setIsSaved] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
 
-  // Dummy data for nearby facilities - you'd ideally fetch this based on property location
+  // Dummy data for nearby facilities - we'd ideally fetch this based on property location
   const nearbyFacilities = [
     { name: "Bus Station", icon: <FaBus />, distance: "200m" },
     { name: "Clinic", icon: <FaClinicMedical />, distance: "1.5km" },
@@ -209,10 +208,16 @@ function Detail() {
             {/* Map View */}
             <div className="map-view-section info-card">
               <h3>Property Location</h3>
-              <div className="map-placeholder">
-                {/* map content*/}
-                <img src="https://via.placeholder.com/400x300?text=Property+Map" alt="Property Map" />
-                <p className="map-note">(Google Maps embed)</p>
+              <div className="map">
+                <iframe
+                  title="Google Maps"
+                  width="100%"
+                  height="300"
+                  style={{ border: 0, borderRadius: '8px' }}
+                  src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyB2IMYMdSq57iLsdcbk1mv1psSoblfft5M&q=${encodeURIComponent(property.location)}`}
+                  allowFullScreen
+                ></iframe>
+                <p className="map-note">(Embedded Google Map)</p>
               </div>
             </div>
 
