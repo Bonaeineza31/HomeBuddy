@@ -15,7 +15,7 @@ import StudentHome from './pages/Student/Home';
 import StudentListing from './pages/Student/Listing';
 import StudentSaved from './pages/Student/Saved';
 import StudentContact from './pages/Student/Contact';
-import Detail from './pages/Student/detail';
+import Detail from './pages/Student/Detail';
 import RoommateForm from './pages/Student/RoommateMatch';
 import Messages from './pages/Student/Messages';
 import Profile from './pages/Student/Profile';
