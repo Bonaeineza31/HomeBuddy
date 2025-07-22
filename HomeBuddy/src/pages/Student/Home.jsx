@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import Select from "react-select";
+import { Link } from 'react-router-dom';
 import { FaLocationDot, FaRegHeart, FaHeart, FaUser } from "react-icons/fa6";
 import p1 from '../../assets/property1.jfif';
 import p2 from '../../assets/property2.jfif';
@@ -427,12 +428,12 @@ const StudentHome = () => {
                     </p>
                     <div className={styles["bottom-row"]}>
                       <p className={styles.price}>{property.priceText}</p>
-                      <button
-                        className={styles.check}
-                        onClick={() => handleViewProperty(property)}
-                      >
-                        View
-                      </button>
+                      <Link
+                          to={`/property/property${property.id}`}
+                          state={{property: property, allProperties: properties}}
+                        >
+                          <button className={styles.viewButton}>View</button>
+                        </Link>
                     </div>
                   </div>
                 </div>

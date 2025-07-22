@@ -5,8 +5,7 @@ import { IoBed } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import Navbar from '../../components/Navbar';
 import PropertyCard from '../../components/PropertyCard';
-import styles from '../../styles/Home.module.css'; // Assuming you might still use some global styles
-import '../../styles/detail.css'; // Your specific detail page styles
+import '../../styles/detail.css';
 
 function Detail() {
   const location = useLocation();
@@ -21,7 +20,7 @@ function Detail() {
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [mapError, setMapError] = useState(false);
 
-  // Dummy data for nearby facilities - you'd ideally fetch this based on property location
+  // Dummy data for nearby facilities - we'd ideally fetch this based on property location
   const nearbyFacilities = [
     { name: "Bus Station", icon: <FaBus />, distance: "200m" },
     { name: "Clinic", icon: <FaClinicMedical />, distance: "1.5km" },
@@ -408,53 +407,10 @@ function Detail() {
             {/* Map View */}
             <div className="map-view-section info-card">
               <h3>Property Location</h3>
-              <div className="map-container">
-                {mapError || (!isMapLoaded && !window.google) ? (
-                  <FallbackMap />
-                ) : (
-                  <div 
-                    ref={mapRef} 
-                    className="property-map"
-                    style={{
-                      width: '100%',
-                      height: '300px',
-                      borderRadius: '8px',
-                      backgroundColor: '#f5f5f5',
-                      border: '1px solid #ddd'
-                    }}
-                  >
-                    {!isMapLoaded && (
-                      <div style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: '100%',
-                        color: '#666',
-                        flexDirection: 'column'
-                      }}>
-                        <div style={{ marginBottom: '8px' }}>🗺️</div>
-                        Loading map...
-                      </div>
-                    )}
-                  </div>
-                )}
-                <button 
-                  className="view-larger-map-btn"
-                  onClick={handleViewMapClick}
-                  style={{
-                    marginTop: '10px',
-                    padding: '8px 16px',
-                    backgroundColor: '#e74c3c',
-                    color: 'white',
-                    border: 'none',
-                    borderRadius: '4px',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    width: '100%'
-                  }}
-                >
-                  View Larger Map
-                </button>
+              <div className="map-placeholder">
+                {/* map content*/}
+                <img src="https://via.placeholder.com/400x300?text=Property+Map" alt="Property Map" />
+                <p className="map-note">(Google Maps embed)</p>
               </div>
             </div>
 

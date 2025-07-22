@@ -22,6 +22,7 @@ body {
 /* Container and Layout */
 .container {
   min-height: 100vh;
+  min-width: 100%;
   background: navy; /* Original background for the top part */
 }
 
