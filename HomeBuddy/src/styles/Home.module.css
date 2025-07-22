@@ -481,6 +481,20 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 .check:hover {
   background-color: var(--secondary-blue); 
 }
+.viewButton {
+  background-color: navy;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.5rem 1.25rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.viewButton:hover {
+  background-color: #295cc7;
+}
 
 /* Heart Icon for saved properties */
 .heartIcon {
@@ -580,5 +594,9 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 @media (max-width: 480px) {
   .heroTitle {
     font-size: 1.8rem;
+  }
+  .viewButton {
+    padding: 0.75rem;
+    font-size: 0.9rem;
   }
 }
