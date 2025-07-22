@@ -1,25 +1,32 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom"; // Use NavLink for active styling
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { HiHomeModern } from "react-icons/hi2";
 import { FaUser } from "react-icons/fa6";
 import { IoIosMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { MessageSquare } from 'lucide-react';
-import styles from '../../../HomeBuddy/src/styles/Navbar.module.css';  
+import styles from '../styles/Navbar.module.css';
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleMessagesClick = (e) => {
+    e.preventDefault();
+    setMenuOpen(false); // Close mobile menu if open
+    navigate('/student/messages'); // Fixed route
+  };
 
   return (
     <nav className={styles.navigation}>
-      <div className={styles["nav-container"]}> {/* Container div for nav content */}
+      <div className={styles["nav-container"]}>
         <div className={styles.logopart}>
           <HiHomeModern className={styles.logo} />
           <p>Homebuddy</p>
         </div>
 
-        <button 
-          className={styles["menu-icon"]} 
+        <button
+          className={styles["menu-icon"]}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
@@ -40,7 +47,7 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
-              to="/saved"
+              to="/student/saved" 
               className={({ isActive }) =>
                 isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
               }
@@ -50,7 +57,7 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
-              to="/listing"
+              to="/student/listing" 
               className={({ isActive }) =>
                 isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
               }
@@ -60,7 +67,7 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
-              to="/contact"
+              to="/student/contact"
               className={({ isActive }) =>
                 isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
               }
@@ -70,7 +77,7 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
-              to="/be-roommate"
+              to="/student/roommate" 
               className={({ isActive }) =>
                 isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
               }
@@ -79,13 +86,17 @@ const Navbar = () => {
             </NavLink>
           </li>
           <li>
-            <Link to="/messages" className={`${styles["nav-link"]} ${styles["chat-link"]}`}>
+            <button 
+              onClick={handleMessagesClick}
+              className={`${styles["nav-link"]} ${styles["chat-link"]}`}
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+            >
               <MessageSquare size={18} />
               <span>Messages</span>
-            </Link>
+            </button>
           </li>
           <li>
-            <Link to="/profile" className={`${styles["nav-link"]} ${styles["profile-link"]}`}>
+            <Link to="/student/profile" className={`${styles["nav-link"]} ${styles["profile-link"]}`}> {/* Fixed route */}
               <FaUser size={16} />
               <span>Profile</span>
             </Link>

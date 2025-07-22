@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaWifi, FaCouch, FaUserFriends, FaHeart, FaRegHeart, FaMap, FaPhone, FaEnvelope, FaBus, FaClinicMedical, FaShoppingCart } from 'react-icons/fa';
 import { IoBed } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
@@ -10,11 +10,16 @@ import '../../styles/detail.css'; // Your specific detail page styles
 
 function Detail() {
   const location = useLocation();
+  const navigate = useNavigate();
   const property = location.state?.property;
   const allProperties = location.state?.allProperties;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
   const [showContactForm, setShowContactForm] = useState(false);
+  const mapRef = useRef(null);
+  const [map, setMap] = useState(null);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [mapError, setMapError] = useState(false);
 
   // Dummy data for nearby facilities - you'd ideally fetch this based on property location
   const nearbyFacilities = [
@@ -23,6 +28,200 @@ function Detail() {
     { name: "Market", icon: <FaShoppingCart />, distance: "500m" },
     { name: "School", icon: <FaLocationDot />, distance: "800m" }, // Reusing FaLocationDot for example
   ];
+
+  // Load Leaflet (OpenStreetMap) script and CSS
+  useEffect(() => {
+    const loadLeaflet = () => {
+      if (window.L) {
+        setIsMapLoaded(true);
+        return;
+      }
+
+      // Load Leaflet CSS
+      const cssLink = document.createElement('link');
+      cssLink.rel = 'stylesheet';
+      cssLink.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      cssLink.integrity = 'sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
+      cssLink.crossOrigin = '';
+      document.head.appendChild(cssLink);
+
+      // Load Leaflet JS
+      const script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.integrity = 'sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+      script.crossOrigin = '';
+      script.async = true;
+      script.defer = true;
+      script.onload = () => {
+        setIsMapLoaded(true);
+        setMapError(false);
+      };
+      script.onerror = () => {
+        console.error('Error loading Leaflet script');
+        setIsMapLoaded(false);
+        setMapError(true);
+      };
+      document.head.appendChild(script);
+    };
+
+    loadLeaflet();
+  }, []);
+
+  // Initialize map when Google Maps is loaded
+  useEffect(() => {
+    if (isMapLoaded && mapRef.current && property && !map) {
+      initializeMap();
+    }
+  }, [isMapLoaded, property, map]);
+
+  const getCoordinatesFromLocation = async (locationString) => {
+    try {
+      // Use a free geocoding service
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationString + ', Rwanda')}&limit=1`
+      );
+      const data = await response.json();
+      
+      if (data && data.length > 0) {
+        return {
+          lat: parseFloat(data[0].lat),
+          lng: parseFloat(data[0].lon)
+        };
+      } else {
+        console.warn('Geocoding failed, using fallback coordinates');
+        // Fallback to Kigali coordinates if geocoding fails
+        return { lat: -1.9441, lng: 30.0619 };
+      }
+    } catch (error) {
+      console.error('Geocoding error:', error);
+      // Fallback to Kigali coordinates
+      return { lat: -1.9441, lng: 30.0619 };
+    }
+  };
+
+  const initializeMap = async () => {
+    try {
+      if (!window.L) {
+        console.error('Leaflet not loaded');
+        setMapError(true);
+        return;
+      }
+
+      const coordinates = await getCoordinatesFromLocation(property.location);
+      
+      // Create map instance
+      const mapInstance = window.L.map(mapRef.current, {
+        center: [coordinates.lat, coordinates.lng],
+        zoom: 15,
+        zoomControl: true,
+        scrollWheelZoom: true
+      });
+
+      // Add OpenStreetMap tile layer
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        maxZoom: 19
+      }).addTo(mapInstance);
+
+      // Create custom red marker icon
+      const redIcon = window.L.divIcon({
+        html: `
+          <div style="
+            background-color: #e74c3c;
+            width: 30px;
+            height: 30px;
+            border-radius: 50% 50% 50% 0;
+            border: 3px solid #fff;
+            transform: rotate(-45deg);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+          ">
+            <div style="
+              width: 8px;
+              height: 8px;
+              background-color: #fff;
+              border-radius: 50%;
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%) rotate(45deg);
+            "></div>
+          </div>
+        `,
+        className: 'custom-marker',
+        iconSize: [30, 30],
+        iconAnchor: [15, 30]
+      });
+
+      // Add marker for the property
+      const marker = window.L.marker([coordinates.lat, coordinates.lng], {
+        icon: redIcon
+      }).addTo(mapInstance);
+
+      // Add popup to marker
+      marker.bindPopup(`
+        <div style="padding: 5px; max-width: 200px;">
+          <h4 style="margin: 0 0 5px 0; font-size: 14px;">${property.houseName || 'Property'}</h4>
+          <p style="margin: 0 0 5px 0; color: #666; font-size: 12px;">📍 ${property.location || 'Location not specified'}</p>
+          ${property.price ? `<p style="margin: 0; font-weight: bold; color: #e74c3c; font-size: 13px;">${property.price}</p>` : ''}
+        </div>
+      `).openPopup();
+
+      setMap(mapInstance);
+      setMapError(false);
+    } catch (error) {
+      console.error('Error initializing map:', error);
+      setMapError(true);
+    }
+  };
+
+  const handleViewMapClick = async () => {
+    try {
+      // Get coordinates for the property location
+      const coordinates = await getCoordinatesFromLocation(property.location);
+      
+      // Create Google Maps URL with the coordinates
+      const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${coordinates.lat},${coordinates.lng}&zoom=15`;
+      
+      // Open Google Maps in a new tab
+      window.open(googleMapsUrl, '_blank');
+    } catch (error) {
+      console.error('Error opening Google Maps:', error);
+      
+      // Fallback: open Google Maps with location search
+      const searchQuery = encodeURIComponent(`${property.location}, Rwanda`);
+      const fallbackUrl = `https://www.google.com/maps/search/${searchQuery}`;
+      window.open(fallbackUrl, '_blank');
+    }
+  };
+
+  // Fallback map component when Google Maps fails
+  const FallbackMap = () => (
+    <div style={{
+      width: '100%',
+      height: '300px',
+      borderRadius: '8px',
+      backgroundColor: '#f8f9fa',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      border: '2px dashed #dee2e6',
+      color: '#6c757d',
+      textAlign: 'center',
+      padding: '20px'
+    }}>
+      <FaLocationDot size={48} style={{ marginBottom: '16px', color: '#e74c3c' }} />
+      <h4 style={{ margin: '0 0 8px 0', fontSize: '18px', color: '#495057' }}>
+        {property.houseName || 'Property'}
+      </h4>
+      <p style={{ margin: '0 0 12px 0', fontSize: '14px' }}>
+        📍 {property.location}
+      </p>
+      <p style={{ margin: '0', fontSize: '12px', fontStyle: 'italic' }}>
+        Interactive map will load here
+      </p>
+    </div>
+  );
 
   if (!property || !allProperties) {
     return (
@@ -92,7 +291,7 @@ function Detail() {
               {isSaved ? <FaHeart color="#e74c3c" /> : <FaRegHeart />}
               {isSaved ? 'Saved' : 'Save'}
             </button>
-            <button className="map-btn">
+            <button className="map-btn" onClick={handleViewMapClick}>
               <FaMap /> View Map
             </button>
           </div>
@@ -209,10 +408,53 @@ function Detail() {
             {/* Map View */}
             <div className="map-view-section info-card">
               <h3>Property Location</h3>
-              <div className="map-placeholder">
-                {/* map content*/}
-                <img src="https://via.placeholder.com/400x300?text=Property+Map" alt="Property Map" />
-                <p className="map-note">(Google Maps embed)</p>
+              <div className="map-container">
+                {mapError || (!isMapLoaded && !window.google) ? (
+                  <FallbackMap />
+                ) : (
+                  <div 
+                    ref={mapRef} 
+                    className="property-map"
+                    style={{
+                      width: '100%',
+                      height: '300px',
+                      borderRadius: '8px',
+                      backgroundColor: '#f5f5f5',
+                      border: '1px solid #ddd'
+                    }}
+                  >
+                    {!isMapLoaded && (
+                      <div style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        height: '100%',
+                        color: '#666',
+                        flexDirection: 'column'
+                      }}>
+                        <div style={{ marginBottom: '8px' }}>🗺️</div>
+                        Loading map...
+                      </div>
+                    )}
+                  </div>
+                )}
+                <button 
+                  className="view-larger-map-btn"
+                  onClick={handleViewMapClick}
+                  style={{
+                    marginTop: '10px',
+                    padding: '8px 16px',
+                    backgroundColor: '#e74c3c',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    width: '100%'
+                  }}
+                >
+                  View Larger Map
+                </button>
               </div>
             </div>
 
