@@ -29,16 +29,27 @@
   font-size: 1.5rem;
   font-weight: 700;
 }
+
 .linkTitle {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
   color: navy;
+  transition: all 0.2s ease;
+}
+
+.linkTitle:hover {
+  color: #1d4ed8;
 }
 
 .titleIcon {
   color: navy;
+  transition: transform 0.2s ease;
+}
+
+.linkTitle:hover .titleIcon {
+  transform: translateX(-2px);
 }
 
 .searchContainer {
@@ -369,6 +380,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .sendButton:hover,
 .sendButton:active {
     background-color: #1d4ed8;
