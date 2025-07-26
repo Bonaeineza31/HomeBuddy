@@ -16,8 +16,8 @@ export default function Profile() {
   useEffect(() => {
     axios.get("/api/profile", { withCredentials: true })
       .then(res => {
-        setProfile(res.data);
-        setPhotoPreview(res.data.photo || "");
+        setProfile(res.data.profile);
+        setPhotoPreview(res.data.profile?.photo || "");
       })
       .catch(err => console.error("Error loading profile:", err));
   }, []);
