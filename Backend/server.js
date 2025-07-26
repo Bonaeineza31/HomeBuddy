@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/authroutes.js';
 import userRoutes from './routes/userroutes.js';
-import profileRoutes from './routes/profileroutes.js'; // ✅ Only once
+import profileRoutes from './routes/profileroutes.js'; 
 import contactRoutes from './routes/contactRoutes.js'; 
 
 // Load environment variables
@@ -46,8 +46,8 @@ app.use((req, res, next) => {
 // ✅ Routes
 app.use('/auth', authRoutes);
 app.use('/admin', userRoutes);
-app.use('/contact', contactRoutes);
-app.use('/api', profileRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/profile', profileRoutes);
 
 // ✅ Health check
 app.get('/', (req, res) => {
