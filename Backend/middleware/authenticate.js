@@ -1,3 +1,4 @@
+// middleware/authenticate.js
 import jwt from 'jsonwebtoken';
 import User from '../models/authmodel.js';
 
@@ -15,7 +16,7 @@ const authenticate = async (req, res, next) => {
       // Verify token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Get user from the token (exclude password)
+      // Get user from token and exclude password field
       req.user = await User.findById(decoded.id).select('-password');
 
       if (!req.user) {
@@ -33,4 +34,3 @@ const authenticate = async (req, res, next) => {
 };
 
 export default authenticate;
-
