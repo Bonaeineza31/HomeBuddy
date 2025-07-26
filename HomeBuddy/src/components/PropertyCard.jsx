@@ -1,11 +1,11 @@
-
 import { Link } from 'react-router-dom';
 import { FaLocationDot } from 'react-icons/fa6';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import styles from '../styles/Home.module.css';
-function PropertyCard({ property, isSaved, toggleSave }) {
+
+function PropertyCard({ property, isSaved, toggleSave, allProperties }) {
   return (
-    <div className={styles.listing} key={property.id}>
+    <div className={styles.listing}>
       <img src={property.mainImage} alt={`Property in ${property.location}`} />
       <div className={styles["listing-details"]}>
         <div className={styles["top-row"]}>
@@ -36,8 +36,11 @@ function PropertyCard({ property, isSaved, toggleSave }) {
         </p>
         <div className={styles["bottom-row"]}>
           <p className={styles.price}>{property.price}</p>
-          <Link to={`/property/${property.id}`} state={{ property }}>
-            <button className={styles.check}>View</button>
+          <Link
+            to={`/student/detail/${property.id}`}
+            state={{ property, allProperties }}
+          >
+            <button className={styles.viewButton}>View</button>
           </Link>
         </div>
       </div>

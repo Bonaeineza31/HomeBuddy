@@ -429,11 +429,11 @@ const StudentHome = () => {
                     <div className={styles["bottom-row"]}>
                       <p className={styles.price}>{property.priceText}</p>
                       <Link
-                          to={`/property/property${property.id}`}
-                          state={{property: property, allProperties: properties}}
-                        >
-                          <button className={styles.viewButton}>View</button>
-                        </Link>
+                        to={`/student/detail/${property.id}`}
+                        state={{property: property, allProperties: properties}}
+                      >
+                        <button className={styles.viewButton}>View</button>
+                      </Link>
                     </div>
                   </div>
                 </div>

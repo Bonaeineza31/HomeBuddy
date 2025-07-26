@@ -166,8 +166,8 @@ const Messages = () => {
           <h2 className={styles.sidebarTitle}>
             <Link to="/student" className={styles.linkTitle} title="Back to Home">
               <ArrowLeft size={24} className={styles.titleIcon} />
-              Messages
             </Link>
+            Messages
           </h2>
 
           {/* Search Bar */}

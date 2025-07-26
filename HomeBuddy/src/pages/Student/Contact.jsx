@@ -1,10 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter, FaTiktok } from "react-icons/fa6";
 import styles from '../../styles/Contact.module.css';
 import Navbar from "../../components/Navbar";
 
 const StudentContact = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post('https://home-buddy-eta.vercel.app/contact', formData);
+      alert("Your message has been sent successfully!");
+      setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+    } catch (error) {
+      console.error("Error sending message:",error);
+    }
+  };
+  
   return (
     <>
       <Navbar />
