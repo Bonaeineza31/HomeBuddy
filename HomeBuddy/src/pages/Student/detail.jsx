@@ -195,8 +195,9 @@ function Detail() {
   };
 
   const handleBackToListings = () => {
-    navigate(-1); // Go back to previous page
+    navigate("/listing");
   };
+
 
   // Fallback map component when Google Maps fails
   const FallbackMap = () => (
@@ -289,6 +290,7 @@ function Detail() {
             <span>Back to Listings</span>
           </button>
         </div>
+
 
         {/* Property Name and Location */}
         <div className="property-heading-section">
