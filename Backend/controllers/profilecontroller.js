@@ -4,7 +4,7 @@ import User from '/models/user.js';
 export const getProfile = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('email role profile');
-    res.json(user.profile);
+    res.json(user);
   } catch (err) {
     res.status(500).json({ error: 'Unable to fetch profile' });
   }
