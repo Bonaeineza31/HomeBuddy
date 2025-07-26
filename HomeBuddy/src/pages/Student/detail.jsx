@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaWifi, FaCouch, FaUserFriends, FaHeart, FaRegHeart, FaMap, FaPhone, FaEnvelope, FaBus, FaClinicMedical, FaShoppingCart } from 'react-icons/fa';
+import { FaWifi, FaCouch, FaUserFriends, FaHeart, FaRegHeart, FaMap, FaPhone, FaEnvelope, FaBus, FaClinicMedical, FaShoppingCart, FaArrowLeft } from 'react-icons/fa';
 import { IoBed } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
 import Navbar from '../../components/Navbar';
 import PropertyCard from '../../components/PropertyCard';
-import styles from '../../styles/Home.module.css'; // Assuming you might still use some global styles
-import '../../styles/detail.css'; // Your specific detail page styles
+import styles from '../../styles/Home.module.css';
+import '../../styles/detail.css';
 
 function Detail() {
   const location = useLocation();
@@ -194,6 +194,11 @@ function Detail() {
     }
   };
 
+  const handleBackToListings = () => {
+    navigate("/listing");
+  };
+
+
   // Fallback map component when Google Maps fails
   const FallbackMap = () => (
     <div style={{
@@ -278,6 +283,15 @@ function Detail() {
     <>
       <Navbar />
       <div className="detail-container">
+        {/* Back to Listings Button */}
+        <div className="back-to-listings-section">
+          <button className="back-to-listings-btn" onClick={handleBackToListings}>
+            <FaArrowLeft />
+            <span>Back to Listings</span>
+          </button>
+        </div>
+
+
         {/* Property Name and Location */}
         <div className="property-heading-section">
           <div className="property-title-main">
