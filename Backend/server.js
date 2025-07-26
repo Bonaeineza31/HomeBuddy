@@ -3,8 +3,10 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
+
 import authRoutes from './routes/authroutes.js';
 import userRoutes from './routes/userroutes.js';
+import profileRoutes from './routes/profileRoutes.js'; // ✅ added this
 
 // Load environment variables
 dotenv.config();
@@ -44,6 +46,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/auth', authRoutes);
 app.use('/admin', userRoutes);
+app.use('/api', profileRoutes); // ✅ register the profile routes
 
 // Health check
 app.get('/', (req, res) => {

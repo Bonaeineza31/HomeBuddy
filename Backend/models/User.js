@@ -9,7 +9,16 @@ const userSchema = new mongoose.Schema({
   profile: {
     name: String,
     phone: String,
-    university: String
+    university: String,
+
+    // NEW FIELDS
+    photo: String, // base64 or image URL
+    nationality: String,
+    gender: { type: String, enum: ['Male', 'Female', 'Other', 'Prefer not to say'] },
+    bio: String,
+    budget: String,
+    preference: String,
+    hobbies: [String]
   },
   tokens: [
     {
@@ -34,7 +43,7 @@ userSchema.methods.generateAuthToken = async function () {
   return token;
 };
 
-// Remove sensitive data from JSON response
+// Remove sensitive data
 userSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
@@ -43,5 +52,4 @@ userSchema.methods.toJSON = function () {
 };
 
 const User = mongoose.model('User', userSchema);
-
 export default User;
