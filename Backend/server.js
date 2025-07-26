@@ -44,16 +44,20 @@ app.use((req, res, next) => {
 });
 
 // ✅ Routes
-<<<<<<< HEAD
-app.use('/auth', authRoutes);
-app.use('/admin', userRoutes);
+
 app.use('/api/contact', contactRoutes);
 app.use('/api/profile', profileRoutes);
-=======
 app.use('/auth', authRoutes);        // auth/login/register
 app.use('/admin', userRoutes);       // admin/user-related routes
 app.use('/api', profileRoutes);      // /api/profile GET and PUT
->>>>>>> 249ec05247b347eb64e8c7b7758dab9c65cf60fd
+app.use('/api/user', userRoutes);    // /api/user GET and PUT
+app.use('/api/auth', authRoutes);    // /api/auth/login/register
+
+// ✅ Error Handling Middleware
+app.use((err, req, res, next) => {
+  console.error('❌ Error:', err.message);
+  res.status(500).json({ error: 'Internal Server Error' });
+});
 
 // ✅ Health Check
 app.get('/', (req, res) => {
