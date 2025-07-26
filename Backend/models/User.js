@@ -1,16 +1,21 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+// models/User.js
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ['student', 'landlord', 'admin'], default: 'student' },
-  profile: {
-    name: String,
-    phone: String,
-    university: String
-  },
+  nationality: { type: String },
+  gender: { type: String },
+  bio: { type: String },
+  budget: { type: String },
+  preference: { type: String },
+  hobbies: { type: [String], default: [] },
+  photo: { type: String },
+  role: { type: String, enum: ["student", "admin"], default: "student" },
+  status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
   tokens: [
     {
       token: { type: String, required: true }
@@ -42,6 +47,6 @@ userSchema.methods.toJSON = function () {
   return user;
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;
