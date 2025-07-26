@@ -4,7 +4,6 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter, FaTiktok } from "react-icons/fa6";
 import styles from '../../styles/Contact.module.css';
 import Navbar from "../../components/Navbar";
-import { set } from "mongoose";
 
 const StudentContact = () => {
   const [formData, setFormData] = useState({
