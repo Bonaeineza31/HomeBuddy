@@ -1,4 +1,3 @@
-// models/User.js
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
@@ -20,7 +19,6 @@ const userSchema = new mongoose.Schema({
   ]
 }, { timestamps: true });
 
-// Hash password before saving
 userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
@@ -28,7 +26,6 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// Generate auth token
 userSchema.methods.generateAuthToken = async function () {
   const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
   this.tokens = this.tokens.concat({ token });
@@ -36,7 +33,7 @@ userSchema.methods.generateAuthToken = async function () {
   return token;
 };
 
-// Remove sensitive data
+// Remove sensitive data from JSON response
 userSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
@@ -44,6 +41,6 @@ userSchema.methods.toJSON = function () {
   return user;
 };
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
 
 export default User;
