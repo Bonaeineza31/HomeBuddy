@@ -195,11 +195,11 @@ const StudentListing = () => {
                       </p>
                       <div className={styles.actions}>
                         <Link
-  to={`/student/detail/${property.id}`}
-  state={{property: property, allProperties: properties}}
->
-  <button className={styles.viewButton}>View</button>
-</Link>
+                          to={`/student/detail/${property.id}`}
+                          state={{property: property, allProperties: properties}}
+                        >
+                          <button className={styles.viewButton}>View</button>
+                        </Link>
                       </div>
                     </div>
                   </div>
