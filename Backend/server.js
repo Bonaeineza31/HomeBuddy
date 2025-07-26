@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/authroutes.js';
 import userRoutes from './routes/userroutes.js';
-import profileRoutes from './routes/profileroutes.js'; // ✅ added profile routes
+import profileRoutes from './routes/profileroutes.js'; // ✅ Only once
 
 // Load environment variables
 dotenv.config();
@@ -45,7 +45,7 @@ app.use((req, res, next) => {
 // ✅ Routes
 app.use('/auth', authRoutes);
 app.use('/admin', userRoutes);
-app.use('/api', profileRoutes); // ✅ new profile routes for viewing/updating user info
+app.use('/api', profileRoutes); // ✅ For viewing/updating profile
 
 // ✅ Health check
 app.get('/', (req, res) => {

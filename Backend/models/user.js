@@ -1,24 +1,17 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+// models/User.js
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ['student', 'landlord', 'admin'], default: 'student' },
   profile: {
     name: String,
     phone: String,
-    university: String,
-
-    // NEW FIELDS
-    photo: String, // base64 or image URL
-    nationality: String,
-    gender: { type: String, enum: ['Male', 'Female', 'Other', 'Prefer not to say'] },
-    bio: String,
-    budget: String,
-    preference: String,
-    hobbies: [String]
+    university: String
   },
   tokens: [
     {
@@ -52,4 +45,5 @@ userSchema.methods.toJSON = function () {
 };
 
 const User = mongoose.model('User', userSchema);
+
 export default User;
