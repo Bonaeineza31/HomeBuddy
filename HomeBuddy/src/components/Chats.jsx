@@ -1,11 +1,10 @@
-// ChatComponents.jsx
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Send, X, Home, MapPin, DollarSign, Users, Wifi, Car, Coffee, Dumbbell, Shield, HomeIcon } from 'lucide-react';
-import styles from '../styles/Chat.module.css'; // Import your CSS module
+import styles from '../styles/Chat.module.css'; // Import CSS module
 import { MdHomeFilled } from 'react-icons/md';
 import { HiHomeModern } from 'react-icons/hi2';
 
-// Sample housing data - replace with your actual data source
+// Sample housing data - replace with actual data source
 const sampleListings = [
   {
     id: 1,
