@@ -1,9 +1,14 @@
-const express = require("express");
+// routes/profileRoute.js
+import express from 'express';
+import { getProfile, updateProfile } from '../controllers/profileController.js';
+import authenticate from '../middleware/authenticate.js';
+
 const router = express.Router();
-const { getProfile, updateProfile } = require("../controllers/profileController");
-const auth = require("../middleware/auth"); // should verify JWT and set req.user
 
-router.get("/profile", auth, getProfile);
-router.put("/profile", auth, updateProfile);
+// GET /api/profile - View logged-in user's profile
+router.get('/', authenticate, getProfile);
 
-module.exports = router;
+// PUT /api/profile - Update profile (optional)
+router.put('/', authenticate, updateProfile);
+
+export default router;
