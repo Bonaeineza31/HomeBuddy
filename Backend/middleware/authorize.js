@@ -1,21 +1,32 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/user.js';
+import User from '../models/user_temp.js';
 
 const auth = async (req, res, next) => {
   try {
-    const token = req.cookies.token || req.header("Authorization")?.replace("Bearer ", "");
-    if (!token) return res.status(401).json({ error: 'Access denied. No token provided.' });
+    // Get token from cookie or Authorization header
+    const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
 
+    if (!token) {
+      return res.status(401).json({ error: 'Access denied. No token provided.' });
+    }
+
+    // Verify token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // Find user and ensure the token is valid
     const user = await User.findOne({ _id: decoded.id, 'tokens.token': token });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid token or user not found.' });
+    }
 
-    if (!user) return res.status(401).json({ error: 'Invalid token or user not found.' });
-
+    // Attach user and token to request object
     req.user = user;
     req.token = token;
+
     next();
   } catch (err) {
-    res.status(403).json({ error: 'Unauthorized access.' });
+    console.error('❌ Auth middleware error:', err.message);
+    res.status(403).json({ error: 'Unauthorized access. Token invalid or expired.' });
   }
 };
 

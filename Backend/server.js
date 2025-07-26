@@ -3,10 +3,11 @@ import cors from 'cors';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
+import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/authroutes.js';
 import userRoutes from './routes/userroutes.js';
-import profileRoutes from './routes/profileRoutes.js'; // ✅ added this
+import profileRoutes from './routes/profileRoutes.js'; // ✅ added profile routes
 
 // Load environment variables
 dotenv.config();
@@ -23,37 +24,35 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Handle preflight requests
 
-// ✅ Handle preflight requests for all routes
-app.options('*', cors(corsOptions));
+// ✅ Global Middleware
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use(cookieParser());
 
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Enable file uploads
 app.use(fileUpload({
   useTempFiles: true,
   tempFileDir: './tmp'
 }));
 
-// Simple logger
+// ✅ Logger
 app.use((req, res, next) => {
   console.log(`[${req.method}] ${req.url}`);
   next();
 });
 
-// Routes
+// ✅ Routes
 app.use('/auth', authRoutes);
 app.use('/admin', userRoutes);
-app.use('/api', profileRoutes); // ✅ register the profile routes
+app.use('/api', profileRoutes); // ✅ new profile routes for viewing/updating user info
 
-// Health check
+// ✅ Health check
 app.get('/', (req, res) => {
   res.send('✅ API is running');
 });
 
-// Connect to MongoDB
+// ✅ Connect to MongoDB
 const connectDB = async () => {
   try {
     await mongoose.connect(MONGO_URI, {
@@ -67,9 +66,9 @@ const connectDB = async () => {
   }
 };
 
-// Start server after DB is connected
+// ✅ Start server
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Server running at https://homebuddy-yn9v.onrender.com/`);
+    console.log(`🚀 Server running at http://localhost:${PORT}/`);
   });
 });
