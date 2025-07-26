@@ -1,4 +1,4 @@
-import User from '../models/user_temp.js';
+import User from '/models/user.js';
 
 // GET logged-in user's profile
 export const getProfile = async (req, res) => {

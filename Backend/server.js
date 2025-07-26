@@ -7,7 +7,7 @@ import cookieParser from 'cookie-parser';
 
 import authRoutes from './routes/authroutes.js';
 import userRoutes from './routes/userroutes.js';
-import profileRoutes from './routes/profileRoutes.js'; // ✅ added profile routes
+import profileRoutes from './routes/profileroutes.js'; // ✅ added profile routes
 
 // Load environment variables
 dotenv.config();

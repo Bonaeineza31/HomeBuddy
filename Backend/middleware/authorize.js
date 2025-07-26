@@ -1,9 +1,9 @@
 import jwt from 'jsonwebtoken';
-import User from '../models/user_temp.js';
+import User from '/models/user.js';
 
 const auth = async (req, res, next) => {
   try {
-    // Get token from cookie or Authorization header
+    // Get token from cookie or git Authorization header
     const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "");
 
     if (!token) {
