@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
 import authRoutes from './routes/authroutes.js';
 import userRoutes from './routes/userroutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 
 // Load environment variables
 dotenv.config();
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
 // Routes
 app.use('/auth', authRoutes);
 app.use('/admin', userRoutes);
+app.use('/contact', contactRoutes);
 
 // Health check
 app.get('/', (req, res) => {
