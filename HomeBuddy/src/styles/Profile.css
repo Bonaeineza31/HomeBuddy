@@ -367,3 +367,198 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
+/* Responsiveness */
+@media (max-width: 768px) {
+  .profile-card {
+    margin: 1.5rem auto;
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+
+  .profile-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-photo-placeholder {
+    width: 100px;
+    height: 100px;
+  }
+
+  .profile-header-info {
+    align-items: center;
+  }
+
+  .profile-name {
+    font-size: 1.8rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .student-edit-btn {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .about-text {
+    padding: 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr; 
+    gap: 1rem;
+  }
+
+  .info-item {
+    padding: 1rem 1.2rem;
+  }
+
+  .info-item .label {
+    font-size: 0.8rem;
+  }
+
+  .info-item span:not(.label) {
+    font-size: 0.95rem;
+  }
+
+  .profile-form label {
+    margin: 1rem 0 0.4rem;
+    font-size: 0.95rem;
+  }
+
+  .profile-form input,
+  .profile-form textarea,
+  .profile-form select {
+    padding: 0.7rem 0.9rem;
+    font-size: 0.95rem;
+  }
+
+  .hobbies-section {
+    margin: 1.5rem 0;
+  }
+
+  .hobbies-section span {
+    font-size: 0.95rem;
+  }
+
+  .hobby-btn {
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
+  }
+
+  .form-actions {
+    flex-direction: column; 
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+    align-items: stretch; 
+  }
+
+  .save-btn,
+  .cancel-btn {
+    padding: 0.7rem 1.5rem;
+    width: 100%; 
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-card {
+    padding: 1rem;
+    margin: 1rem auto;
+    border-radius: 12px;
+  }
+
+  .profile-header {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+  }
+
+  .profile-photo {
+    width: 80px;
+    height: 80px;
+  }
+
+  .profile-photo-placeholder {
+    width: 80px;
+    height: 80px;
+    font-size: 0.8rem;
+  }
+
+  .profile-name {
+    font-size: 1.5rem;
+  }
+
+  .student-edit-btn {
+    padding: 0.5rem 1.2rem;
+    font-size: 0.85rem;
+  }
+
+  .about-text {
+    padding: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .info-item {
+    padding: 0.8rem 1rem;
+  }
+
+  .info-item .label {
+    font-size: 0.75rem;
+  }
+
+  .info-item span:not(.label) {
+    font-size: 0.9rem;
+  }
+
+  .hobbies-view {
+    gap: 0.4rem;
+  }
+
+  .hobby-pill {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem;
+  }
+
+  .profile-form label {
+    margin: 0.8rem 0 0.3rem;
+    font-size: 0.9rem;
+  }
+
+  .profile-form input,
+  .profile-form textarea,
+  .profile-form select {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .hobbies-section {
+    margin: 1.2rem 0;
+  }
+
+  .hobbies-section span {
+    font-size: 0.9rem;
+  }
+
+  .hobby-btn {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.75rem;
+  }
+
+  .form-actions {
+    margin-top: 1.2rem;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
