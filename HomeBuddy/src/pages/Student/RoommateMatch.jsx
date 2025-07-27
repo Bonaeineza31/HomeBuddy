@@ -243,41 +243,44 @@ const RoommateForm = ({ property, onContact, onSave, onRemove, isSaved }) => {
 
   if (showResults) {
     return (
-      <div className="roommate-container">
-        <div className="results-header">
-          <h2><Search size={24} style={{ marginRight: '8px' }} />Found {mockResults.length} Perfect Matches!</h2>
-          <p>Based on your preferences, here are the best housing options near your university:</p>
-        </div>
+      <>
+        <Navbar />
+        <div className="roommate-container">
+          <div className="results-header">
+            <h2><Search size={24} style={{ marginRight: '8px' }} />Found {mockResults.length} Perfect Matches!</h2>
+            <p>Based on your preferences, here are the best housing options near your university:</p>
+          </div>
 
-        <div className="results-grid">
-          {mockResults.map(result => (
-            <PropertyCard 
-              key={result.id} 
-              property={result} 
-              onContact={onContact}
-              onSave={onSave}
-              onRemove={onRemove}
-              isSaved={false}
-            />
-          ))}
-        </div>
+          <div className="results-grid">
+            {mockResults.map(result => (
+              <PropertyCard 
+                key={result.id} 
+                property={result} 
+                onContact={onContact}
+                onSave={onSave}
+                onRemove={onRemove}
+                isSaved={false}
+              />
+            ))}
+          </div>
 
-        <button 
-          className="btn-new-search"
-          onClick={() => {
-            setShowResults(false);
-            setCurrentStep(1);
-            setFormData({
-              fullName: '', email: '', phone: '', university: '', yearOfStudy: '', gender: '', age: '',
-              propertyType: '', budgetRange: '', preferredDistance: '', moveInDate: '', leaseDuration: '', roomType: '',
-              amenities: [], smokingPreference: '', petsAllowed: '', studyEnvironment: '', socialLevel: '',
-              additionalRequirements: ''
-            });
-          }}
-        >
-          Start New Search
-        </button>
-      </div>
+          <button 
+            className="btn-new-search"
+            onClick={() => {
+              setShowResults(false);
+              setCurrentStep(1);
+              setFormData({
+                fullName: '', email: '', phone: '', university: '', yearOfStudy: '', gender: '', age: '',
+                propertyType: '', budgetRange: '', preferredDistance: '', moveInDate: '', leaseDuration: '', roomType: '',
+                amenities: [], smokingPreference: '', petsAllowed: '', studyEnvironment: '', socialLevel: '',
+                additionalRequirements: ''
+              });
+            }}
+          >
+            Start New Search
+          </button>
+        </div>
+      </>
     );
   }
 
