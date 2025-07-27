@@ -1,108 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Sidebar from '../../components/Landlord/LandlordSidebar';
+import DashboardCard from '../../components/Landlord/DashboardCard';
+import UploadProperty from './Properties';
+import LandMessages from './Messages';
 import '../../styles/Landlord.css';
 
 const LandlordDashboard = () => {
-  const statsCards = [
-    {
-      title: "Total Properties",
-      value: "12",
-      description: "Active listings",
-      icon: "🏨",
-      trend: "+2 this month",
-    },
-    {
-      title: "Booked Properties",
-      value: "8",
-      description: "Currently occupied",
-      icon: "👥",
-      trend: "67% occupancy",
-    },
-    {
-      title: "New Messages",
-      value: "5",
-      description: "Unread conversations",
-      icon: "💬",
-      trend: "2 urgent",
-    },
-    {
-      title: "Monthly Revenue",
-      value: "Rwf 821,400",
-      description: "This month's earnings",
-      icon: "💰",
-      trend: "+8% from last month",
-    },
-  ]
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
-  const recentActivity = [
-    {type: "booking", message: "New booking request from Sarah Ayioka", time: "2 hours ago"},
-    {type: "message", message: "Message from Mike Manzi about maintenance", time: "4 hours ago"},
-    {type: "review", message: "New 5-star review for Kwanayinzira house", time: "2 days ago"},
-  ]
+  // Example data
+  const pendingApprovals = [
+    { title: 'Hilltop Residence', status: 'Awaiting Review' },
+    { title: 'Green Villa', status: 'Awaiting Review' }
+  ];
+
+  const recentActivities = [
+    { action: 'Uploaded new property: Green Villa', date: '2025-07-25' },
+    { action: 'Responded to inquiry for Lakeside House', date: '2025-07-24' },
+    { action: 'Updated price for Urban Nest', date: '2025-07-23' }
+  ];
 
   return (
-    <div>
-      <div className="page-header">
-        <div className="page-title">
-          <h1>Welcome back, John!</h1>
-          <p>Here's what's happening with your properties today.</p>
-        </div>
-        <button className="btn btn-primary">🏨 Add New Property</button>
-      </div>
+    <div className="dashboard-layout">
+      <Sidebar currentPage={currentPage} setCurrentPage={setCurrentPage} />
 
-      <div className="stats-grid">
-        {statsCards.map((card, index) => (
-          <div key={index} className="stat-card">
-            <div className="stat-card-header">
-              <h3 className="stat-card-title">{card.title}</h3>
-              <span className="stat-card-icon">{card.icon}</span>
+      <main className="dashboard-main">
+        {currentPage === 'dashboard' && (
+          <div className="dashboard-section">
+            <div className="card-container">
+              <DashboardCard title="Properties Posted" value="12" />
+              <DashboardCard title="Revenue Generated" value="$4,560" />
             </div>
-            <div className="stat-card-value">{card.value}</div>
-            <p className="stat-card-description">{card.description}</p>
-            <p className="stat-card-trend">{card.trend}</p>
-          </div>
-        ))}
-      </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "1.5rem" }}>
-        <div className="card">
-          <div className="card-header">
-            <h3>Recent Activity</h3>
-            <p>Your latest property management updates</p>
-          </div>
-          <div className="card-content">
-            <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-              {recentActivity.map((activity, index) => (
-                <div key={index} style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                  <div style={{ width: "8px", height: "8px", background: "#2563eb", borderRadius: "50%"}}></div>
-                  <div style={{ flex: 1}}>
-                    <p style={{ margin: "0 0 0.25rem 0", fontWeight: "500", fontSize: "0.875rem" }}>
-                      {activity.message}
-                    </p>
-                    <p style={{ margin: 0, fontSize: "0.875rem", color: "#64748b"}}>
-                      {activity.time}
+            {/* Pending Approvals */}
+            <div className="dashboard-panel">
+              <h3>Pending Approvals</h3>
+              {pendingApprovals.length > 0 ? (
+                <ul className="simple-list">
+                  {pendingApprovals.map((item, idx) => (
+                    <li key={idx}>
+                      <strong>{item.title}</strong> — {item.status}
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No pending approvals</p>
+              )}
+            </div>
+
+            {/* Recent Activities */}
+            <div className="dashboard-panel">
+              <h3>Recent Activities</h3>
+              <div className="activity-cards">
+                {recentActivities.map((item, idx) => (
+                  <div key={idx} className="activity-card">
+                    <p className="activity-action">
+                      <strong>{item.date}</strong>: {item.action}
                     </p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
-        </div>
+        )}
 
-        <div className="card">
-          <div className="card-header">
-            <h3>Quick Actions</h3>
-            <p>Common tasks</p>
-          </div>
-          <div className="card-content" style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-            <button className="btn btn-secondary" style={{ justifyContent: "flex-start"}}>🏨 Add New Property</button>
-            <button className="btn btn-secondary" style={{ justifyContent: "flex-start"}}>📅 View Bookings</button>
-            <button className="btn btn-secondary" style={{ justifyContent: "flex-start"}}>💬 Check Messages</button>
-            <button className="btn btn-secondary" style={{ justifyContent: "flex-start"}}>📈 View Analytics</button>
-          </div>
-        </div>
-      </div>
+        {currentPage === 'upload' && <UploadProperty />}
+        {currentPage === 'messages' && <LandMessages />}
+      </main>
     </div>
-  )
-}
+  );
+};
 
 export default LandlordDashboard;

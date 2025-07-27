@@ -10,6 +10,7 @@ import SignupPage from './components/Auth/signup';
 import LandlordDashboard from './pages/Landlord/LandlordDashboard';
 import LandlordLayout from './pages/layouts/LandlordLayout';
 import { FloatingChatButton } from './components/Chats';
+import LandMessages from './pages/Landlord/Messages';
 
 // Student
 import StudentHome from './pages/Student/Home';
@@ -48,17 +49,17 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
 
         {/* Landlord */}
-        <Route path="/landlord" element={<LandlordLayout />}>
-          <Route 
-            index 
-            element={
-              <LandlordDashboard 
-                onListingView={handleListingView}
-                yourListings={yourListingsData}
-              />
-            } 
-          />
-        </Route>
+        <Route path="/landlord/messages" element={<Messages />} />
+        <Route 
+          path="/landlord"
+          element={
+            <LandlordDashboard 
+              onListingView={handleListingView}
+              yourListings={yourListingsData}
+            />
+          }
+        />
+
 
     
         <Route path="/student" element={<StudentHome />} />
