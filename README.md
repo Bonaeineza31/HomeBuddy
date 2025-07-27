@@ -49,7 +49,7 @@ Finding reliable accommodation can be stressful, especially for international st
 
 ## System Architecture
 
-![System Design](./assets/System%20Diagram.drawio.png)
+![System Design](./assets/system%20design.jpg)
 
 ## Getting Started
 
