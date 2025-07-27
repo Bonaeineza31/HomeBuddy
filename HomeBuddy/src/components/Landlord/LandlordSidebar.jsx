@@ -1,82 +1,30 @@
 import React from 'react';
-import { HiHomeModern } from "react-icons/hi2";
+import { HiOutlineHome, HiOutlineUpload, HiOutlineChatAlt2 } from 'react-icons/hi';
 import '../../styles/Landlord.css';
 
-const LandlordSidebar = ({ currentPage, setCurrentPage, isOpen, setIsOpen }) => {
-  const navigation = [
-    {
-      title: "Overview",
-      items: [
-          { id: "dashboard", title: "Dashboard", icon: "🏠"},
-          {id: "properties", title: "My properties", icon: "🏨"}
-      ],
-    },
-    {
-      title: "Management",
-      items: [
-        { id: "bookings", title: "Booking Requests", icon: "📅"},
-        { id: "messages", title: "Messages", icon: "💬"},
-        { id: "reviews", title: "Reviews", icon: "⭐"},
-        { id: "payments", title: "Payments", icon: "💳"},
-      ],
-    },
-    {
-      title: "Account",
-      items: [{id: "profile", title: "Profile Settings", icon: "👤"}],
-    },
-  ]
+const Sidebar = ({ currentPage, setCurrentPage }) => {
+  const navItems = [
+    { id: 'dashboard', title: 'Dashboard', icon: <HiOutlineHome /> },
+    { id: 'upload', title: 'Upload Property', icon: <HiOutlineUpload /> },
+    { id: 'messages', title: 'Messages', icon: <HiOutlineChatAlt2 /> },
+  ];
 
   return (
-    <div className={`sidebar ${isOpen ? "open" : ""}`}>
-      <div className="sidebar-header">
-        <div className="sidebar-brand">
-          <div className="sidebar-brand-icon">{HiHomeModern}</div>
-          <div className="sidebar-brand-text">
-            <h3>HomeBuddy</h3>
-            <p>Landlord Portal</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="sidebar-content">
-        {navigation.map((section) => (
-          <div key={section.title} className="sidebar-section">
-            <div clasName="sidebar-section-title">{section.title}</div>
-            <ul className="sidebar-nav">
-              {section.items.map((item) => (
-                <li key={item.id} className="sidebar-nav-item">
-                  <a
-                    href="#"
-                    className={`sidebar-nav-link $ {currentPage === item.id ? "active" : ""}`}
-                    onClick={(e) => {
-                      e.preventDefault()
-                      setCurrentPage(item.id)
-                      setIsOpen(false)
-                    }}
-                  >
-                    <span className="sidebar-nav-icon">{item.icon}</span>
-                    <span>{item.title}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <aside className="sidebar">
+      <h2 className="sidebar-title">HomeBuddy</h2>
+      <nav className="sidebar-nav">
+        {navItems.map((item) => (
+          <button
+            key={item.id}
+            className={`sidebar-link ${currentPage === item.id ? 'active' : ''}`}
+            onClick={() => setCurrentPage(item.id)}
+          >
+            <span className="icon">{item.icon}</span> {item.title}
+          </button>
         ))}
-      </div>
+      </nav>
+    </aside>
+  );
+};
 
-      <div className="sidebar-footer">
-        <div className="sidebar-user">
-          <div className="avatar">
-            <img src="./placeholder.webp" alt="User"/>
-          </div>
-          <div>
-            <div className="font-semibold">John Doe</div>
-            <div className="text-sm text-gray-500">john@example.com</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
-
-export default LandlordSidebar
+export default Sidebar;
