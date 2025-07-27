@@ -1,10 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageSquare, Send, X, Home, MapPin, DollarSign, Users, Wifi, Car, Coffee, Dumbbell, Shield, HomeIcon } from 'lucide-react';
+import { MessageSquare, Send, X, MapPin, DollarSign, Users, Wifi, Car, Coffee, Dumbbell, Shield } from 'lucide-react';
 import styles from '../styles/Chat.module.css'; // Import CSS module
-import { MdHomeFilled } from 'react-icons/md';
-import { HiHomeModern } from 'react-icons/hi2';
 
-// Sample housing data - replace with actual data source
+// Sample housing data
 const sampleListings = [
   {
     id: 1,
@@ -99,27 +97,80 @@ const ListingCard = ({ listing, onViewDetails }) => {
   );
 };
 
+// Contact Form Component
+const ContactForm = ({ onSubmit }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+
+  const handleSubmit = () => {
+    if (formData.name && (formData.email || formData.phone)) {
+      onSubmit(formData);
+      setFormData({ name: '', email: '', phone: '', message: '' });
+    }
+  };
+
+  return (
+    <div className={styles['contact-form']}>
+      <h4 className={styles['contact-form-title']}>Leave Your Contact Information</h4>
+      <div>
+        <input
+          type="text"
+          placeholder="Your Name *"
+          value={formData.name}
+          onChange={(e) => setFormData({...formData, name: e.target.value})}
+          className={styles['contact-input']}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email Address"
+          value={formData.email}
+          onChange={(e) => setFormData({...formData, email: e.target.value})}
+          className={styles['contact-input']}
+        />
+        <input
+          type="tel"
+          placeholder="Phone Number"
+          value={formData.phone}
+          onChange={(e) => setFormData({...formData, phone: e.target.value})}
+          className={styles['contact-input']}
+        />
+        <textarea
+          placeholder="Any specific requirements?"
+          value={formData.message}
+          onChange={(e) => setFormData({...formData, message: e.target.value})}
+          rows="3"
+          className={styles['contact-textarea']}
+        />
+        <button
+          type="button"
+          onClick={handleSubmit}
+          className={styles['contact-submit-btn']}
+        >
+          Submit Contact Info
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // Main Chat Bot Component
 export const ChatBot = ({ onListingView, customListings = sampleListings }) => {
   const [messages, setMessages] = useState([
     {
-  text: (
-    <span>
-      Hi! I'm your HomeBuddy assistant. I'll help you find the perfect housing match! <HiHomeModern size={16} className="inline" />
-      <br /><br />
-      Tell me about your preferences:<br />
-      • Budget range<br />
-      • Preferred location<br />
-      • Lifestyle preferences<br />
-      • Any specific amenities you need
-    </span>
-  ),
-  sender: 'bot',
-  timestamp: new Date()
-}
+      id: 1,
+      text: "Hey! How may I help you today? 😊",
+      sender: 'bot',
+      timestamp: new Date()
+    }
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [conversationStep, setConversationStep] = useState('greeting'); // greeting, housing_interest, listings, contact
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
@@ -131,99 +182,79 @@ export const ChatBot = ({ onListingView, customListings = sampleListings }) => {
   }, [messages]);
 
   const generateBotResponse = (userMessage) => {
-    const message = userMessage.toLowerCase();
-    const listings = customListings;
+    const message = userMessage.toLowerCase().trim();
     
-    // Enhanced keyword matching for better responses
-    if (message.includes('budget') || message.includes('price') || message.includes('$') || message.includes('cheap') || message.includes('affordable')) {
-      return {
-        text: "Great! Budget is important for students. I found some affordable options that fit different budgets:",
-        showListings: listings.filter(listing => 
-          parseInt(listing.price.replace(/[^0-9]/g, '')) < 700
-        )
-      };
-    }
+    // Simple greetings
+    const greetings = ['hi', 'hello', 'hey', 'good morning', 'good afternoon', 'good evening'];
+    const housingKeywords = ['housing', 'house', 'apartment', 'room', 'home', 'rent', 'place to stay', 'accommodation'];
+    const positiveResponses = ['yes', 'yeah', 'sure', 'okay', 'ok', 'yep', 'of course', 'definitely'];
     
-    if (message.includes('gym') || message.includes('fitness') || message.includes('exercise') || message.includes('workout')) {
-      return {
-        text: "Looking for places with fitness facilities? Here are options with gym access:",
-        showListings: listings.filter(listing => 
-          listing.amenities.some(amenity => amenity.toLowerCase().includes('gym'))
-        )
-      };
-    }
-    
-    if (message.includes('parking') || message.includes('car')) {
-      return {
-        text: "Need parking for your car? Here are properties with parking available:",
-        showListings: listings.filter(listing => 
-          listing.amenities.some(amenity => amenity.toLowerCase().includes('parking'))
-        )
-      };
-    }
-    
-    if (message.includes('downtown') || message.includes('campus') || message.includes('university') || message.includes('near campus')) {
-      return {
-        text: "Perfect! Location near campus saves time and transport costs. Here are close options:",
-        showListings: listings.filter(listing => 
-          listing.location.toLowerCase().includes('campus') || 
-          listing.location.toLowerCase().includes('university') ||
-          listing.location.toLowerCase().includes('downtown')
-        )
-      };
-    }
-    
-    if (message.includes('roommate') || message.includes('shared') || message.includes('friends') || message.includes('social')) {
-      return {
-        text: "Shared housing is great for international students! You'll save money and make friends:",
-        showListings: listings.filter(listing => 
-          parseInt(listing.roommates.split('-')[1] || listing.roommates.split('-')[0]) > 1
-        )
-      };
-    }
-    
-    if (message.includes('quiet') || message.includes('study') || message.includes('peaceful') || message.includes('library')) {
-      return {
-        text: "Need a peaceful study environment? Here are quiet options perfect for academics:",
-        showListings: listings.filter(listing => 
-          listing.description.toLowerCase().includes('quiet') || 
-          listing.amenities.some(amenity => amenity.toLowerCase().includes('study'))
-        )
-      };
-    }
+    switch (conversationStep) {
+      case 'greeting':
+        if (greetings.some(greeting => message.includes(greeting))) {
+          setConversationStep('housing_interest');
+          return {
+            text: "Hello! Nice to meet you! \n\nDo you want help finding housing? I can show you some great options!"
+          };
+        } else if (housingKeywords.some(keyword => message.includes(keyword)) || positiveResponses.some(response => message.includes(response))) {
+          setConversationStep('listings');
+          return {
+            text: "Perfect! I'd love to help you find the right housing. Here are some available options:",
+            showListings: customListings
+          };
+        } else {
+          return {
+            text: "I'm here to help you with housing! Are you looking for a place to stay?"
+          };
+        }
 
-    if (message.includes('wifi') || message.includes('internet') || message.includes('online')) {
-      return {
-        text: "Reliable internet is essential for studies! All these places have good WiFi:",
-        showListings: listings.filter(listing => 
-          listing.amenities.some(amenity => amenity.toLowerCase().includes('wifi'))
-        )
-      };
-    }
+      case 'housing_interest':
+        if (positiveResponses.some(response => message.includes(response)) || housingKeywords.some(keyword => message.includes(keyword))) {
+          setConversationStep('listings');
+          return {
+            text: "Excellent! Let me show you some available housing options:",
+            showListings: customListings
+          };
+        } else if (message.includes('no') || message.includes('not really')) {
+          setConversationStep('contact');
+          return {
+            text: "No problem! If you need any assistance later, feel free to reach out. Would you like to leave your contact information so one of our agents can help you with other services?",
+            showContact: true
+          };
+        } else {
+          return {
+            text: "I can help you find housing! Just let me know if you're interested in seeing some available places."
+          };
+        }
 
-    if (message.includes('international') || message.includes('foreign') || message.includes('exchange')) {
-      return {
-        text: "As an international student, you'll love these culturally diverse, welcoming places:",
-        showListings: listings.filter(listing => 
-          listing.description.toLowerCase().includes('international') ||
-          listing.description.toLowerCase().includes('multicultural')
-        )
-      };
-    }
+      case 'listings':
+        if (message.includes('contact') || message.includes('agent') || message.includes('call me') || message.includes('reach out')) {
+          setConversationStep('contact');
+          return {
+            text: "I'd be happy to connect you with one of our agents! Please leave your contact information and an agent will reach out to you soon:",
+            showContact: true
+          };
+        } else if (message.includes('more') || message.includes('other') || message.includes('different')) {
+          return {
+            text: "Here are some additional housing options for you:",
+            showListings: customListings
+          };
+        } else {
+          return {
+            text: "Great question! If you'd like more detailed information or want to schedule a viewing, I can connect you with one of our agents. Would you like me to have an agent reach out to you?"
+          };
+        }
 
-    // Default helpful response
-    const defaultResponses = [
-      {
-        text: "I'd love to help you find the perfect home! Here are some popular options for students. You can also tell me more about:\n\n• Your budget range\n• Preferred location (near campus, downtown, etc.)\n• Do you want roommates?\n• Important amenities (gym, parking, etc.)",
-        showListings: listings.slice(0, 2)
-      },
-      {
-        text: "Here are some great housing options to get you started. Feel free to ask me about specific features you're looking for!",
-        showListings: listings
-      }
-    ];
-    
-    return defaultResponses[Math.floor(Math.random() * defaultResponses.length)];
+      case 'contact':
+        return {
+          text: "Thank you for your interest! An agent will contact you within 24 hours. Is there anything else I can help you with today?"
+        };
+
+      default:
+        return {
+          text: "I'm here to help! Are you looking for housing assistance?"
+        };
+    }
   };
 
   const handleSendMessage = () => {
@@ -248,7 +279,8 @@ export const ChatBot = ({ onListingView, customListings = sampleListings }) => {
         text: botResponse.text,
         sender: 'bot',
         timestamp: new Date(),
-        listings: botResponse.showListings
+        listings: botResponse.showListings,
+        showContact: botResponse.showContact
       };
       
       setMessages(prev => [...prev, botMessage]);
@@ -263,13 +295,22 @@ export const ChatBot = ({ onListingView, customListings = sampleListings }) => {
     }
   };
 
+  const handleContactSubmit = (contactData) => {
+    const confirmationMessage = {
+      id: Date.now(),
+      text: `Thank you, ${contactData.name}! I've received your contact information. One of our agents will reach out to you soon. Have a great day! 🏠✨`,
+      sender: 'bot',
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, confirmationMessage]);
+    setConversationStep('contact');
+  };
+
   const handleListingView = (listing) => {
     if (onListingView) {
       onListingView(listing);
     } else {
-      // Default action - you can customize this
       console.log('Viewing listing:', listing);
-     (`/property/property${property.id}`); 
     }
   };
 
@@ -304,6 +345,9 @@ export const ChatBot = ({ onListingView, customListings = sampleListings }) => {
                   ))}
                 </div>
               )}
+              {message.showContact && (
+                <ContactForm onSubmit={handleContactSubmit} />
+              )}
             </div>
           </div>
         ))}
@@ -327,7 +371,7 @@ export const ChatBot = ({ onListingView, customListings = sampleListings }) => {
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyPress={handleKeyPress}
-          placeholder="Tell me about your ideal housing... (budget, location, amenities)"
+          placeholder="Type your message..."
           className={styles['chat-input']}
           disabled={isTyping}
         />
