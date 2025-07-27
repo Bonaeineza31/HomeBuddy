@@ -79,8 +79,8 @@ Finding reliable accommodation can be stressful, especially for international st
 
 This is a collaborative student project.
 
-- Ariane, Norette, Shem, Shina - UI/UX design and Frontend
-- Bonae, Alain - Database and Backend
+- Ariane, Norette, Shina - UI/UX design and Frontend
+- Bonae, Alain, Shem - Database and Backend
 
 ---
 
