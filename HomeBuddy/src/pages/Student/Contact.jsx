@@ -13,7 +13,6 @@ const StudentContact = () => {
     message: ''
   });
 
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -22,12 +21,25 @@ const StudentContact = () => {
     }));
   };
 
+  // Submit handler with POST request
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    await fetch('https://homebuddy-yn9v.onrender.com/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    });
+
+    // (No error handling yet, no UI feedback)
+  };
+
   return (
     <>
       <Navbar />
       <main className={styles.message}>
         <section className={styles.txtpart}>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={styles.names}>
               <div className={styles.first}>
                 <label htmlFor="firstName">First Name</label>
