@@ -431,148 +431,292 @@
   transform: translateY(-2px);
 }
 
-/* Responsive Design */
+/* Responsiveness*/
+@media (max-width: 1024px) {
+  .roommate-container {
+    padding: 15px;
+  }
+
+  .form-header {
+    padding: 35px;
+    margin-bottom: 40px;
+  }
+
+  .form-header h1 {
+    font-size: 2.5rem;
+  }
+
+  .form-header p {
+    font-size: 1.1rem;
+  }
+
+  .form-step {
+    padding: 35px;
+    margin-bottom: 35px;
+  }
+
+  .form-step h2 {
+    font-size: 2rem;
+  }
+
+  .form-grid {
+    gap: 25px;
+  }
+
+  .amenities-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 18px;
+  }
+
+  .amenity-card {
+    padding: 18px;
+    min-height: 90px;
+  }
+
+  .amenity-icon {
+    font-size: 26px;
+  }
+
+  .results-grid {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+  }
+
+  .photo-gallery {
+    height: 260px;
+  }
+
+  .match-badge {
+    font-size: 12.5px;
+    padding: 6px 12px;
+  }
+
+  .property-title {
+    font-size: 1.5rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 13px 25px;
+    font-size: 16px;
+  }
+
+  .btn-new-search {
+    padding: 16px 32px;
+  }
+}
+
 @media (max-width: 768px) {
   .roommate-container {
     padding: 10px;
   }
-  
+
   .form-header {
-    padding: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 12px;
   }
-  
+
   .form-header h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
-  
+
+  .form-header p {
+    font-size: 1.05rem;
+    margin-bottom: 25px;
+  }
+
+  .progress-bar {
+    height: 5px;
+    margin-bottom: 20px;
+  }
+
+  .progress-step {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .form-step {
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+  }
+
+  .form-step h2 {
+    font-size: 1.9rem;
+    margin-bottom: 20px;
+  }
+
   .form-grid {
     grid-template-columns: 1fr;
+    gap: 20px;
   }
-  
+
+  .form-group label {
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+
   .amenities-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
   }
-  
+
+  .amenity-card {
+    padding: 15px;
+    min-height: 80px;
+    border-radius: 10px;
+  }
+
+  .amenity-icon {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+
+  .form-navigation {
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    max-width: none;
+    width: 100%;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .results-header {
+    padding: 30px;
+    margin-bottom: 30px;
+    border-radius: 12px;
+  }
+
+  .results-header h2 {
+    font-size: 2.2rem;
+    margin-bottom: 12px;
+  }
+
+  .results-header p {
+    font-size: 1.05rem;
+  }
+
   .results-grid {
     grid-template-columns: 1fr;
+    gap: 25px;
+    margin-bottom: 30px;
   }
-  
-  .form-navigation {
+
+  .result-card {
+    border-radius: 12px;
+  }
+
+  .photo-gallery {
+    height: 220px;
+  }
+
+  .photo-nav {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+
+  .photo-nav-prev {
+    left: 12px;
+  }
+
+  .photo-nav-next {
+    right: 12px;
+  }
+
+  .photo-indicators {
+    bottom: 12px;
+    gap: 6px;
+  }
+
+  .photo-indicator {
+    width: 9px;
+    height: 9px;
+  }
+
+  .match-badge {
+    top: 12px;
+    right: 12px;
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .result-content {
+    padding: 20px;
+  }
+
+  .property-title {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+  }
+
+  .property-info {
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+  }
+
+  .info-item {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+
+  .info-item svg {
+    margin-right: 6px;
+    font-size: 17px;
+  }
+
+  .amenities-section {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+  }
+
+  .amenities-section h3 {
+    font-size: 1rem;
+    margin-bottom: 12px;
+  }
+
+  .amenities-list {
+    gap: 8px;
+  }
+
+  .amenity-tag {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  .result-actions {
     flex-direction: column;
     gap: 10px;
   }
-  
-  .result-actions {
-    flex-direction: column;
+
+  .btn-contact,
+  .btn-save {
+    padding: 12px 18px;
+    font-size: 15px;
+    border-radius: 8px;
   }
-  
-  .progress-steps {
-    margin-bottom: 15px;
-  }
-}
 
-@media (max-width: 480px) {
-  .form-header h1 {
-    font-size: 1.8rem;
-  }
-  
-  .form-header p {
-    font-size: 1rem;
-  }
-  
-  .form-step {
-    padding: 20px;
-  }
-  
-  .form-step h2 {
-    font-size: 1.5rem;
-  }
-  
-  .results-header h2 {
-    font-size: 2rem;
-  }
-  
-  .result-card {
-    margin-bottom: 20px;
-  }
-  
-  .photo-gallery {
-    height: 200px;
-  }
-  
-  .amenities-list {
-    justify-content: center;
-  }
-}
-
-/* Form validation styles */
-.form-group.error input,
-.form-group.error select,
-.form-group.error textarea {
-  border-color: #dc2626;
-}
-
-.error-message {
-  color: #dc2626;
-  font-size: 0.875rem;
-  margin-top: 5px;
-}
-
-/* Success states */
-.form-group.success input,
-.form-group.success select,
-.form-group.success textarea {
-  border-color: #059669;
-}
-
-/* Disabled states */
-.btn-primary:disabled,
-.btn-secondary:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.btn-primary:disabled:hover,
-.btn-secondary:disabled:hover {
-  transform: none;
-}
-
-/* Additional utility classes */
-.hidden {
-  display: none;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.mb-20 {
-  margin-bottom: 20px;
-}
-
-.mt-20 {
-  margin-top: 20px;
-}
-
-/* Loading states */
-.loading {
-  opacity: 0.6;
-  pointer-events: none;
-}
-
-.spinner {
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ffffff;
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  .btn-new-search {
+    margin: 30px auto 0;
+    padding: 14px 28px;
+    font-size: 15px;
+    border-radius: 8px;
   }
 }
