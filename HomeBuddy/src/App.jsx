@@ -11,6 +11,7 @@ import LandlordDashboard from './pages/Landlord/LandlordDashboard';
 import LandlordLayout from './pages/layouts/LandlordLayout';
 import { FloatingChatButton } from './components/Chats';
 
+
 // Student
 import StudentHome from './pages/Student/Home';
 import StudentListing from './pages/Student/Listing';
@@ -48,17 +49,17 @@ function App() {
         <Route path="/signup" element={<SignupPage />} />
 
         {/* Landlord */}
-        <Route path="/landlord" element={<LandlordLayout />}>
-          <Route 
-            index 
-            element={
-              <LandlordDashboard 
-                onListingView={handleListingView}
-                yourListings={yourListingsData}
-              />
-            } 
-          />
-        </Route>
+
+        <Route 
+          path="/landlord"
+          element={
+            <LandlordDashboard 
+              onListingView={handleListingView}
+              yourListings={yourListingsData}
+            />
+          }
+        />
+
 
     
         <Route path="/student" element={<StudentHome />} />

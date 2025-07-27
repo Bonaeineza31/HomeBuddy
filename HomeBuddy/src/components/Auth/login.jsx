@@ -47,7 +47,7 @@ const LoginForm = () => {
       } else if (result.user.role === 'student') {
         navigate('/student');
       } else if (result.user.role === 'landlord') {
-        navigate('/landlord-dashboard');
+        navigate('/landlord');
       } else {
         navigate('/');
       }

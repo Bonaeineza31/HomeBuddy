@@ -28,7 +28,7 @@ const StudentContact = () => {
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('http://localhost:3000/contact', {
+      const response = await fetch('https://homebuddy-yn9v.onrender.com/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
