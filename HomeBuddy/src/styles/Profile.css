@@ -1,3 +1,17 @@
+/* Variables for consistency */
+:root {
+  --primary-color: #4361EE; 
+  --primary-hover: #3a56d6;
+  --secondary-color: #6c757d; 
+  --text-color: #343a40;
+  --muted-text: #6c757d;
+  --card-bg: #ffffff;
+  --border-color: #e9ecef;
+  --light-bg: #f8f9fa;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+}
+
 .profile-card {
   max-width: 700px;
   margin: 2rem auto;
