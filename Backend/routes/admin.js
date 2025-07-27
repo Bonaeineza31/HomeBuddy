@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate, isAdmin } = require('../middleware/auth');
-const User = require('../models/User');
+
 const Property = require('../models/Property');
 
 // Approve property

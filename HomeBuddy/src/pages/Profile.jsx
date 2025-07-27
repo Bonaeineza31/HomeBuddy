@@ -1,12 +1,9 @@
-// src/pages/Profile/Profile.jsx
 import React, { useState, useEffect } from "react";
 import Navbar from "../../components/Navbar";
 import axios from "axios";
 import '../../styles/Profile.css';
 
-const allHobbies = [
-  "Reading", "Traveling", "Cooking", "Gaming", "Sports", "Music", "Art", "Movies"
-];
+const allHobbies = ["Reading", "Traveling", "Cooking", "Gaming", "Sports", "Music", "Art", "Movies"];
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
@@ -26,9 +23,7 @@ export default function Profile() {
     const { name, value, files } = e.target;
     if (name === "photo" && files.length) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setPhotoPreview(reader.result);
-      };
+      reader.onloadend = () => setPhotoPreview(reader.result);
       reader.readAsDataURL(files[0]);
     } else {
       setProfile({ ...profile, [name]: value });
@@ -44,9 +39,21 @@ export default function Profile() {
 
   const handleSave = async (e) => {
     e.preventDefault();
-    const formData = { ...profile, photo: photoPreview };
     try {
-      await axios.put("/api/profile", formData, { withCredentials: true });
+      const fileInput = document.querySelector('input[name="photo"]');
+      if (fileInput && fileInput.files.length > 0) {
+        const photoForm = new FormData();
+        photoForm.append("photo", fileInput.files[0]);
+        await axios.post("/api/profile/photo", photoForm, {
+          withCredentials: true,
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+      }
+
+      const updatedProfile = { ...profile };
+      delete updatedProfile.photo;
+      await axios.put("/api/profile", updatedProfile, { withCredentials: true });
+
       setIsEditing(false);
     } catch (err) {
       console.error("Error saving profile:", err);
@@ -69,9 +76,7 @@ export default function Profile() {
           </div>
           <div className="profile-header-info">
             <h2 className="profile-name">{profile.name}</h2>
-            {!isEditing && (
-              <button className="student-edit-btn" onClick={() => setIsEditing(true)}>Edit Profile</button>
-            )}
+            {!isEditing && <button className="student-edit-btn" onClick={() => setIsEditing(true)}>Edit Profile</button>}
           </div>
         </div>
 
@@ -93,12 +98,9 @@ export default function Profile() {
               <span>Hobbies:</span>
               <div className="hobbies-list">
                 {allHobbies.map((hobby) => (
-                  <button
-                    key={hobby}
-                    type="button"
+                  <button key={hobby} type="button"
                     className={`hobby-btn ${profile.hobbies.includes(hobby) ? "selected" : ""}`}
-                    onClick={() => toggleHobby(hobby)}
-                  >{hobby}</button>
+                    onClick={() => toggleHobby(hobby)}>{hobby}</button>
                 ))}
               </div>
             </div>

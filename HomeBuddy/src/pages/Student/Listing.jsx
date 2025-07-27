@@ -1,213 +1,332 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import { MapPin, Heart, Wifi, Bed, Users, Home, Map } from "lucide-react";
-import p1 from '../../assets/property1.jfif';
-import p2 from '../../assets/property2.jfif';
-import p3 from '../../assets/property3.jfif';
-import p4 from '../../assets/property4.jfif';
-import p5 from '../../assets/property5.jfif';
-import p6 from '../../assets/property6.jfif';
+import { MapPin, Heart, Wifi, Bed, Users, Home, Map, Car, UtensilsCrossed, Shirt, BookOpen, Trees, Building2, Shield, Droplets, Zap, Bus, ShoppingBag, Loader } from "lucide-react";
 import styles from '../../styles/Listing.module.css';
 import Navbar from "../../components/Navbar";
 
-// property data
-const rawProperties = [
-  {
-    id: 1,
-    location: 'Kimironko',
-    totalPrice: 600,
-    mainImage: p1,
-    otherImages: [p2, p3],
-    description: "Modern two-bedroom apartment with great lighting and free Wi-Fi. Property is Modern and is in a calm quiet neighbourhood, commutes are easy with nearby bus station 5 minute walk from location",
-    wifi: "yes",
-    furnished: "yes",
-    availableBeds: 2,
-    roommate: 1,
-    coordinates: [-1.9441, 30.1056],
-    houseName: "Sunrise Apartments"
-  },
-  {
-    id: 2,
-    location: 'Remera',
-    totalPrice: 1000,
-    mainImage: p2,
-    otherImages: [p1, p3],
-    description: "Spacious apartment near major shops. Fully furnished with balcony view.",
-    wifi: "yes",
-    furnished: "yes",
-    availableBeds: 3,
-    roommate: 2,
-    coordinates: [-1.9355, 30.1135],
-    houseName: "City View Residence"
-  },
-  {
-    id: 3,
-    location: 'Gikondo',
-    totalPrice: 800,
-    mainImage: p3,
-    otherImages: [p4, p5],
-    description: "Bright unit with shared kitchen and all bills included.",
-    wifi: "yes",
-    furnished: "no",
-    availableBeds: 3,
-    roommate: 2, // Note: roommate > availableBeds here, implies capacity is less than current occupants, you might want to review data.
-    coordinates: [-1.9706, 30.0588],
-    houseName: "Student Haven"
-  },
-  {
-    id: 4,
-    location: 'Nyabugogo',
-    totalPrice: 500,
-    mainImage: p4,
-    otherImages: [p6, p1],
-    description: "Affordable and compact space with easy transport access.",
-    wifi: "no",
-    furnished: "yes",
-    availableBeds: 4,
-    roommate: 3, 
-    coordinates: [-1.9536, 30.0588],
-    houseName: "Budget Comfort"
-  },
-  {
-    id: 5,
-    location: 'Kiyovu',
-    totalPrice: 900,
-    mainImage: p5,
-    otherImages: [p2, p6],
-    description: "Luxury flat with all modern fittings and a private bedroom.",
-    wifi: "yes",
-    furnished: "yes",
-    availableBeds: 1,
-    roommate: 1,
-    coordinates: [-1.9536, 30.0588],
-    houseName: "Elite Residence"
-  },
-  {
-    id: 6,
-    location: 'Kacyiru',
-    totalPrice: 650,
-    mainImage: p6,
-    otherImages: [p3, p4],
-    description: "Student-friendly space with fast internet and calm surroundings. The property is modern and is in a quiet environment",
-    wifi: "yes",
-    furnished: "no",
-    availableBeds: 2,
-    roommate: 2,
-    coordinates: [-1.9355, 30.1135],
-    houseName: "Scholar's Den"
-  }
-];
-
-// 'pricePerPerson' 
-const properties = rawProperties.map(p => ({
-  ...p,
-  pricePerPerson: (p.totalPrice / Math.max(1, p.availableBeds)).toFixed(0)
-}));
+// Icon mapping for amenities
+const amenityIcons = {
+  wifi: Wifi,
+  car: Car,
+  chef: UtensilsCrossed, // Kitchen/cooking icon
+  utensils: UtensilsCrossed,
+  kitchen: UtensilsCrossed,
+  shirt: Shirt,
+  book: BookOpen,
+  'book-open': BookOpen,
+  study: BookOpen,
+  tree: Trees,
+  trees: Trees,
+  garden: Trees,
+  building: Building2,
+  'building-2': Building2,
+  balcony: Building2,
+  shield: Shield,
+  security: Shield,
+  droplets: Droplets,
+  water: Droplets,
+  zap: Zap,
+  electricity: Zap,
+  power: Zap,
+  bus: Bus,
+  transport: Bus,
+  'shopping-bag': ShoppingBag,
+  shopping: ShoppingBag,
+  shops: ShoppingBag,
+  home: Home,
+  furnished: Home,
+  // Add more mappings as needed
+};
 
 const StudentListing = () => {
+  const [properties, setProperties] = useState([]);
   const [savedProperties, setSavedProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filters, setFilters] = useState({
+    location: '',
+    minPrice: '',
+    maxPrice: '',
+    amenities: [],
+    minBeds: '',
+    maxBeds: ''
+  });
+
+  // Fetch properties from API
+  const fetchProperties = async (filterParams = {}) => {
+    try {
+      setLoading(true);
+      
+      // Build query string
+      const queryParams = new URLSearchParams();
+      
+      Object.entries(filterParams).forEach(([key, value]) => {
+        if (value && value !== '') {
+          if (Array.isArray(value) && value.length > 0) {
+            value.forEach(item => queryParams.append(key, item));
+          } else {
+            queryParams.append(key, value);
+          }
+        }
+      });
+
+      // Update this URL to match your backend server
+      const API_BASE_URL = 'http://localhost:3000'
+      const response = await fetch(`${API_BASE_URL}/properties?${queryParams.toString()}`);
+      
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('API endpoint not found. Make sure your backend server is running on the correct port.');
+        }
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.success) {
+        setProperties(data.data);
+        setError(null);
+      } else {
+        throw new Error(data.message || 'Failed to fetch properties');
+      }
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load properties on component mount
+  useEffect(() => {
+    fetchProperties();
+  }, []);
+
+  // Load saved properties from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('savedProperties');
+    if (saved) {
+      try {
+        setSavedProperties(JSON.parse(saved));
+      } catch (err) {
+        console.error('Error loading saved properties:', err);
+      }
+    }
+  }, []);
+
+  // Save to localStorage whenever savedProperties changes
+  useEffect(() => {
+    localStorage.setItem('savedProperties', JSON.stringify(savedProperties));
+  }, [savedProperties]);
 
   const toggleSave = (property) => {
     setSavedProperties((prevSaved) => {
-      const isAlreadySaved = prevSaved.find((item) => item.id === property.id);
+      const isAlreadySaved = prevSaved.find((item) => item._id === property._id);
       return isAlreadySaved
-        ? prevSaved.filter((item) => item.id !== property.id)
+        ? prevSaved.filter((item) => item._id !== property._id)
         : [...prevSaved, property];
     });
   };
 
   const handleMapClick = (property) => {
     const { coordinates } = property;
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${property.location}`;
-    window.open(googleMapsUrl, '_blank');
+    if (coordinates && coordinates.length === 2) {
+      const [lat, lng] = coordinates;
+      const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+      window.open(googleMapsUrl, '_blank');
+    } else {
+      // Fallback to location search
+      const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${property.location}`;
+      window.open(googleMapsUrl, '_blank');
+    }
   };
 
+  // Get amenity icon component
+  const getAmenityIcon = (iconName) => {
+    const IconComponent = amenityIcons[iconName] || Home;
+    return IconComponent;
+  };
+
+  // Apply filters
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+    fetchProperties(newFilters);
+  };
+
+  // Loading state
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <div className={styles.container}>
+          <div className={styles.loadingContainer}>
+            <Loader className={styles.spinner} size={48} />
+            <p>Loading properties...</p>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <div className={styles.container}>
+          <div className={styles.errorContainer}>
+            <h3>Oops! Something went wrong</h3>
+            <p>{error}</p>
+            <button 
+              onClick={() => fetchProperties(filters)}
+              className={styles.retryButton}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Main content - FIXED: Added Navbar here
   return (
     <>
       <Navbar />
       <div className={styles.container}>
+        {/* Filter Section - You can add this later */}
+        {/* <div className={styles.filterSection}>
+          // Add your filter components here
+        </div> */}
+
         <div className={styles.allListings}>
-          <div className={styles.properties}>
-            {properties.map((property) => {
-              const isSaved = savedProperties.some((item) => item.id === property.id);
-              return (
-                <div className={styles.property} key={property.id}>
-                  <div className={styles.imageContainer}>
-                    <img
-                      src={property.mainImage}
-                      alt={`Property in ${property.location}`}
-                      className={styles.listImage}
-                    />
-                    <div
-                      className={styles.mapOverlay}
-                      onClick={() => handleMapClick(property)}
-                    >
-                      <Map size={24} />
-                      <span>View on Map</span>
-                    </div>
-                  </div>
-
-                  <div className={styles.details}>
-                    <div className={styles.save}>
-                      <div className={styles.saveText}>
-                        <h4>{property.houseName}</h4>
-                        <p className={styles.location}>
-                          <MapPin size={16} /> {property.location}
-                        </p>
-                      </div>
-                      <Heart
-                        size={25}
-                        color={isSaved ? "#da2461" : "#999"}
-                        fill={isSaved ? "#da2461" : "none"}
-                        onClick={() => toggleSave(property)}
-                        style={{ cursor: "pointer" }}
+          {properties.length === 0 ? (
+            <div className={styles.noProperties}>
+              <h3>No properties found</h3>
+              <p>Try adjusting your search criteria or check back later for new listings.</p>
+            </div>
+          ) : (
+            <div className={styles.properties}>
+              {properties.map((property) => {
+                const isSaved = savedProperties.some((item) => item._id === property._id);
+                
+                return (
+                  <div className={styles.property} key={property._id}>
+                    <div className={styles.imageContainer}>
+                      <img
+                        src={property.mainImage}
+                        alt={`Property in ${property.location}`}
+                        className={styles.listImage}
+                        onError={(e) => {
+                          e.target.src = '/default-property-image.jpg'; // Add a default image
+                        }}
                       />
+                      <div
+                        className={styles.mapOverlay}
+                        onClick={() => handleMapClick(property)}
+                      >
+                        <Map size={24} />
+                        <span>View on Map</span>
+                      </div>
                     </div>
 
-                    <p className={styles.description}>
-                      {property.description}
-                    </p>
+                    <div className={styles.details}>
+                      <div className={styles.save}>
+                        <div className={styles.saveText}>
+                          <h4>{property.houseName}</h4>
+                          <p className={styles.location}>
+                            <MapPin size={16} /> {property.location}
+                          </p>
+                        </div>
+                        <Heart
+                          size={25}
+                          color={isSaved ? "#da2461" : "#999"}
+                          fill={isSaved ? "#da2461" : "none"}
+                          onClick={() => toggleSave(property)}
+                          style={{ cursor: "pointer" }}
+                        />
+                      </div>
 
-                    <div className={styles.amenities}>
-                      {property.wifi === "yes" && (
-                        <span className={styles.amenity}>
-                          <Wifi size={14} /> WiFi
-                        </span>
-                      )}
-                      {property.furnished === "yes" && (
-                        <span className={styles.amenity}>
-                          <Home size={14} /> Furnished
-                        </span>
-                      )}
-                      <span className={styles.amenity}>
-                        <Bed size={14} /> {property.availableBeds} beds
-                      </span>
-                      {/* Display "X currently / Y total beds" */}
-                      <span className={styles.amenity}>
-                        <Users size={14} /> {property.roommate} currently / {property.availableBeds} total
-                      </span>
-                    </div>
-
-                    <div className={styles.lower}>
-                      {/* Display only the per-person price, calculated from totalPrice / availableBeds */}
-                      <p className={styles.price}>
-                        ${property.pricePerPerson}/person
+                      <p className={styles.description}>
+                        {property.description}
                       </p>
-                      <div className={styles.actions}>
-                        <Link
-  to={`/student/detail/${property.id}`}
-  state={{property: property, allProperties: properties}}
->
-  <button className={styles.viewButton}>View</button>
-</Link>
+
+                      <div className={styles.amenities}>
+                        {/* Display amenities from the amenities array */}
+                        {property.amenities && property.amenities.length > 0 ? (
+                          property.amenities
+                            .filter(amenity => amenity.available)
+                            .slice(0, 4) // Show only first 4 amenities to avoid crowding
+                            .map((amenity, index) => {
+                              const IconComponent = getAmenityIcon(amenity.icon);
+                              return (
+                                <span key={index} className={styles.amenity}>
+                                  <IconComponent size={14} /> {amenity.name}
+                                </span>
+                              );
+                            })
+                        ) : (
+                          // Fallback: Check for legacy wifi/furnished fields if amenities array is empty
+                          <>
+                            {property.wifi === "yes" && (
+                              <span className={styles.amenity}>
+                                <Wifi size={14} /> WiFi
+                              </span>
+                            )}
+                            {property.furnished === "yes" && (
+                              <span className={styles.amenity}>
+                                <Home size={14} /> Furnished
+                              </span>
+                            )}
+                          </>
+                        )}
+                        
+                        {/* Always show beds and occupancy info */}
+                        <span className={styles.amenity}>
+                          <Bed size={14} /> {property.availableBeds} beds
+                        </span>
+                        <span className={styles.amenity}>
+                          <Users size={14} /> {property.currentRoommates || 0} currently / {property.availableBeds} total
+                        </span>
+                      </div>
+
+                      <div className={styles.lower}>
+                        <p className={styles.price}>
+                          ${property.pricePerPerson}/person
+                        </p>
+                        
+                        {/* Show available spots */}
+                        {property.availableSpots !== undefined && (
+                          <p className={styles.availableSpots}>
+                            {property.availableSpots > 0 
+                              ? `${property.availableSpots} spot${property.availableSpots > 1 ? 's' : ''} available`
+                              : 'Fully occupied'
+                            }
+                          </p>
+                        )}
+                        
+                        <div className={styles.actions}>
+                          <Link
+                            to={`/student/detail/${property._id}`}
+                            state={{ property: property, allProperties: properties }}
+                          >
+                            <button className={styles.viewButton}>View</button>
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
+                );
+              })}
+            </div>
+          )}
         </div>
+        
+        {/* Show property count */}
+        {properties.length > 0 && (
+          <div className={styles.propertyCount}>
+            <p>Showing {properties.length} properties</p>
+          </div>
+        )}
       </div>
     </>
   );

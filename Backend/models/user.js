@@ -1,8 +1,9 @@
-import mongoose from 'mongoose';
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   role: { type: String, enum: ['student', 'landlord', 'admin'], default: 'student' },
@@ -18,7 +19,6 @@ const userSchema = new mongoose.Schema({
   ]
 }, { timestamps: true });
 
-// Hash password before saving
 userSchema.pre('save', async function (next) {
   if (this.isModified('password')) {
     this.password = await bcrypt.hash(this.password, 10);
@@ -26,7 +26,6 @@ userSchema.pre('save', async function (next) {
   next();
 });
 
-// Generate auth token
 userSchema.methods.generateAuthToken = async function () {
   const token = jwt.sign({ id: this._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
   this.tokens = this.tokens.concat({ token });
@@ -42,6 +41,7 @@ userSchema.methods.toJSON = function () {
   return user;
 };
 
-const User = mongoose.model('User', userSchema);
+// ✅ Prevent OverwriteModelError in development or with nodemon
+const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 export default User;

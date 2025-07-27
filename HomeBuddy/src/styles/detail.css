@@ -1,12 +1,55 @@
-/* detail.css */
-
 .detail-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-/* --- New: Property Heading Section (above image gallery) --- */
+/* --- Back to Listings Button Section --- */
+.back-to-listings-section {
+    margin-bottom: 20px;
+}
+
+.back-to-listings-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: #f8f9fa;
+    color: #495057;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.back-to-listings-btn:hover {
+    background-color: #e9ecef;
+    border-color: #adb5bd;
+    color: #343a40;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.back-to-listings-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.back-to-listings-btn svg {
+    font-size: 0.9em;
+    color: #6c757d;
+    transition: color 0.2s ease;
+}
+
+.back-to-listings-btn:hover svg {
+    color: #495057;
+}
+
+/* --- Property Heading Section (above image gallery) --- */
 .property-heading-section {
     display: flex;
     justify-content: space-between;
