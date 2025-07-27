@@ -5,7 +5,6 @@ import styles from '../../styles/Contact.module.css';
 import Navbar from "../../components/Navbar";
 
 const StudentContact = () => {
-  // Add state for form data
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -13,6 +12,15 @@ const StudentContact = () => {
     phone: '',
     message: ''
   });
+
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
   return (
     <>
@@ -31,6 +39,8 @@ const StudentContact = () => {
                   required
                   autoComplete="given-name"
                   aria-label="First Name"
+                  value={formData.firstName}
+                  onChange={handleChange}
                 />
               </div>
               <div className={styles.last}>
@@ -43,6 +53,8 @@ const StudentContact = () => {
                   required
                   autoComplete="family-name"
                   aria-label="Last Name"
+                  value={formData.lastName}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -58,6 +70,8 @@ const StudentContact = () => {
                   required
                   autoComplete="email"
                   aria-label="Email Address"
+                  value={formData.email}
+                  onChange={handleChange}
                 />
               </div>
               <div className={styles.phone}>
@@ -69,6 +83,8 @@ const StudentContact = () => {
                   placeholder="+250 7XX XXX XXX"
                   autoComplete="tel"
                   aria-label="Phone Number"
+                  value={formData.phone}
+                  onChange={handleChange}
                 />
               </div>
             </div>
@@ -82,6 +98,8 @@ const StudentContact = () => {
                 required
                 aria-label="Message"
                 rows={5}
+                value={formData.message}
+                onChange={handleChange}
               ></textarea>
             </div>
 
