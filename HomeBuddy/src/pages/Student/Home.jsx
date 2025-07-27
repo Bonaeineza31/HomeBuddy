@@ -96,7 +96,7 @@ const StudentHome = () => {
   const [squareFeet, setSquareFeet] = useState(null);
 
   // API configuration
-  const API_BASE_URL = 'http://localhost:3000';
+  const API_BASE_URL = 'https://homebuddy-yn9v.onrender.com';
 
   // Fetch properties from API
   const fetchProperties = async (filterParams = {}) => {
