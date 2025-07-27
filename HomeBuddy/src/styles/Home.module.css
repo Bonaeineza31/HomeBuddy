@@ -362,7 +362,105 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   color: var(--white);
 }
 
+/* Add these styles to your Home.module.css file */
 
+/* Amenities container */
+.amenities {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+/* Individual amenity item */
+.amenity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--light-gray);
+  border-radius: 12px;
+  font-size: 0.8rem;
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  transition: background-color 0.2s ease;
+}
+
+/* Amenity hover effect */
+.amenity:hover {
+  background-color: #e8e8e8;
+}
+
+/* Loading and Error States */
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  text-align: center;
+  color: var(--text-dark);
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+  color: var(--primary-blue);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.errorContainer h3 {
+  color: #dc2626;
+  margin-bottom: 1rem;
+}
+
+.retryButton {
+  background-color: var(--primary-blue);
+  color: var(--white);
+  border: none;
+  border-radius: var(--curvy-border-radius);
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.retryButton:hover {
+  background-color: var(--secondary-blue);
+}
+
+/* No results message */
+.noResults {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-dark);
+  background-color: var(--white);
+  border-radius: var(--curvy-border-radius);
+  margin: 2rem 0;
+}
+
+.noResults p {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+/* Responsive adjustments for amenities */
+@media (max-width: 768px) {
+  .amenities {
+    gap: 0.4rem;
+  }
+  
+  .amenity {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.4rem;
+  }
+}
 /* properties grid styles */
 .mostviewed {
   padding: 2rem;
@@ -403,7 +501,7 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 }
 
 .listing-details {
-  padding: 1rem;
+  padding: 2rem;
 }
 
 .top-row {

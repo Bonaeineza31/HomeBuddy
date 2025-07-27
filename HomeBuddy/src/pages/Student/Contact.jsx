@@ -1,10 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter, FaTiktok } from "react-icons/fa6";
 import styles from '../../styles/Contact.module.css';
 import Navbar from "../../components/Navbar";
 
 const StudentContact = () => {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('http://localhost:3000/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        alert(result.message || "Your message has been sent successfully!");
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+      } else {
+        const error = await response.json();
+        alert(error.error || "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      alert("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <>
       <Navbar />
@@ -15,35 +62,79 @@ const StudentContact = () => {
 
       <main className={styles.message}>
         <section className={styles.txtpart}>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className={styles.names}>
               <div className={styles.first}>
                 <label htmlFor="firstName">First Name</label>
-                <input type="text" id="firstName" name="firstName" placeholder="First name" />
+                <input 
+                  type="text" 
+                  id="firstName" 
+                  name="firstName" 
+                  placeholder="First name"
+                  value={formData.firstName}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className={styles.last}>
                 <label htmlFor="lastName">Last Name</label>
-                <input type="text" id="lastName" name="lastName" placeholder="Last name" />
+                <input 
+                  type="text" 
+                  id="lastName" 
+                  name="lastName" 
+                  placeholder="Last name"
+                  value={formData.lastName}
+                  onChange={handleChange}
+                  required
+                />
               </div>
             </div>
 
             <div className={styles.mail}>
               <div className={styles.email}>
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Email address" />
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  placeholder="Email address"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
               </div>
               <div className={styles.phone}>
                 <label htmlFor="phone">Phone Number</label>
-                <input type="tel" id="phone" name="phone" placeholder="Phone number" />
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  name="phone" 
+                  placeholder="Phone number"
+                  value={formData.phone}
+                  onChange={handleChange}
+                />
               </div>
             </div>
 
             <div className={styles.textarea}>
               <label htmlFor="message">Your Message</label>
-              <textarea id="message" name="message" placeholder="Your message"></textarea>
+              <textarea 
+                id="message" 
+                name="message" 
+                placeholder="Your message"
+                value={formData.message}
+                onChange={handleChange}
+                required
+              ></textarea>
             </div>
 
-            <button type="submit" className={styles.submit}>Send Message</button>
+            <button 
+              type="submit" 
+              className={styles.submit}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Sending...' : 'Send Message'}
+            </button>
           </form>
         </section>
 
