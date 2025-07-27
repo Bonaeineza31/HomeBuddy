@@ -1,6 +1,6 @@
 // routes/profileroutes.js
 import express from 'express';
-import { getUserProfile, updateUserProfile, uploadProfilePhoto } from '../controllers/profilecontroller.js';
+import { getUserProfile, updateUserProfile, uploadProfilePhoto } from '../controllers/profileController.js';
 
 const router = express.Router();
 
