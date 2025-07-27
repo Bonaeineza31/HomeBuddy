@@ -13,6 +13,8 @@ const StudentContact = () => {
     message: ''
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -21,9 +23,9 @@ const StudentContact = () => {
     }));
   };
 
-  // Submit handler with POST request
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     await fetch('https://homebuddy-yn9v.onrender.com/contact', {
       method: 'POST',
@@ -31,7 +33,7 @@ const StudentContact = () => {
       body: JSON.stringify(formData)
     });
 
-    // (No error handling yet, no UI feedback)
+    setIsSubmitting(false);
   };
 
   return (
@@ -87,6 +89,7 @@ const StudentContact = () => {
                 />
               </div>
               <div className={styles.phone}>
+               
                 <label htmlFor="phone">Phone Number</label>
                 <input 
                   type="tel" 
@@ -118,8 +121,9 @@ const StudentContact = () => {
             <button 
               type="submit" 
               className={styles.submit}
+              disabled={isSubmitting}
             >
-              Send Message
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         </section>
