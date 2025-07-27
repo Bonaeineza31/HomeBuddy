@@ -174,11 +174,28 @@ const StudentHome = () => {
     localStorage.setItem('savedProperties', JSON.stringify(savedProperties));
   }, [savedProperties]);
 
+  // Listen for localStorage changes from other tabs/pages
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'savedProperties') {
+        try {
+          const newSavedProperties = JSON.parse(e.newValue || '[]');
+          setSavedProperties(newSavedProperties);
+        } catch (err) {
+          console.error('Error parsing saved properties from storage:', err);
+        }
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
   const toggleSave = (property) => {
     setSavedProperties((prevSaved) => {
-      const isSaved = prevSaved.find((p) => p._id === property._id);
-      return isSaved
-        ? prevSaved.filter((p) => p._id !== property._id)
+      const isAlreadySaved = prevSaved.find((item) => item._id === property._id);
+      return isAlreadySaved
+        ? prevSaved.filter((item) => item._id !== property._id)
         : [...prevSaved, property];
     });
   };
@@ -434,7 +451,7 @@ const StudentHome = () => {
           <h1>Featured Properties ({filteredProperties.length} found)</h1>
           <div className={styles.all}>
             {filteredProperties.map((property) => {
-              const isSaved = savedProperties.some((p) => p._id === property._id);
+              const isSaved = savedProperties.some((item) => item._id === property._id);
               const currentRoommates = property.currentRoommates || 0;
               const totalCapacity = property.availableBeds || 0;
               const roommateDisplay = `${currentRoommates}/${totalCapacity}`;

@@ -1,152 +1,225 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import { HiHomeModern } from "react-icons/hi2";
-import { FaLocationDot } from "react-icons/fa6";
-import { FaHeart } from "react-icons/fa";
-import p1 from '../../assets/property1.jfif';
-import p2 from '../../assets/property2.jfif';
-import p3 from '../../assets/property3.jfif';
-import p4 from '../../assets/property4.jfif';
-import p5 from '../../assets/property5.jfif';
-import p6 from '../../assets/property6.jfif';
-import styles from '../../styles/Saved.module.css';
-import Navbar from "../../components/Navbar";  // Import Navbar component
+import { MapPin, Heart, Wifi, Bed, Users, Home, Map, Car, UtensilsCrossed, Shirt, BookOpen, Trees, Building2, Shield, Droplets, Zap, Bus, ShoppingBag } from "lucide-react";
+import styles from '../../styles/Listing.module.css'; // Reusing the same styles
+import Navbar from "../../components/Navbar";
 
-const initialProperties = [
-  {
-    id: 1,
-    location: 'Kimironko',
-    price: '$600/month',
-    mainImage: p1,
-    otherImages: [p2, p3],
-    description: "Modern two-bedroom apartment with great lighting and free Wi-Fi.",
-    wifi: "yes",
-    furnished: "yes",
-    availableBeds: 2,
-    roommate: 1
-  },
-  {
-    id: 2,
-    location: 'Remera',
-    price: '$1000/month',
-    mainImage: p2,
-    otherImages: [p1, p3],
-    description: "Spacious apartment near major shops. Fully furnished with balcony view.",
-    wifi: "yes",
-    furnished: "yes",
-    availableBeds: 3,
-    roommate: 2
-  },
-  {
-    id: 3,
-    location: 'Gikondo',
-    price: '$800/month',
-    mainImage: p3,
-    otherImages: [p4, p5],
-    description: "Bright unit with shared kitchen and all bills included.",
-    wifi: "yes",
-    furnished: "no",
-    availableBeds: 1,
-    roommate: 2
-  },
-  {
-    id: 4,
-    location: 'Nyabugogo',
-    price: '$500/month',
-    mainImage: p4,
-    otherImages: [p6, p1],
-    description: "Affordable and compact space with easy transport access.",
-    wifi: "no",
-    furnished: "yes",
-    availableBeds: 2,
-    roommate: 3
-  },
-  {
-    id: 5,
-    location: 'Kiyovu',
-    price: '$900/month',
-    mainImage: p5,
-    otherImages: [p2, p6],
-    description: "Luxury flat with all modern fittings and a private bedroom.",
-    wifi: "yes",
-    furnished: "yes",
-    availableBeds: 1,
-    roommate: 1
-  },
-  {
-    id: 6,
-    location: 'Kacyiru',
-    price: '$650/month',
-    mainImage: p6,
-    otherImages: [p3, p4],
-    description: "Student-friendly space with fast internet and calm surroundings.",
-    wifi: "yes",
-    furnished: "no",
-    availableBeds: 2,
-    roommate: 2
-  }
-];
+// Icon mapping for amenities (same as in your listing component)
+const amenityIcons = {
+  wifi: Wifi,
+  car: Car,
+  chef: UtensilsCrossed,
+  utensils: UtensilsCrossed,
+  kitchen: UtensilsCrossed,
+  shirt: Shirt,
+  book: BookOpen,
+  'book-open': BookOpen,
+  study: BookOpen,
+  tree: Trees,
+  trees: Trees,
+  garden: Trees,
+  building: Building2,
+  'building-2': Building2,
+  balcony: Building2,
+  shield: Shield,
+  security: Shield,
+  droplets: Droplets,
+  water: Droplets,
+  zap: Zap,
+  electricity: Zap,
+  power: Zap,
+  bus: Bus,
+  transport: Bus,
+  'shopping-bag': ShoppingBag,
+  shopping: ShoppingBag,
+  shops: ShoppingBag,
+  home: Home,
+  furnished: Home,
+};
 
-const StudentSaved = () => {
-  const [likedProperties, setLikedProperties] = useState(initialProperties);
+const Saved = () => {
+  const [savedProperties, setSavedProperties] = useState([]);
 
-  const removeProperty = (id) => {
-    setLikedProperties((prev) =>
-      prev.filter((property) => property.id !== id)
-    );
+  // Load saved properties from localStorage
+  useEffect(() => {
+    const loadSavedProperties = () => {
+      const saved = localStorage.getItem('savedProperties');
+      if (saved) {
+        try {
+          setSavedProperties(JSON.parse(saved));
+        } catch (err) {
+          console.error('Error loading saved properties:', err);
+          setSavedProperties([]);
+        }
+      }
+    };
+
+    loadSavedProperties();
+
+    // Listen for changes in localStorage (in case user saves/unsaves from other tabs)
+    const handleStorageChange = (e) => {
+      if (e.key === 'savedProperties') {
+        loadSavedProperties();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  // Remove property from saved list
+  const removeSaved = (propertyId) => {
+    const updatedSaved = savedProperties.filter((property) => property._id !== propertyId);
+    setSavedProperties(updatedSaved);
+    localStorage.setItem('savedProperties', JSON.stringify(updatedSaved));
+  };
+
+  // Handle map click
+  const handleMapClick = (property) => {
+    const { coordinates } = property;
+    if (coordinates && coordinates.length === 2) {
+      const [lat, lng] = coordinates;
+      const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+      window.open(googleMapsUrl, '_blank');
+    } else {
+      const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${property.location}`;
+      window.open(googleMapsUrl, '_blank');
+    }
+  };
+
+  // Get amenity icon component
+  const getAmenityIcon = (iconName) => {
+    const IconComponent = amenityIcons[iconName] || Home;
+    return IconComponent;
   };
 
   return (
     <>
       <Navbar />
-
-      <div className={styles["all-listings"]}>
-        <div className={styles.properties}>
-          {likedProperties.length === 0 ? (
-            <p className={styles["empty-message"]}>You have no saved properties.</p>
+      <div className={styles.container}>
+        <div className={styles.allListings}>
+          {savedProperties.length === 0 ? (
+            <div className={styles.noProperties}>
+              <Heart size={64} color="#ccc" />
+              <h3>No saved properties yet</h3>
+              <p>Start exploring and save properties you're interested in by clicking the heart icon.</p>
+              <Link to="/student/listing">
+                <button className={styles.viewButton}>Browse Properties</button>
+              </Link>
+            </div>
           ) : (
-            likedProperties.map((property) => (
-              <div className={styles.property} key={property.id}>
-                <img
-                  src={property.mainImage}
-                  alt={`Property in ${property.location}`}
-                  className={styles["list-image"]}
-                />
-                <div className={styles.details}>
-                  <div className={styles.save}>
-                    <div className={styles["save-text"]}>
-                      <h4>House name</h4>
-                      <p className={styles.location}>
-                        <FaLocationDot /> {property.location}
-                      </p>
-                    </div>
-                    <FaHeart
-                      size={30}
-                      color="#da2461"
-                      onClick={() => removeProperty(property.id)}
-                      style={{ cursor: "pointer" }}
-                    />
-                  </div>
-                  <p className={styles.description}>
-                    Cozy two-bedroom apartment with a modern kitchen, spacious living area, and large windows that fill the rooms with natural light. Perfect for students or small families looking for a comfortable and affordable home near local amenities.
-                  </p>
-                  <div className={styles.lower}>
-                    <p className={styles.price}>{property.price}</p>
-                    <Link
-                        to={`/property/${property.id}`}
-                        state={{ property:property, allProperties:initialProperties}}
+              
+              <div className={styles.properties}>
+                {savedProperties.map((property) => (
+                  <div className={styles.property} key={property._id}>
+                    <div className={styles.imageContainer}>
+                      <img
+                        src={property.mainImage}
+                        alt={`Property in ${property.location}`}
+                        className={styles.listImage}
+                        onError={(e) => {
+                          e.target.src = '/default-property-image.jpg';
+                        }}
+                      />
+                      <div
+                        className={styles.mapOverlay}
+                        onClick={() => handleMapClick(property)}
                       >
-                        <button className={styles.check}>View</button>
-                    </Link>
+                        <Map size={24} />
+                        <span>View on Map</span>
+                      </div>
+                    </div>
+
+                    <div className={styles.details}>
+                      <div className={styles.save}>
+                        <div className={styles.saveText}>
+                          <h4>{property.houseName}</h4>
+                          <p className={styles.location}>
+                            <MapPin size={16} /> {property.location}
+                          </p>
+                        </div>
+                        <Heart
+                          size={25}
+                          color="#da2461"
+                          fill="#da2461"
+                          onClick={() => removeSaved(property._id)}
+                          style={{ cursor: "pointer" }}
+                          title="Remove from saved"
+                        />
+                      </div>
+
+                      <p className={styles.description}>
+                        {property.description}
+                      </p>
+
+                      <div className={styles.amenities}>
+                        {property.amenities && property.amenities.length > 0 ? (
+                          property.amenities
+                            .filter(amenity => amenity.available)
+                            .slice(0, 4)
+                            .map((amenity, index) => {
+                              const IconComponent = getAmenityIcon(amenity.icon);
+                              return (
+                                <span key={index} className={styles.amenity}>
+                                  <IconComponent size={14} /> {amenity.name}
+                                </span>
+                              );
+                            })
+                        ) : (
+                          <>
+                            {property.wifi === "yes" && (
+                              <span className={styles.amenity}>
+                                <Wifi size={14} /> WiFi
+                              </span>
+                            )}
+                            {property.furnished === "yes" && (
+                              <span className={styles.amenity}>
+                                <Home size={14} /> Furnished
+                              </span>
+                            )}
+                          </>
+                        )}
+                        
+                        <span className={styles.amenity}>
+                          <Bed size={14} /> {property.availableBeds} beds
+                        </span>
+                        <span className={styles.amenity}>
+                          <Users size={14} /> {property.currentRoommates || 0} currently / {property.availableBeds} total
+                        </span>
+                      </div>
+
+                      <div className={styles.lower}>
+                        <p className={styles.price}>
+                          ${property.pricePerPerson}/person
+                        </p>
+                        
+                        {property.availableSpots !== undefined && (
+                          <p className={styles.availableSpots}>
+                            {property.availableSpots > 0 
+                              ? `${property.availableSpots} spot${property.availableSpots > 1 ? 's' : ''} available`
+                              : 'Fully occupied'
+                            }
+                          </p>
+                        )}
+                        
+                        <div className={styles.actions}>
+                          <Link
+                            to={`/student/detail/${property._id}`}
+                            state={{ property: property, allProperties: savedProperties }}
+                          >
+                            <button className={styles.viewButton}>View</button>
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
-            ))
-          )}
+            )}
         </div>
       </div>
     </>
   );
 };
 
-export default StudentSaved;
+export default Saved;
