@@ -4,6 +4,7 @@ import { HiHomeModern } from "react-icons/hi2";
 import { FaUser } from "react-icons/fa6";
 import { IoIosMenu } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
+import { IoLogOut } from "react-icons/io5"; // Added logout icon
 import { MessageSquare } from 'lucide-react';
 import styles from '../styles/Navbar.module.css';
 
@@ -15,6 +16,13 @@ const Navbar = () => {
     e.preventDefault();
     setMenuOpen(false); // Close mobile menu if open
     navigate('/student/messages'); // Fixed route
+  };
+
+  const handleLogoutClick = (e) => {
+    e.preventDefault();
+    setMenuOpen(false); // Close mobile menu if open
+    // Add any logout logic here (clear tokens, etc.)
+    navigate('/'); // Redirect to home page
   };
 
   return (
@@ -96,10 +104,21 @@ const Navbar = () => {
             </button>
           </li>
           <li>
-            <Link to="/student/profile" className={`${styles["nav-link"]} ${styles["profile-link"]}`}> {/* Fixed route */}
+            <Link to="/student/profile" className={`${styles["nav-link"]} ${styles["profile-link"]}`}>
               <FaUser size={16} />
               <span>Profile</span>
             </Link>
+          </li>
+          <li style={{ marginLeft: '100px' }}>
+            <button 
+              onClick={handleLogoutClick}
+              className={`${styles["nav-link"]} ${styles["chat-link"]}`}
+              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
+              title="Logout"
+            >
+              <IoLogOut size={18} />
+              <span>Logout</span>
+            </button>
           </li>
         </ul>
       </div>
