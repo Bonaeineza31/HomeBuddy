@@ -26,14 +26,30 @@ const StudentContact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    
+    try {
+      const response = await fetch('https://homebuddy-yn9v.onrender.com/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
 
-    await fetch('https://homebuddy-yn9v.onrender.com/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    });
-
-    setIsSubmitting(false);
+      if (response.ok) {
+        const result = await response.json();
+        alert(result.message || "Your message has been sent successfully!");
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+      } else {
+        const error = await response.json();
+        alert(error.error || "Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error sending message:", error);
+      alert("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -89,7 +105,6 @@ const StudentContact = () => {
                 />
               </div>
               <div className={styles.phone}>
-               
                 <label htmlFor="phone">Phone Number</label>
                 <input 
                   type="tel" 
