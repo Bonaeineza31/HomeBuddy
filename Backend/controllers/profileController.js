@@ -1,4 +1,4 @@
-import User from '../models/uSser.js';
+import User from '../models/user.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';

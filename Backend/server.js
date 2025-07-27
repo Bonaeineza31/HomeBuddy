@@ -9,6 +9,7 @@ import authRoutes from './routes/authroutes.js';
 import userRoutes from './routes/userroutes.js';
 import profileRoutes from './routes/profileroutes.js'; 
 import contactRoutes from './routes/contactRoutes.js'; 
+import propertyRoutes from './routes/properties.js'; // ✅ Only once
 
 // Load environment variables from .env
 dotenv.config();
@@ -58,6 +59,11 @@ app.use((err, req, res, next) => {
   console.error('❌ Error:', err.message);
   res.status(500).json({ error: 'Internal Server Error' });
 });
+app.use('/auth', authRoutes);
+app.use('/admin', userRoutes);
+app.use('/contact', contactRoutes);
+app.use('/api', profileRoutes);
+app.use('/properties',propertyRoutes )
 
 // ✅ Health Check
 app.get('/', (req, res) => {
@@ -81,6 +87,6 @@ const connectDB = async () => {
 // ✅ Start Server
 connectDB().then(() => {
   app.listen(PORT, () => {
-    console.log(`🚀 Server running at http://localhost:${PORT}/`);
+    console.log(`🚀 Server running at http://localhost:${PORT}`);
   });
 });
