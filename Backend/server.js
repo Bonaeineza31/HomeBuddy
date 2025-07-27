@@ -44,17 +44,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// ✅ Routes
 
-app.use('/api/contact', contactRoutes);
-app.use('/api/profile', profileRoutes);
-app.use('/auth', authRoutes);        // auth/login/register
-app.use('/admin', userRoutes);       // admin/user-related routes
-app.use('/api', profileRoutes);      // /api/profile GET and PUT
-app.use('/api/user', userRoutes);    // /api/user GET and PUT
-app.use('/api/auth', authRoutes);    // /api/auth/login/register
-
-// ✅ Error Handling Middleware
 app.use((err, req, res, next) => {
   console.error('❌ Error:', err.message);
   res.status(500).json({ error: 'Internal Server Error' });
