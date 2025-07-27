@@ -1,0 +1,1116 @@
+openapi: 3.0.0
+info:
+  title: Home Buddy API
+  description: Complete API documentation for Home Buddy property management system
+  version: 1.0.0
+  contact:
+    name: API Support
+    email: support@homebuddy.com
+
+servers:
+  - url: http://localhost:5000
+    description: Development server
+  - url: https://home-buddy-eta.vercel.app
+    description: Production server
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+
+  schemas:
+    # User Schemas
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "64a1b2c3d4e5f6789012345"
+        firstName:
+          type: string
+          example: "Bonae"
+        lastName:
+          type: string
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          example: "bonaeineza@gmail.com"
+        role:
+          type: string
+          enum: [admin, user, agent, student, landlord]
+          example: "user"
+        university:
+          type: string
+          example: "University of Rwanda"
+        country:
+          type: string
+          example: "Rwanda"
+        idType:
+          type: string
+          example: "National ID"
+        isApproved:
+          type: boolean
+          example: false
+        approvalStatus:
+          type: string
+          enum: [pending, approved, rejected]
+          example: "pending"
+        rejectionReason:
+          type: string
+          example: "Incomplete documentation"
+        idDocumentUrl:
+          type: string
+          example: "https://cloudinary.com/image.jpg"
+        criminalRecordUrl:
+          type: string
+          example: "https://cloudinary.com/image.jpg"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    UserProfile:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "John Doe"
+        nationality:
+          type: string
+          example: "Rwandan"
+        gender:
+          type: string
+          enum: [Male, Female, "Prefer not to say"]
+          example: "Male"
+        bio:
+          type: string
+          example: "Computer Science student looking for accommodation"
+        budget:
+          type: string
+          example: "200-300 USD"
+        preference:
+          type: string
+          example: "Quiet environment, close to university"
+        hobbies:
+          type: array
+          items:
+            type: string
+          example: ["Reading", "Gaming", "Music"]
+        photo:
+          type: string
+          example: "/uploads/profile_photos/user123.jpg"
+
+    # Property Schemas
+    Property:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "64a1b2c3d4e5f6789012345"
+        houseName:
+          type: string
+          example: "Modern Student House"
+        location:
+          type: string
+          example: "Kigali, Kicukiro"
+        description:
+          type: string
+          example: "Beautiful house with modern amenities"
+        totalPrice:
+          type: number
+          example: 500
+        pricePerPerson:
+          type: number
+          example: 125
+        availableBeds:
+          type: number
+          example: 4
+        currentRoommates:
+          type: number
+          example: 2
+        amenities:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+                example: "WiFi"
+              available:
+                type: boolean
+                example: true
+        mainImage:
+          type: string
+          example: "https://cloudinary.com/main.jpg"
+        otherImages:
+          type: array
+          items:
+            type: string
+          example: ["https://cloudinary.com/img1.jpg", "https://cloudinary.com/img2.jpg"]
+        coordinates:
+          type: array
+          items:
+            type: number
+          example: [-1.9441, 30.0619]
+        owner:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "Jane Smith"
+            email:
+              type: string
+              example: "jane@example.com"
+            phone:
+              type: string
+              example: "+250788123456"
+            userId:
+              type: string
+              example: "64a1b2c3d4e5f6789012346"
+        rules:
+          type: array
+          items:
+            type: string
+          example: ["No smoking", "No pets", "Quiet hours after 10 PM"]
+        contactPreference:
+          type: string
+          enum: [email, phone, both]
+          example: "both"
+        isActive:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    # Auth Schemas
+    LoginRequest:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        password:
+          type: string
+          example: "securePassword123"
+
+    SignupRequest:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - role
+        - password
+        - confirmPassword
+        - idType
+        - country
+      properties:
+        firstName:
+          type: string
+          example: "John"
+        lastName:
+          type: string
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        role:
+          type: string
+          enum: [student, landlord, agent]
+          example: "student"
+        university:
+          type: string
+          example: "University of Rwanda"
+        country:
+          type: string
+          example: "Rwanda"
+        password:
+          type: string
+          minLength: 8
+          example: "securePassword123"
+        confirmPassword:
+          type: string
+          example: "securePassword123"
+        idType:
+          type: string
+          example: "National ID"
+
+    # Contact Schema
+    ContactMessage:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - message
+      properties:
+        firstName:
+          type: string
+          example: "John"
+        lastName:
+          type: string
+          example: "Doe"
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+        phone:
+          type: string
+          example: "+250788123456"
+        message:
+          type: string
+          example: "I'm interested in your services"
+
+    # Response Schemas
+    AuthResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        user:
+          type: object
+          properties:
+            _id:
+              type: string
+            email:
+              type: string
+            role:
+              type: string
+            profile:
+              $ref: '#/components/schemas/UserProfile'
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: "Operation completed successfully"
+
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: string
+          example: "Error message"
+
+    PaginatedResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        count:
+          type: integer
+          example: 10
+        total:
+          type: integer
+          example: 50
+        pagination:
+          type: object
+          properties:
+            page:
+              type: integer
+              example: 1
+            limit:
+              type: integer
+              example: 10
+            pages:
+              type: integer
+              example: 5
+
+security:
+  - bearerAuth: []
+  - cookieAuth: []
+
+paths:
+  # Authentication Routes (/auth)
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: User login
+      description: Authenticate user and return JWT token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Account not approved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/signup:
+    post:
+      tags:
+        - Authentication
+      summary: User registration
+      description: Register new user account (requires admin approval)
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              allOf:
+                - $ref: '#/components/schemas/SignupRequest'
+                - type: object
+                  properties:
+                    idDocument:
+                      type: string
+                      format: binary
+                      description: ID document file
+                    criminalRecord:
+                      type: string
+                      format: binary
+                      description: Criminal record file
+      responses:
+        '201':
+          description: Account created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Account created. Awaiting admin approval."
+                  user:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      email:
+                        type: string
+                      role:
+                        type: string
+                      approvalStatus:
+                        type: string
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # User Management Routes (/admin)
+  /admin/profile:
+    get:
+      tags:
+        - User Management
+      summary: Get user profile
+      description: Retrieve the authenticated user's profile information
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          description: User profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /admin/pending:
+    get:
+      tags:
+        - Admin - User Management
+      summary: Get pending users
+      description: Retrieve all users with pending approval status (Admin only)
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Pending users retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '403':
+          description: Admin access required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /admin/approve/{id}:
+    post:
+      tags:
+        - Admin - User Management
+      summary: Approve user
+      description: Approve a pending user account (Admin only)
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User ID to approve
+      responses:
+        '200':
+          description: User approved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User approved and notified."
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /admin/reject/{id}:
+    post:
+      tags:
+        - Admin - User Management
+      summary: Reject user
+      description: Reject a pending user account (Admin only)
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User ID to reject
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - reason
+              properties:
+                reason:
+                  type: string
+                  example: "Incomplete documentation"
+      responses:
+        '200':
+          description: User rejected successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User rejected and notified."
+        '400':
+          description: Rejection reason required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Profile Routes (/api)
+  /api/profile:
+    get:
+      tags:
+        - Profile Management
+      summary: Get user profile
+      description: Retrieve user profile information
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Profile retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  profile:
+                    $ref: '#/components/schemas/UserProfile'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags:
+        - Profile Management
+      summary: Update user profile
+      description: Update user profile information
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+      responses:
+        '200':
+          description: Profile updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Profile updated"
+                  profile:
+                    $ref: '#/components/schemas/UserProfile'
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /api/profile/photo:
+    post:
+      tags:
+        - Profile Management
+      summary: Upload profile photo
+      description: Upload or update user profile photo
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                photo:
+                  type: string
+                  format: binary
+                  description: Profile photo file (max 5MB)
+      responses:
+        '200':
+          description: Photo uploaded successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Photo uploaded successfully"
+                  photo:
+                    type: string
+                    example: "/uploads/profile_photos/user123.jpg"
+                  filename:
+                    type: string
+                    example: "user123.jpg"
+        '400':
+          description: File upload error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Property Routes (/properties)
+  /properties:
+    get:
+      tags:
+        - Properties
+      summary: Get all properties
+      description: Retrieve all active properties with filtering and pagination
+      parameters:
+        - in: query
+          name: location
+          schema:
+            type: string
+          description: Filter by location
+        - in: query
+          name: minPrice
+          schema:
+            type: number
+          description: Minimum price per person
+        - in: query
+          name: maxPrice
+          schema:
+            type: number
+          description: Maximum price per person
+        - in: query
+          name: amenities
+          schema:
+            type: array
+            items:
+              type: string
+          description: Filter by amenities
+        - in: query
+          name: minBeds
+          schema:
+            type: number
+          description: Minimum available beds
+        - in: query
+          name: maxBeds
+          schema:
+            type: number
+          description: Maximum available beds
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: Page number
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: Items per page
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+            default: createdAt
+          description: Sort field
+        - in: query
+          name: sortOrder
+          schema:
+            type: string
+            enum: [asc, desc]
+            default: desc
+          description: Sort order
+      responses:
+        '200':
+          description: Properties retrieved successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginatedResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Property'
+
+  /properties/create:
+    post:
+      tags:
+        - Properties
+      summary: Create new property
+      description: Create a new property listing (Landlord/Admin only)
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - houseName
+                - location
+                - description
+                - totalPrice
+                - availableBeds
+                - mainImage
+                - coordinates
+                - owner
+              properties:
+                houseName:
+                  type: string
+                  example: "Modern Student House"
+                location:
+                  type: string
+                  example: "Kigali, Kicukiro"
+                description:
+                  type: string
+                  example: "Beautiful house with modern amenities"
+                totalPrice:
+                  type: number
+                  example: 500
+                availableBeds:
+                  type: number
+                  example: 4
+                currentRoommates:
+                  type: number
+                  default: 0
+                  example: 2
+                amenities:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      available:
+                        type: boolean
+                mainImage:
+                  type: string
+                  example: "https://cloudinary.com/main.jpg"
+                otherImages:
+                  type: array
+                  items:
+                    type: string
+                coordinates:
+                  type: array
+                  items:
+                    type: number
+                  example: [-1.9441, 30.0619]
+                owner:
+                  type: object
+                  required:
+                    - name
+                    - email
+                    - phone
+                    - userId
+                  properties:
+                    name:
+                      type: string
+                    email:
+                      type: string
+                    phone:
+                      type: string
+                    userId:
+                      type: string
+                rules:
+                  type: array
+                  items:
+                    type: string
+                contactPreference:
+                  type: string
+                  enum: [email, phone, both]
+                  default: both
+      responses:
+        '201':
+          description: Property created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Property created successfully"
+                  data:
+                    $ref: '#/components/schemas/Property'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /properties/{id}:
+    get:
+      tags:
+        - Properties
+      summary: Get property by ID
+      description: Retrieve a specific property by its ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Property ID
+      responses:
+        '200':
+          description: Property retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/Property'
+        '404':
+          description: Property not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    put:
+      tags:
+        - Properties
+      summary: Update property
+      description: Update property information (Owner/Admin only)
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Property ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Property'
+      responses:
+        '200':
+          description: Property updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Property updated successfully"
+                  data:
+                    $ref: '#/components/schemas/Property'
+        '403':
+          description: Not authorized to update this property
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    delete:
+      tags:
+        - Properties
+      summary: Delete property
+      description: Delete a property (Owner/Admin only)
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Property ID
+      responses:
+        '200':
+          description: Property deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Property deleted successfully"
+        '403':
+          description: Not authorized to delete this property
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /properties/{id}/toggle-status:
+    patch:
+      tags:
+        - Properties
+      summary: Toggle property status
+      description: Toggle property active/inactive status
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: Property ID
+      responses:
+        '200':
+          description: Property status toggled successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Property activated successfully"
+                  data:
+                    $ref: '#/components/schemas/Property'
+
+  /properties/owner/{userId}:
+    get:
+      tags:
+        - Properties
+      summary: Get properties by owner
+      description: Retrieve properties owned by a specific user
+      security:
+        - bearerAuth: []
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: Owner user ID
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+      responses:
+        '200':
+          description: Owner properties retrieved successfully
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/PaginatedResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Property'
+
+  # Contact Routes (/contact)
+  /contact:
+    post:
+      tags:
+        - Contact
+      summary: Send contact message
+      description: Send a contact message to the admin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactMessage'
+      responses:
+        '200':
+          description: Message sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Your message has been sent successfully!"
+        '400':
+          description: Missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Authentication
+    description: User authentication and registration
+  - name: User Management
+    description: User profile and account operations
+  - name: Admin - User Management
+    description: Admin operations for managing user accounts
+  - name: Profile Management
+    description: User profile management and photo uploads
+  - name: Properties
+    description: Property listings management
+  - name: Contact
+    description: Contact form and messaging
