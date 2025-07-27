@@ -1,5 +1,6 @@
 import React from 'react';
-import { HiOutlineHome, HiOutlineUpload, HiOutlineChatAlt2 } from 'react-icons/hi';
+import { HiOutlineHome, HiOutlineUpload, HiOutlineChatAlt2} from 'react-icons/hi';
+import { HiHomeModern } from "react-icons/hi2";
 import '../../styles/Landlord.css';
 
 const Sidebar = ({ currentPage, setCurrentPage }) => {
@@ -11,12 +12,12 @@ const Sidebar = ({ currentPage, setCurrentPage }) => {
 
   return (
     <aside className="sidebar">
-      <h2 className="sidebar-title">HomeBuddy</h2>
+      <h2 className="sidebar-title"><HiHomeModern/>HomeBuddy</h2>
       <nav className="sidebar-nav">
         {navItems.map((item) => (
           <button
             key={item.id}
-            className={`sidebar-link ${currentPage === item.id ? 'active' : ''}`}
+            className={`landsidebar-link ${currentPage === item.id ? 'active' : ''}`}
             onClick={() => setCurrentPage(item.id)}
           >
             <span className="icon">{item.icon}</span> {item.title}

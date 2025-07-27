@@ -224,5 +224,4 @@ const LandMessages = () => {
     </div>
   );
 };
-
 export default LandMessages;
