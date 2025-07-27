@@ -151,7 +151,7 @@ const StudentContact = () => {
 
           <div className={styles.contactinfo}>
             <h3>Our Contacts</h3>
-            <p>+123456 <br /> homebuddy@gmail.com</p>
+            <p>+250 789 399 993 <br /> homebuddy@gmail.com</p>
           </div>
 
           <div className={styles.socials}>
