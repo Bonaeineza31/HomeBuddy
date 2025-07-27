@@ -1,68 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter, FaTiktok } from "react-icons/fa6";
 import styles from '../../styles/Contact.module.css';
 import Navbar from "../../components/Navbar";
 
 const StudentContact = () => {
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: ''
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      const response = await fetch('https://homebuddy-yn9v.onrender.com/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        alert(result.message || "Your message has been sent successfully!");
-        setFormData({ firstName: '', lastName: '', email: '', phone: '', message: '' });
-      } else {
-        const error = await response.json();
-        alert(error.error || "Something went wrong. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error sending message:", error);
-      alert("Network error. Please check your connection and try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <>
       <Navbar />
 
-      {/* <header className={styles.header}>
-        <h1>Contact Us</h1>
-      </header> */}
-
       <main className={styles.message}>
         <section className={styles.txtpart}>
-          <form onSubmit={handleSubmit}>
+          <form>
             <div className={styles.names}>
               <div className={styles.first}>
                 <label htmlFor="firstName">First Name</label>
@@ -70,10 +19,10 @@ const StudentContact = () => {
                   type="text" 
                   id="firstName" 
                   name="firstName" 
-                  placeholder="First name"
-                  value={formData.firstName}
-                  onChange={handleChange}
+                  placeholder="Enter your first name"
                   required
+                  autoComplete="given-name"
+                  aria-label="First Name"
                 />
               </div>
               <div className={styles.last}>
@@ -82,10 +31,10 @@ const StudentContact = () => {
                   type="text" 
                   id="lastName" 
                   name="lastName" 
-                  placeholder="Last name"
-                  value={formData.lastName}
-                  onChange={handleChange}
+                  placeholder="Enter your last name"
                   required
+                  autoComplete="family-name"
+                  aria-label="Last Name"
                 />
               </div>
             </div>
@@ -97,10 +46,10 @@ const StudentContact = () => {
                   type="email" 
                   id="email" 
                   name="email" 
-                  placeholder="Email address"
-                  value={formData.email}
-                  onChange={handleChange}
+                  placeholder="you@example.com"
                   required
+                  autoComplete="email"
+                  aria-label="Email Address"
                 />
               </div>
               <div className={styles.phone}>
@@ -109,9 +58,9 @@ const StudentContact = () => {
                   type="tel" 
                   id="phone" 
                   name="phone" 
-                  placeholder="Phone number"
-                  value={formData.phone}
-                  onChange={handleChange}
+                  placeholder="+250 7XX XXX XXX"
+                  autoComplete="tel"
+                  aria-label="Phone Number"
                 />
               </div>
             </div>
@@ -121,19 +70,18 @@ const StudentContact = () => {
               <textarea 
                 id="message" 
                 name="message" 
-                placeholder="Your message"
-                value={formData.message}
-                onChange={handleChange}
+                placeholder="Write your message here..."
                 required
+                aria-label="Message"
+                rows={5}
               ></textarea>
             </div>
 
             <button 
               type="submit" 
               className={styles.submit}
-              disabled={isSubmitting}
             >
-              {isSubmitting ? 'Sending...' : 'Send Message'}
+              Send Message
             </button>
           </form>
         </section>
