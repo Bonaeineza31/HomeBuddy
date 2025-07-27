@@ -1,21 +1,21 @@
 /* Home.module.css */
 
 :root {
-  --primary-blue: navy; 
+  --primary-blue: navy;
   --secondary-blue: #1e2a78;
   --other-blue: #3730a3;
   --accent-blue: #1d4ed8;
   --primary-white: #fff;
   --secondary-white: #f5f5f5;
-  --dark-blue: #141c4a; 
+  --dark-blue: #141c4a;
   --text-dark: #333;
   --white: #ffffff;
   --light-gray: #f0f2f5;
   --border-color: #e0e0e0;
   --input-border-color: #d0d0d0;
-  --input-focus-shadow: 0 0 0 2px rgba(30, 42, 120, 0.2);
-  --filter-height: 48px;
-  --curvy-border-radius: 20px; 
+  --input-focus-shadow: 0 0 0 3px rgba(30, 42, 120, 0.25);
+  --filter-height: 52px;
+  --curvy-border-radius: 25px;
 }
 
 /* Main wrapper */
@@ -30,18 +30,17 @@
   background-image: url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1400&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
   background-size: cover;
   background-position: center;
-  min-height: 400px;
+  min-height: 450px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   color: var(--white);
-  padding: 2rem;
+  padding: 2.5rem;
   position: relative;
   z-index: 1;
 }
-
 
 .heroSection::before {
   content: '';
@@ -50,31 +49,32 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(0, 0, 0, 0.45);
   z-index: -1;
 }
 
 .heroTitle {
-  font-size: 3rem;
+  font-size: 3.2rem;
   font-weight: 700;
-  margin-bottom: 3rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 3.5rem;
+  text-shadow: 0 3px 6px rgba(0, 0, 0, 0.6);
   z-index: 2;
 }
 
 /* Filter Form */
 .filterForm {
   background-color: var(--white);
-  border-radius: 30px; /* Adjusted to 30px for curvier look */
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 35px;
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.15);
   color: black;
-  max-width: 1000px;
-  width: 90%;
+  max-width: 1050px;
+  width: 92%;
   z-index: 2;
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  transform: translateY(50%);
 }
 
 /* Main Horizontal Filter Bar */
@@ -82,18 +82,16 @@
   display: flex;
   align-items: center;
   width: 100%;
-  padding: 0.75rem 1.25rem;
-  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  gap: 1rem;
   flex-wrap: wrap;
   justify-content: space-between;
-
 }
 
 .filterField {
   flex: 1;
-  min-width: 120px;
+  min-width: 130px;
   position: relative;
-  
 }
 
 /* Base styles for all inputs and react-select controls */
@@ -101,23 +99,23 @@
 .react-select__control {
   width: 100%;
   height: var(--filter-height);
-  padding: 0 1rem;
+  padding: 0 1.2rem;
   border: 1px solid var(--input-border-color);
-  border-radius: var(--curvy-border-radius); /* Applied curvy border radius */
+  border-radius: var(--curvy-border-radius);
   background-color: var(--white);
   color: var(--text-dark);
-  font-size: 1rem;
+  font-size: 1.05rem;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   box-sizing: border-box;
 }
 
 .filterInput::placeholder {
-  color: #888;
+  color: #777;
 }
 
 .filterInput:hover,
 .react-select__control:hover {
-  border-color: #b0b0b0;
+  border-color: #999;
 }
 
 .filterInput:focus,
@@ -128,15 +126,14 @@
 }
 
 /* react-select components */
-/* react-select overrides*/
 .react-select__control {
   min-height: var(--filter-height);
   padding: 0;
-  border-radius: var(--curvy-border-radius); /* Applied curvy border radius */
+  border-radius: var(--curvy-border-radius);
 }
 
 .react-select__value-container {
-  padding: 0 1rem;
+  padding: 0 1.2rem;
 }
 
 .react-select__single-value,
@@ -146,13 +143,13 @@
 }
 
 .react-select__placeholder {
-  color: var(--text-dark);
+  color: #777;
   margin: 0;
 }
 
 .react-select__indicator {
-  color: var(--text-dark);
-  padding: 8px;
+  color: #666;
+  padding: 10px;
   transition: color 0.3s ease;
 }
 
@@ -166,39 +163,30 @@
 
 /* Dropdown menu (options container) */
 .react-select__menu {
-  background-color: var(--white); 
-  border-radius: var(--curvy-border-radius); 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
+  background-color: var(--white);
+  border-radius: var(--curvy-border-radius);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   z-index: 10000;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
 }
 
 /* Individual dropdown options */
 .react-select__option {
-  color: var(--text-dark); 
-  background-color: var(--text-dark); 
-  padding: 0.8rem 1rem;
+  color: var(--text-dark);
+  background-color: var(--white);
+  padding: 0.9rem 1.2rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .react-select__option--is-focused {
-  background-color: var(--text-dark); 
-  color: var(--text-dark); 
+  background-color: var(--light-gray);
+  color: var(--text-dark);
 }
 
 .react-select__option--is-selected {
-  background-color: var(--primary-blue); 
-  color: var(--dark-blue); 
+  background-color: var(--primary-blue);
+  color: var(--white);
 }
-
-/* styling for date input icon
-input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(0);
-  cursor: pointer;
-  opacity: 1;
-}
-input[type="date"]:focus::-webkit-calendar-picker-indicator {
-  filter: invert(0);
-} */
 
 /* Advanced Button Container */
 .advancedButtonContainer {
@@ -213,10 +201,10 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 .advancedBtn {
   background-color: var(--white);
   color: var(--text-dark);
-  padding: 0 1.2rem;
+  padding: 0 1.4rem;
   border: 1px solid var(--input-border-color);
-  border-radius: var(--curvy-border-radius); /* Applied curvy border radius */
-  font-size: 1rem;
+  border-radius: var(--curvy-border-radius);
+  font-size: 1.05rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -224,35 +212,29 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   height: var(--filter-height);
-  min-width: 120px;
+  min-width: 130px;
   flex-grow: 1;
 }
 
 .advancedBtn:hover {
-  border-color: #b0b0b0;
-  background-color: var(--light-gray);
+  border-color: #999;
+  background-color: var(--secondary-white);
 }
 
-/* .advancedBtn:focus {
-  outline: none;
-  border-color: var(--primary-blue);
-  box-shadow: var(--input-focus-shadow);
-} */
-
 .advancedArrow {
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 /* Search Button */
 .searchBtn {
   background-color: var(--primary-blue);
   color: var(--white);
-  padding: 0 2rem;
+  padding: 0 2.2rem;
   border: none;
-  border-radius: var(--curvy-border-radius); 
-  font-size: 1.1rem;
+  border-radius: var(--curvy-border-radius);
+  font-size: 1.15rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -261,46 +243,46 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   flex-shrink: 0;
 }
 
 .searchBtn:hover {
   background-color: var(--other-blue);
+  transform: translateY(-2px);
 }
 
 /* Advanced Filters Dropdown */
 .advancedFiltersDropdown {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 15px);
   right: 0;
   left: auto;
-  background-color: var(--primary-white); 
-  border-radius: var(--curvy-border-radius); 
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3); 
-  padding: 1.25rem;
+  background-color: var(--primary-white);
+  border-radius: var(--curvy-border-radius);
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.35);
+  padding: 1.5rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 1.25rem;
   z-index: 1000;
-  min-width: 300px;
-  max-width: 450px;
+  min-width: 320px;
+  max-width: 500px;
   box-sizing: border-box;
 }
 
-/* React-select specific overrides for the advanced dropdown */
-
+/* React-select specific styles for the advanced dropdown */
 .react-select-advanced__control {
   min-height: var(--filter-height);
   padding: 0;
   border: 1px solid var(--input-border-color);
-  border-radius: var(--curvy-border-radius); 
+  border-radius: var(--curvy-border-radius);
   background-color: var(--white);
   box-shadow: none;
 }
 
 .react-select-advanced__control:hover {
-  border-color: #b0b0b0;
+  border-color: #999;
 }
 
 .react-select-advanced__control--is-focused {
@@ -309,7 +291,7 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 }
 
 .react-select-advanced__value-container {
-  padding: 0 1rem;
+  padding: 0 1.2rem;
 }
 
 .react-select-advanced__single-value,
@@ -319,13 +301,13 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 }
 
 .react-select-advanced__placeholder {
-  color: #888;
+  color: #777;
   margin: 0;
 }
 
 .react-select-advanced__indicator {
-  color: #888;
-  padding: 8px;
+  color: #666;
+  padding: 10px;
 }
 
 .react-select-advanced__indicator:hover {
@@ -338,38 +320,37 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 
 /* Advanced dropdown menu (options container) */
 .react-select-advanced__menu {
-  background-color: var(--text-dark); 
-  border-radius: var(--curvy-border-radius); 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  background-color: var(--white);
+  border-radius: var(--curvy-border-radius);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
   z-index: 10000;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
 }
 
 /* Advanced individual dropdown options */
 .react-select-advanced__option {
-  color: var(--white); 
-  background-color: var(--text-dark); 
-  padding: 0.8rem 1rem;
+  color: var(--text-dark);
+  background-color: var(--white);
+  padding: 0.9rem 1.2rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .react-select-advanced__option--is-focused {
-  background-color: var(--secondary-blue); 
-  color: var(--white);
+  background-color: var(--light-gray);
+  color: var(--text-dark);
 }
 
 .react-select-advanced__option--is-selected {
-  background-color: var(--primary-blue); 
+  background-color: var(--primary-blue);
   color: var(--white);
 }
 
-/* Add these styles to your Home.module.css file */
-
-/* Amenities container */
+/* Amenities section */
 .amenities {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
   align-items: center;
 }
 
@@ -377,19 +358,20 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 .amenity {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.25rem 0.5rem;
-  background-color: var(--light-gray);
-  border-radius: 12px;
-  font-size: 0.8rem;
-  color: var(--text-dark);
-  border: 1px solid var(--border-color);
-  transition: background-color 0.2s ease;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  background-color: #e5e7eb;
+  border-radius: 14px;
+  font-size: 0.85rem;
+  color: #444;
+  border: 1px solid #d1d5db;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
 }
 
 /* Amenity hover effect */
 .amenity:hover {
-  background-color: #e8e8e8;
+  background-color: #d1d5db;
+  border-color: #9ca3af;
 }
 
 /* Loading and Error States */
@@ -399,24 +381,31 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 3rem;
+  padding: 4rem;
   text-align: center;
   color: var(--text-dark);
+  margin-top: 2rem;
 }
 
 .spinner {
   animation: spin 1s linear infinite;
   color: var(--primary-blue);
+  font-size: 2.5rem;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .errorContainer h3 {
   color: #dc2626;
-  margin-bottom: 1rem;
+  margin-bottom: 1.2rem;
+  font-size: 1.6rem;
 }
 
 .retryButton {
@@ -424,144 +413,164 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
   color: var(--white);
   border: none;
   border-radius: var(--curvy-border-radius);
-  padding: 0.75rem 1.5rem;
+  padding: 0.8rem 1.7rem;
   cursor: pointer;
   font-weight: 600;
-  transition: background-color 0.3s ease;
-  margin-top: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  margin-top: 1.5rem;
 }
 
 .retryButton:hover {
   background-color: var(--secondary-blue);
+  transform: translateY(-2px);
 }
 
-/* No results message */
+/* No results msg */
 .noResults {
   text-align: center;
-  padding: 3rem;
+  padding: 4rem;
   color: var(--text-dark);
   background-color: var(--white);
   border-radius: var(--curvy-border-radius);
-  margin: 2rem 0;
+  margin: 2.5rem auto;
+  max-width: 700px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .noResults p {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin: 0;
 }
 
 /* Responsive adjustments for amenities */
 @media (max-width: 768px) {
   .amenities {
-    gap: 0.4rem;
+    gap: 0.5rem;
   }
-  
+
   .amenity {
-    font-size: 0.75rem;
-    padding: 0.2rem 0.4rem;
+    font-size: 0.8rem;
+    padding: 0.25rem 0.5rem;
   }
 }
-/* properties grid styles */
+
+/* Properties grid styles */
 .mostviewed {
-  padding: 2rem;
+  padding: 2.5rem;
   max-width: 1200px;
-  margin: 2rem auto;
+  margin: 2.5rem auto;
+  transform: translateY(50px);
 }
 
 .mostviewed h1 {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   color: var(--text-dark);
-  font-size: 2.2rem;
+  font-size: 2.4rem;
 }
 
 .all {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 2.5rem;
 }
 
 .listing {
   background-color: var(--white);
-  border-radius: var(--curvy-border-radius); /* Curvy border radius */
+  border-radius: var(--curvy-border-radius);
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
   position: relative;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex; 
+  flex-direction: column; 
 }
 
 .listing:hover {
-  transform: translateY(-5px);
+  transform: translateY(-7px);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.15);
 }
 
 .listing img {
   width: 100%;
-  height: 200px;
+  height: 220px;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.listing:hover img {
+  transform: scale(1.05);
 }
 
 .listing-details {
-  padding: 2rem;
+  padding: 1.8rem;
+  display: flex; 
+  flex-direction: column; 
+  flex-grow: 1; 
 }
 
 .top-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
 }
 
 .text-group h4 {
   margin: 0;
-  font-size: 1.2rem;
-  color: var(--text-dark);
+  font-size: 1.3rem;
+  color: #222;
+  line-height: 1.3;
 }
 
 .location {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  color: #666;
-  font-size: 0.9rem;
+  gap: 0.5rem;
+  color: #555;
+  font-size: 0.95rem;
 }
 
 .locationAndRoommates {
-  display: flex; 
+  display: flex;
   align-items: center;
-  gap: 15px;
-  margin-top: 5px; 
-  flex-wrap: wrap; 
+  gap: 18px;
+  margin-top: 6px;
+  flex-wrap: wrap;
 }
 
 .roommateCount {
-  font-size: 0.9em;
-  color: #666;    
-  /* margin-top: 5px; */
-  display: flex;    
-  align-items: center; 
+  font-size: 0.95em;
+  color: #555;
+  display: flex;
+  align-items: center;
 }
 
 .description {
-  font-size: 0.95rem;
-  color: #555;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-  height: 60px;
+  font-size: 0.98rem;
+  color: #444;
+  line-height: 1.6;
+  margin: 0.8rem 0 1.2rem 0;
+  height: 70px;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
-  --webkit-line-clamp: 3;
-  --webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; 
+  -webkit-box-orient: vertical;
+  flex-shrink: 0; 
 }
 
 .bottom-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-top: 0.8rem;
+  border-top: 1px solid #eee;
+  margin-top: auto; /* Pushes to the bottom of the details section */
 }
 
 .price {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   font-weight: 700;
   color: var(--primary-blue);
 }
@@ -569,77 +578,96 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 .check {
   background-color: var(--primary-blue);
   color: var(--white);
-  padding: 0.5rem 1.2rem;
+  padding: 0.6rem 1.4rem;
   border: none;
-  border-radius: var(--curvy-border-radius); /* Curvy border radius */
+  border-radius: var(--curvy-border-radius);
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .check:hover {
-  background-color: var(--secondary-blue); 
+  background-color: var(--secondary-blue);
+  transform: translateY(-2px);
 }
+
 .viewButton {
   background-color: navy;
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 0.5rem 1.25rem;
+  border-radius: 9px;
+  padding: 0.6rem 1.35rem;
   cursor: pointer;
   font-weight: 500;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, transform 0.1s ease;
 }
 
 .viewButton:hover {
   background-color: #295cc7;
+  transform: translateY(-1px);
 }
 
 /* Heart Icon for saved properties */
 .heartIcon {
   cursor: pointer;
+  font-size: 1.3rem;
+  color: #ff6f61;
+  transition: transform 0.2s ease;
+}
+
+.heartIcon:hover {
+  transform: scale(1.1);
 }
 
 .see-more {
   display: block;
   text-align: center;
-  margin-top: 2rem;
-  font-size: 1.1rem;
+  margin-top: 3rem;
+  font-size: 1.15rem;
   color: var(--primary-blue);
   text-decoration: none;
   font-weight: 600;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease, transform 0.2s ease;
 }
 
 .see-more:hover {
-  color: var(--accent-blue); 
+  color: var(--accent-blue);
+  transform: translateY(-2px);
 }
-
 
 /* Responsive adjustments */
 @media (max-width: 992px) {
+  .filterForm {
+    transform: translateY(50%);
+  }
+
   .mainFilterBar {
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.8rem;
   }
+
   .filterField {
-    flex-basis: calc(50% - 0.75rem / 2);
+    flex-basis: calc(50% - 0.8rem / 2);
     min-width: unset;
   }
+
   .advancedButtonContainer {
-    flex-basis: calc(50% - 0.75rem / 2);
+    flex-basis: calc(50% - 0.8rem / 2);
     min-width: unset;
   }
+
   .searchBtn {
     flex-basis: 100%;
   }
+
   .filterForm {
     width: 95%;
   }
+
   .advancedFiltersDropdown {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    padding: 1rem;
-    gap: 0.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    padding: 1.2rem;
+    gap: 1rem;
     left: 0;
     right: auto;
     transform: translateX(0%);
@@ -648,16 +676,30 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
 }
 
 @media (max-width: 768px) {
-  .heroTitle {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
+  .heroSection {
+    min-height: 350px;
+    padding: 2rem;
   }
+
+  .heroTitle {
+    font-size: 2.8rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .filterForm {
+    transform: translateY(0%);
+    margin-top: 1rem;
+    width: 95%;
+    border-radius: 25px;
+  }
+
   .mainFilterBar {
     flex-direction: column;
     align-items: stretch;
-    padding: 1rem;
-    gap: 0.8rem;
+    padding: 1.2rem;
+    gap: 1rem;
   }
+
   .filterField,
   .advancedButtonContainer,
   .searchBtn {
@@ -665,36 +707,89 @@ input[type="date"]:focus::-webkit-calendar-picker-indicator {
     flex-basis: auto;
     min-width: unset;
   }
+
   .advancedFiltersDropdown {
     grid-template-columns: 1fr;
-    padding: 0.8rem;
-    top: calc(100% + 10px);
+    padding: 1rem;
+    top: calc(100% + 12px);
     left: 0;
     right: auto;
   }
+
   .mostviewed {
-    padding: 1rem;
-    margin: 1rem auto;
+    padding: 1.5rem;
+    margin: 1.5rem auto;
+    transform: translateY(0);
   }
+
   .mostviewed h1 {
-    font-size: 1.8rem;
+    font-size: 2rem;
   }
+
   .all {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2rem;
   }
+
+  .listing img {
+    height: 180px;
+  }
+
+  .listing-details {
+    padding: 1.5rem;
+  }
+
   .description {
     height: auto;
-    --webkit-line-clamp: unset;
+    -webkit-line-clamp: unset;
   }
 }
 
 @media (max-width: 480px) {
   .heroTitle {
-    font-size: 1.8rem;
+    font-size: 2.2rem;
   }
+
+  .filterForm {
+    padding: 0.8rem;
+  }
+
+  .mainFilterBar {
+    padding: 0.8rem;
+  }
+
+  .filterInput,
+  .react-select__control,
+  .advancedBtn,
+  .searchBtn {
+    height: 48px;
+    font-size: 1rem;
+    padding: 0 1rem;
+  }
+
+  .searchBtn {
+    padding: 0 1.5rem;
+  }
+
+  .listing-details {
+    padding: 1.2rem;
+  }
+
+  .text-group h4 {
+    font-size: 1.15rem;
+  }
+
+  .price {
+    font-size: 1.25rem;
+  }
+
+  .check {
+    padding: 0.4rem 1rem;
+    font-size: 0.95rem;
+  }
+
   .viewButton {
-    padding: 0.75rem;
+    padding: 0.6rem 1.1rem;
     font-size: 0.9rem;
   }
 }
