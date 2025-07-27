@@ -71,7 +71,7 @@ const StudentListing = () => {
       });
 
       // Update this URL to match your backend server
-      const API_BASE_URL = 'http://localhost:3000'
+      const API_BASE_URL = 'https://homebuddy-yn9v.onrender.com'
       const response = await fetch(`${API_BASE_URL}/properties?${queryParams.toString()}`);
       
       if (!response.ok) {
