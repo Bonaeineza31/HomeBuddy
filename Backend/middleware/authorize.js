@@ -13,4 +13,4 @@ const authorize = (requiredRole) => {
   };
 };
 
-export default authorize; // ✅ THIS LINE FIXES THE ERROR
+export default authorize;

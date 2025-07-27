@@ -47,22 +47,22 @@ const Navbar = () => {
           </li>
           <li>
             <NavLink
-              to="/student/saved" 
-              className={({ isActive }) =>
-                isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
-              }
-            >
-              Saved
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
               to="/student/listing" 
               className={({ isActive }) =>
                 isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
               }
             >
               Listings
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/student/saved" 
+              className={({ isActive }) =>
+                isActive ? `${styles["nav-link"]} ${styles.activeLink}` : styles["nav-link"]
+              }
+            >
+              Saved
             </NavLink>
           </li>
           <li>

@@ -12,6 +12,7 @@
   display: flex;
   flex-direction: column;
   min-width: 300px;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebarHidden {
@@ -29,16 +30,27 @@
   font-size: 1.5rem;
   font-weight: 700;
 }
+
 .linkTitle {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   text-decoration: none;
   color: navy;
+  transition: all 0.2s ease;
+}
+
+.linkTitle:hover {
+  color: #1d4ed8;
 }
 
 .titleIcon {
   color: navy;
+  transition: transform 0.2s ease;
+}
+
+.linkTitle:hover .titleIcon {
+  transform: translateX(-2px);
 }
 
 .searchContainer {
@@ -201,6 +213,7 @@
   display: flex;
   flex-direction: column;
   background-color: #fff;
+  transition: all 0.3s ease-in-out;
 }
 
 .chatAreaHidden {
@@ -369,6 +382,7 @@
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .sendButton:hover,
 .sendButton:active {
     background-color: #1d4ed8;
@@ -401,4 +415,23 @@
   font-size: 1rem;
   color: #666;
   margin: 0;
+}
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .chatArea {
+    width: 100%;
+  }
+
+  .container {
+    flex-direction: column;
+  }
+
+  .searchIcon {
+    margin-left: 0;
+    left: 1rem;
+  }
 }

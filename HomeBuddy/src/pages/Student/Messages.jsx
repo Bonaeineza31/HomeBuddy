@@ -102,10 +102,10 @@ const Messages = () => {
     const checkMobileView = () => {
       setIsMobileView(window.innerWidth <= 768);
     };
-    
+
     checkMobileView();
     window.addEventListener('resize', checkMobileView);
-    
+
     return () => window.removeEventListener('resize', checkMobileView);
   }, []);
 
@@ -136,8 +136,8 @@ const Messages = () => {
       [selectedContact.id]: [...(prev[selectedContact.id] || []), newMsg]
     }));
 
-    setContacts(prev => prev.map(contact => 
-      contact.id === selectedContact.id 
+    setContacts(prev => prev.map(contact =>
+      contact.id === selectedContact.id
         ? { ...contact, lastMessage: newMessage, lastMessageTime: "now" }
         : contact
     ));
@@ -147,7 +147,7 @@ const Messages = () => {
 
   const handleContactSelect = (contact) => {
     setSelectedContact(contact);
-    setContacts(prev => prev.map(c => 
+    setContacts(prev => prev.map(c =>
       c.id === contact.id ? { ...c, unreadCount: 0 } : c
     ));
   };
@@ -159,17 +159,17 @@ const Messages = () => {
   return (
     <div className={styles.container}>
       {/* Contacts Sidebar */}
-      <div 
+      <div
         className={`${styles.sidebar} ${isMobileView && selectedContact ? styles.sidebarHidden : ''}`}
       >
         <div className={styles.sidebarHeader}>
           <h2 className={styles.sidebarTitle}>
-            <Link to="/student" className={styles.linkTitle}>
-              <MessageSquare size={24} className={styles.titleIcon} />
-              Messages
+            <Link to="/student" className={styles.linkTitle} title="Back to Home">
+              <ArrowLeft size={24} className={styles.titleIcon} />
             </Link>
+            Messages
           </h2>
-          
+
           {/* Search Bar */}
           <div className={styles.searchContainer}>
             <FaSearch className={styles.searchIcon} />
@@ -195,13 +195,13 @@ const Messages = () => {
                 <FaUser size={20} className={styles.avatarIcon} />
                 {contact.isOnline && <div className={styles.onlineIndicator} />}
               </div>
-              
+
               <div className={styles.contactInfo}>
                 <div className={styles.contactHeader}>
                   <h4 className={styles.contactName}>{contact.name}</h4>
                   <span className={styles.contactTime}>{contact.lastMessageTime}</span>
                 </div>
-                
+
                 <div className={styles.contactDetails}>
                   <span className={styles.contactType}>
                     {contact.type === 'landlord' ? '🏠 Landlord' : '🎓 Student'}
@@ -211,7 +211,7 @@ const Messages = () => {
                     <span className={styles.propertyLocation}>{contact.propertyLocation}</span>
                   </div>
                 </div>
-                
+
                 <p className={styles.lastMessage}>
                   {contact.lastMessage}
                   {contact.unreadCount > 0 && (
@@ -225,7 +225,7 @@ const Messages = () => {
       </div>
 
       {/* Chat Area */}
-      <div 
+      <div
         className={`${styles.chatArea} ${isMobileView && !selectedContact ? styles.chatAreaHidden : ''}`}
       >
         {selectedContact ? (
@@ -237,13 +237,13 @@ const Messages = () => {
                   <ArrowLeft size={20} />
                 </button>
               )}
-              
+
               <div className={styles.chatHeaderInfo}>
                 <div className={styles.chatAvatar}>
                   <FaUser size={20} className={styles.avatarIcon} />
                   {selectedContact.isOnline && <div className={styles.onlineIndicator} />}
                 </div>
-                
+
                 <div className={styles.chatContactInfo}>
                   <h3 className={styles.chatContactName}>{selectedContact.name}</h3>
                   <div className={styles.chatContactDetails}>
@@ -257,7 +257,7 @@ const Messages = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className={styles.chatActions}>
                 <button className={styles.actionButton}>
                   <Phone size={18} />
