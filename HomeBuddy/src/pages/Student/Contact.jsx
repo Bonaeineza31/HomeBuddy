@@ -1,14 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import { FaXTwitter, FaTiktok } from "react-icons/fa6";
 import styles from '../../styles/Contact.module.css';
 import Navbar from "../../components/Navbar";
 
 const StudentContact = () => {
+  // Add state for form data
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    message: ''
+  });
+
   return (
     <>
       <Navbar />
-
       <main className={styles.message}>
         <section className={styles.txtpart}>
           <form>
