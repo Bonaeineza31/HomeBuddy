@@ -26,7 +26,7 @@ const ForgotPasswordForm = () => {
     try {
       setIsLoading(true);
 
-      const response = await fetch('https://homebuddy-yn9v.onrender.com/auth/forgot-password', {
+      const response = await fetch('https://homebuddy-yn9v.onrender.com/auth/forgotpassword', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

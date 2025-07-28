@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Sidebar from '../../components/Landlord/LandlordSidebar';
-import DashboardCard from '../../components/Landlord/DashboardCard';
+// import Sidebar from '../../components/Landlord/LandlordSidebar';
+// import DashboardCard from '../../components/Landlord/DashboardCard';
 import UploadProperty from './Properties';
 import LandMessages from './Messages';
 import '../../styles/Landlord.css';
