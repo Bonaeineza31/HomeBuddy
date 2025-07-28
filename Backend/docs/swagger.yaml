@@ -253,6 +253,39 @@ components:
           type: string
           example: "National ID"
 
+    # Password Reset Schemas
+    ForgotPasswordRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          example: "john.doe@example.com"
+          description: "Email address of the user requesting password reset"
+
+    ResetPasswordRequest:
+      type: object
+      required:
+        - token
+        - newPassword
+        - confirmPassword
+      properties:
+        token:
+          type: string
+          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          description: "Password reset token received via email"
+        newPassword:
+          type: string
+          minLength: 8
+          example: "newSecurePassword123"
+          description: "New password (minimum 8 characters)"
+        confirmPassword:
+          type: string
+          example: "newSecurePassword123"
+          description: "Confirmation of new password"
+
     # Contact Schema
     ContactMessage:
       type: object
@@ -297,6 +330,13 @@ components:
               type: string
             profile:
               $ref: '#/components/schemas/UserProfile'
+
+    MessageResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "Operation completed successfully"
 
     SuccessResponse:
       type: object
@@ -432,6 +472,125 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+
+  /auth/forgotpassword:
+    post:
+      tags:
+        - Authentication
+      summary: Forgot password
+      description: Request password reset link via email (only for approved users)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ForgotPasswordRequest'
+      responses:
+        '200':
+          description: Password reset link sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                message: "Password reset link has been sent to your email"
+        '400':
+          description: Email is required
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Email is required"
+        '403':
+          description: Account not approved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Your account is not approved yet. Password reset is not available."
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "User with this email does not exist"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Failed to send password reset email"
+
+  /auth/resetpassword:
+    post:
+      tags:
+        - Authentication
+      summary: Reset password
+      description: Reset user password using the token received via email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResetPasswordRequest'
+      responses:
+        '200':
+          description: Password reset successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageResponse'
+              example:
+                message: "Password reset successfully. You can now login with your new password."
+        '400':
+          description: Validation error or invalid token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              examples:
+                missing_fields:
+                  summary: Missing required fields
+                  value:
+                    error: "All fields are required"
+                password_mismatch:
+                  summary: Password confirmation mismatch
+                  value:
+                    error: "Passwords do not match"
+                password_too_short:
+                  summary: Password too short
+                  value:
+                    error: "Password must be at least 8 characters"
+                invalid_token:
+                  summary: Invalid or expired token
+                  value:
+                    error: "Invalid or expired reset token"
+                invalid_token_type:
+                  summary: Invalid token type
+                  value:
+                    error: "Invalid token type"
+        '404':
+          description: User not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "User not found"
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                error: "Failed to reset password"
 
   # User Management Routes (/admin)
   /admin/profile:
@@ -1103,7 +1262,7 @@ paths:
 
 tags:
   - name: Authentication
-    description: User authentication and registration
+    description: User authentication, registration, and password management
   - name: User Management
     description: User profile and account operations
   - name: Admin - User Management
