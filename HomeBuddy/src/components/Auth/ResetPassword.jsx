@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-
+import "./index.css"
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -10,8 +10,6 @@ const ResetPasswordPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [tokenValid, setTokenValid] = useState(null)
   const [token, setToken] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   useEffect(() => {
     // Get token from URL query parameter
@@ -87,7 +85,7 @@ const ResetPasswordPage = () => {
 
       if (!response.ok) {
         if (response.status === 400 && data.error.includes("token")) {
-          throw new Error("Your reset link has expired or is invalid. Please request a new one.")
+          throw new Error("Your reset link has expired. Please request a new one.")
         } else if (response.status === 404) {
           throw new Error("User account not found.")
         } else {
@@ -124,7 +122,6 @@ const ResetPasswordPage = () => {
       <div className="auth-container">
         <div className="auth-card">
           <div className="loading-container">
-            <div className="loading-icon">⟳</div>
             <h1 className="loading-title">Verifying Reset Link</h1>
             <p className="loading-text">Please wait while we verify your reset link...</p>
           </div>
@@ -138,12 +135,10 @@ const ResetPasswordPage = () => {
       <div className="auth-container">
         <div className="auth-card">
           <div className="invalid-token">
-            <div className="invalid-icon">⚠️</div>
             <h1 className="invalid-title">Invalid Reset Link</h1>
             <p className="invalid-text">This password reset link is invalid or has expired.</p>
             {error && (
               <div className="alert alert-error mb-3">
-                <span>⚠️</span>
                 <span>{error}</span>
               </div>
             )}
@@ -172,14 +167,12 @@ const ResetPasswordPage = () => {
         <div className="auth-form">
           {error && (
             <div className="alert alert-error">
-              <span>⚠️</span>
               <span>{error}</span>
             </div>
           )}
 
           {message && (
             <div className="alert alert-success">
-              <span>✅</span>
               <span>{message}</span>
             </div>
           )}
@@ -188,77 +181,46 @@ const ResetPasswordPage = () => {
             <label htmlFor="password" className="form-label">
               New Password
             </label>
-            <div className="password-input-wrapper">
-              <input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                className="form-input"
-                placeholder="Enter your new password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyPress={handleKeyPress}
-                disabled={isLoading}
-                required
-              />
-              <button
-                type="button"
-                className="password-toggle-btn"
-                onClick={() => setShowPassword(!showPassword)}
-                disabled={isLoading}
-              >
-                {showPassword ? "👁️" : "👁️‍🗨️"}
-              </button>
-            </div>
+            <input
+              id="password"
+              type="password"
+              className="form-input"
+              placeholder="Enter your new password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyPress={handleKeyPress}
+              disabled={isLoading}
+              required
+            />
           </div>
 
           <div className="form-group">
             <label htmlFor="confirmPassword" className="form-label">
               Confirm Password
             </label>
-            <div className="password-input-wrapper">
-              <input
-                id="confirmPassword"
-                type={showConfirmPassword ? "text" : "password"}
-                className="form-input"
-                placeholder="Confirm your new password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                onKeyPress={handleKeyPress}
-                disabled={isLoading}
-                required
-              />
-              <button
-                type="button"
-                className="password-toggle-btn"
-                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                disabled={isLoading}
-              >
-                {showConfirmPassword ? "👁️" : "👁️‍🗨️"}
-              </button>
-            </div>
+            <input
+              id="confirmPassword"
+              type="password"
+              className="form-input"
+              placeholder="Confirm your new password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              onKeyPress={handleKeyPress}
+              disabled={isLoading}
+              required
+            />
             <p className="password-help">
               Password must contain at least 8 characters, including uppercase, lowercase, and numbers
             </p>
           </div>
 
-          <button
-            className="btn btn-primary w-full"
-            onClick={handleSubmit}
-            disabled={isLoading || !password || !confirmPassword}
-          >
-            {isLoading ? (
-              <>
-                <div className="loading-spinner"></div>
-                Resetting...
-              </>
-            ) : (
-              "Reset Password"
-            )}
+          <button className="btn btn-primary w-full" onClick={handleSubmit} disabled={isLoading}>
+            {isLoading ? "Resetting..." : "Reset Password"}
           </button>
 
           <div className="text-center mt-2">
             <button className="btn-link" onClick={() => (window.location.href = "/login")}>
-              ← Back to Login
+              Back to Login
             </button>
           </div>
         </div>

@@ -69,31 +69,9 @@ const ForgotPasswordForm = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          {error && (
-            <div className="error-message">
-              <span className="error-icon">⚠️</span> {error}
-            </div>
-          )}
+          {error && <div className="error-message">{error}</div>}
 
-          {message && (
-            <div
-              className="success-message"
-              style={{
-                backgroundColor: "#f0f9ff",
-                borderColor: "#bae6fd",
-                color: "#0369a1",
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
-                padding: "12px",
-                borderRadius: "6px",
-                border: "1px solid",
-                marginBottom: "16px",
-              }}
-            >
-              <span>✅</span> {message}
-            </div>
-          )}
+          {message && <div className="success-message">{message}</div>}
 
           <div className="form-group">
             <label htmlFor="email">Email Address</label>
@@ -111,29 +89,21 @@ const ForgotPasswordForm = () => {
 
           <div className="form-actions">
             <button type="submit" className="btn btn-primary btn-full" disabled={isLoading || !email}>
-              {isLoading ? (
-                <>
-                  <span className="loading-spinner"></span>
-                  Sending...
-                </>
-              ) : (
-                "Send Reset Link"
-              )}
+              {isLoading ? "Sending..." : "Send Reset Link"}
             </button>
           </div>
 
           <div className="form-footer">
             <Link to="/login" className="link">
-              ← Remember your password? Back to Login
+              Remember your password? Back to Login
             </Link>
           </div>
         </form>
 
         <div className="auth-switch">
           <p>
-            Don't have an account?
+            Don't have an account?{" "}
             <Link to="/signup" className="link-button">
-              {" "}
               Get Started
             </Link>
           </p>
