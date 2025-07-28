@@ -17,6 +17,13 @@ export const login = async (req, res) => {
     if (!isValidPassword)
       return res.status(401).json({ error: 'Invalid email or password' });
 
+    // ✅ Auto-approve admin on login if not already approved
+    if (user.role === 'admin' && !user.isApproved) {
+      user.isApproved = true;
+      user.approvalStatus = 'approved';
+      await user.save();
+    }
+
     // ✅ Block unapproved users (except admin)
     if (!user.isApproved && user.role !== 'admin') {
       return res.status(403).json({
@@ -149,5 +156,119 @@ export const signup = async (req, res) => {
   } catch (error) {
     console.error('Signup error:', error);
     res.status(500).json({ error: 'Failed to create user account.' });
+  }
+};
+
+// FORGOT PASSWORD CONTROLLER
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email is required' });
+    }
+
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ error: 'User with this email does not exist' });
+    }
+
+    // Check if user is approved - only approved users can reset passwords
+    if (!user.isApproved && user.role !== 'admin') {
+      return res.status(403).json({
+        error: 'Your account is not approved yet. Password reset is not available.'
+      });
+    }
+
+    // Generate password reset token
+    const resetToken = jwt.sign(
+      { 
+        userId: user._id,
+        email: user.email,
+        type: 'password_reset'
+      },
+      process.env.SECRET_KEY,
+      { expiresIn: '1h' }
+    );
+
+    // Send password reset email
+    await sendEmail({
+      to: email,
+      subject: '🔑 Password Reset Request - HomeBuddy',
+      html: `
+        <h2>Password Reset Request</h2>
+        <p>Hello ${user.firstName} ${user.lastName},</p>
+        <p>We received a request to reset your password for your HomeBuddy account.</p>
+        <p>Click the link below to reset your password (valid for 1 hour):</p>
+        <p>
+          <a href="https://home-buddy-eta.vercel.app/reset-password?token=${resetToken}" 
+             target="_blank" 
+             style="background-color: #2c2c3a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
+            Reset Password
+          </a>
+        </p>
+        <p>If you didn't request this password reset, please ignore this email.</p>
+        <p>Best regards,<br>HomeBuddy Team</p>
+      `
+    });
+
+    res.json({
+      message: 'Password reset link has been sent to your email'
+    });
+
+  } catch (error) {
+    console.error('Forgot password error:', error);
+    res.status(500).json({ error: 'Failed to send password reset email' });
+  }
+};
+
+// RESET PASSWORD CONTROLLER
+export const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword, confirmPassword } = req.body;
+
+    if (!token || !newPassword || !confirmPassword) {
+      return res.status(400).json({ error: 'All fields are required' });
+    }
+
+    if (newPassword !== confirmPassword) {
+      return res.status(400).json({ error: 'Passwords do not match' });
+    }
+
+    if (newPassword.length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters' });
+    }
+
+    // Verify reset token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.SECRET_KEY);
+    } catch (error) {
+      return res.status(400).json({ error: 'Invalid or expired reset token' });
+    }
+
+    if (decoded.type !== 'password_reset') {
+      return res.status(400).json({ error: 'Invalid token type' });
+    }
+
+    // Find user
+    const user = await User.findById(decoded.userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Hash new password and update
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    res.json({
+      message: 'Password reset successfully. You can now login with your new password.'
+    });
+
+  } catch (error) {
+    console.error('Reset password error:', error);
+    res.status(500).json({ error: 'Failed to reset password' });
   }
 };
