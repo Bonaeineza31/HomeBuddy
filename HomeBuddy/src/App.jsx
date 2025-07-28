@@ -5,6 +5,8 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import Home from './components/Home/home';
 import LoginPage from './components/Auth/login';
 import SignupPage from './components/Auth/signup';
+import ForgotPasswordPage from './components/Auth/ForgotPassword';
+import ResetPasswordPage from './components/Auth/ResetPassword';
 
 // Landlord
 import LandlordDashboard from './pages/Landlord/LandlordDashboard';
@@ -47,6 +49,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password/:token" element={<ResetPasswordPage />} />
 
         {/* Landlord */}
 
