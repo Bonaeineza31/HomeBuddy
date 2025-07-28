@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import "./index.css"
+
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
@@ -18,22 +18,13 @@ const ResetPasswordPage = () => {
 
     if (tokenFromUrl) {
       setToken(tokenFromUrl)
+      // You could add token verification here if your backend supports it
       setTokenValid(true)
     } else {
       setTokenValid(false)
       setError("No reset token found in URL")
     }
   }, [])
-
-  const validatePassword = (pwd) => {
-    const errors = []
-    if (pwd.length < 8) errors.push("at least 8 characters")
-    if (!/[A-Z]/.test(pwd)) errors.push("one uppercase letter")
-    if (!/[a-z]/.test(pwd)) errors.push("one lowercase letter")
-    if (!/\d/.test(pwd)) errors.push("one number")
-
-    return errors
-  }
 
   const handleSubmit = async () => {
     setError("")
@@ -54,18 +45,14 @@ const ResetPasswordPage = () => {
       return
     }
 
-    const passwordErrors = validatePassword(password)
-    if (passwordErrors.length > 0) {
-      setError(`Password must contain ${passwordErrors.join(", ")}.`)
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters long.")
       return
     }
 
     setIsLoading(true)
 
     try {
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 30000)
-
       const response = await fetch("https://homebuddy-yn9v.onrender.com/auth/resetpassword", {
         method: "POST",
         headers: {
@@ -77,154 +64,101 @@ const ResetPasswordPage = () => {
           newPassword: password,
           confirmPassword: confirmPassword,
         }),
-        signal: controller.signal,
       })
 
-      clearTimeout(timeoutId)
       const data = await response.json()
 
       if (!response.ok) {
-        if (response.status === 400 && data.error.includes("token")) {
-          throw new Error("Your reset link has expired. Please request a new one.")
-        } else if (response.status === 404) {
-          throw new Error("User account not found.")
-        } else {
-          throw new Error(data.error || "Failed to reset password.")
-        }
+        throw new Error(data.error || "Failed to reset password.")
       }
 
       setMessage("Password reset successful! Redirecting to login...")
-      setPassword("")
-      setConfirmPassword("")
-
       setTimeout(() => {
         window.location.href = "/login"
       }, 2000)
     } catch (err) {
-      if (err.name === "AbortError") {
-        setError("Request timed out. Please try again.")
-      } else {
-        setError(err.message || "Something went wrong.")
-      }
+      setError(err.message || "Something went wrong.")
     } finally {
       setIsLoading(false)
     }
   }
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleSubmit()
-    }
-  }
-
   if (tokenValid === null) {
     return (
-      <div className="auth-container">
-        <div className="auth-card">
-          <div className="loading-container">
-            <h1 className="loading-title">Verifying Reset Link</h1>
-            <p className="loading-text">Please wait while we verify your reset link...</p>
-          </div>
-        </div>
+      <div>
+        <h1>Verifying Reset Link</h1>
+        <p>Please wait while we verify your reset link...</p>
       </div>
     )
   }
 
   if (tokenValid === false) {
     return (
-      <div className="auth-container">
-        <div className="auth-card">
-          <div className="invalid-token">
-            <h1 className="invalid-title">Invalid Reset Link</h1>
-            <p className="invalid-text">This password reset link is invalid or has expired.</p>
-            {error && (
-              <div className="alert alert-error mb-3">
-                <span>{error}</span>
-              </div>
-            )}
-            <div className="invalid-actions">
-              <button className="btn btn-primary w-full" onClick={() => (window.location.href = "/forgot-password")}>
-                Request New Reset Link
-              </button>
-              <button className="btn btn-secondary w-full" onClick={() => (window.location.href = "/login")}>
-                Back to Sign In
-              </button>
-            </div>
+      <div>
+        <h1>Invalid Reset Link</h1>
+        <p>This password reset link is invalid or has expired.</p>
+        {error && (
+          <div>
+            <span>⚠️</span>
+            {error}
           </div>
-        </div>
+        )}
+        <a href="/forgot-password">Request New Reset Link</a>
+        <br />
+        <a href="/login">Back to Sign In</a>
       </div>
     )
   }
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
-        <div className="auth-header">
-          <h2 className="auth-title">Reset Your Password</h2>
-          <p className="auth-subtitle">Enter your new password below.</p>
+    <div>
+      <h1>Reset Your Password</h1>
+      <p>Enter your new password below.</p>
+
+      {error && (
+        <div>
+          <span>⚠️</span>
+          {error}
+        </div>
+      )}
+
+      {message && (
+        <div>
+          <span>✅</span>
+          {message}
+        </div>
+      )}
+
+      <div>
+        <div>
+          <label>New Password:</label>
+          <input
+            type="password"
+            placeholder="Enter your new password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
 
-        <div className="auth-form">
-          {error && (
-            <div className="alert alert-error">
-              <span>{error}</span>
-            </div>
-          )}
-
-          {message && (
-            <div className="alert alert-success">
-              <span>{message}</span>
-            </div>
-          )}
-
-          <div className="form-group">
-            <label htmlFor="password" className="form-label">
-              New Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              className="form-input"
-              placeholder="Enter your new password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              onKeyPress={handleKeyPress}
-              disabled={isLoading}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="confirmPassword" className="form-label">
-              Confirm Password
-            </label>
-            <input
-              id="confirmPassword"
-              type="password"
-              className="form-input"
-              placeholder="Confirm your new password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              onKeyPress={handleKeyPress}
-              disabled={isLoading}
-              required
-            />
-            <p className="password-help">
-              Password must contain at least 8 characters, including uppercase, lowercase, and numbers
-            </p>
-          </div>
-
-          <button className="btn btn-primary w-full" onClick={handleSubmit} disabled={isLoading}>
-            {isLoading ? "Resetting..." : "Reset Password"}
-          </button>
-
-          <div className="text-center mt-2">
-            <button className="btn-link" onClick={() => (window.location.href = "/login")}>
-              Back to Login
-            </button>
-          </div>
+        <div>
+          <label>Confirm Password:</label>
+          <input
+            type="password"
+            placeholder="Confirm your new password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            required
+          />
+          <small>Password must be at least 8 characters long</small>
         </div>
+
+        <button onClick={handleSubmit} disabled={isLoading}>
+          {isLoading ? "Resetting..." : "Reset Password"}
+        </button>
       </div>
+
+      <a href="/login">Back to Login</a>
     </div>
   )
 }

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Link } from "react-router-dom"
-import "./index.css"
+import "./Auth.css"
 
 const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("")
@@ -19,7 +19,7 @@ const ForgotPasswordForm = () => {
       return setError("Please enter your email address.")
     }
 
-    // Enhanced email validation
+    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(email)) {
       return setError("Please enter a valid email address.")
@@ -27,7 +27,6 @@ const ForgotPasswordForm = () => {
 
     try {
       setIsLoading(true)
-
       const response = await fetch("https://homebuddy-yn9v.onrender.com/auth/forgotpassword", {
         method: "POST",
         headers: {
@@ -40,14 +39,7 @@ const ForgotPasswordForm = () => {
       const result = await response.json()
 
       if (!response.ok) {
-        // Handle specific error cases
-        if (response.status === 403) {
-          throw new Error("Your account is not approved yet. Password reset is not available.")
-        } else if (response.status === 400) {
-          throw new Error(result.error || "Please enter a valid email address.")
-        } else {
-          throw new Error(result.error || "Failed to send reset email. Please try again.")
-        }
+        throw new Error(result.error || "Failed to send reset email")
       }
 
       setMessage("Password reset link has been sent to your email. Please check your inbox and spam folder.")
@@ -69,12 +61,30 @@ const ForgotPasswordForm = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
-          {error && <div className="error-message">{error}</div>}
+          {error && (
+            <div className="error-message">
+              <span className="error-icon">⚠️</span> {error}
+            </div>
+          )}
 
-          {message && <div className="success-message">{message}</div>}
+          {message && (
+            <div
+              className="info-box"
+              style={{
+                backgroundColor: "#f0f9ff",
+                borderColor: "#bae6fd",
+                color: "#0369a1",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+              }}
+            >
+              <span>✅</span> {message}
+            </div>
+          )}
 
           <div className="form-group">
-            <label htmlFor="email">Email Address</label>
+            <label>Email Address</label>
             <input
               type="email"
               name="email"
@@ -82,20 +92,19 @@ const ForgotPasswordForm = () => {
               placeholder="your.email@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              disabled={isLoading}
               required
             />
           </div>
 
           <div className="form-actions">
-            <button type="submit" className="btn btn-primary btn-full" disabled={isLoading || !email}>
+            <button type="submit" className="btn btn-primary btn-full" disabled={isLoading}>
               {isLoading ? "Sending..." : "Send Reset Link"}
             </button>
           </div>
 
           <div className="form-footer">
             <Link to="/login" className="link">
-              Remember your password? Back to Login
+              Remember your password?
             </Link>
           </div>
         </form>
