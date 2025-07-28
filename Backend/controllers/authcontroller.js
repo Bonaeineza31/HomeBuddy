@@ -148,7 +148,7 @@ export const signup = async (req, res) => {
   }
 }
 
-// FORGOT PASSWORD CONTROLLER - MATCHING YOUR ORIGINAL STRUCTURE
+// FORGOT PASSWORD CONTROLLER
 export const forgotPassword = async (req, res) => {
   console.log("Forgot password request received:", req.body)
 
@@ -162,7 +162,7 @@ export const forgotPassword = async (req, res) => {
 
     console.log("Looking for user with email:", email)
 
-    // Check if user exists and is approved (matching your original logic)
+    // Check if user exists and is approved
     const user = await User.findOne({ email, isApproved: true })
     if (!user) {
       console.log("User not found or not approved")
@@ -171,20 +171,20 @@ export const forgotPassword = async (req, res) => {
 
     console.log("User found:", user.firstName, user.lastName)
 
-    // Generate password reset token (using SECRET_KEY to match your setup)
+    // Generate password reset token
     const resetToken = jwt.sign(
       {
         email: user.email,
         userId: user._id,
         type: "password_reset",
       },
-      process.env.SECRET_KEY, // Using SECRET_KEY instead of JWT_SECRET
+      process.env.SECRET_KEY,
       { expiresIn: "1h" },
     )
 
     console.log("Reset token generated, attempting to send email...")
 
-    // Send password reset email
+    // Send password reset email with token as query parameter
     try {
       await sendEmail({
         to: email,
@@ -202,6 +202,10 @@ export const forgotPassword = async (req, res) => {
                 Reset Password
               </a>
             </div>
+            <p>Or copy and paste this link in your browser:</p>
+            <p style="word-break: break-all; color: #666;">
+              https://home-buddy-eta.vercel.app/resetpassword?token=${resetToken}
+            </p>
             <p>If you didn't request this password reset, please ignore this email.</p>
             <p>Best regards,<br>HomeBuddy Team</p>
           </div>
@@ -223,7 +227,7 @@ export const forgotPassword = async (req, res) => {
   }
 }
 
-// RESET PASSWORD CONTROLLER - MATCHING YOUR ORIGINAL STRUCTURE
+// RESET PASSWORD CONTROLLER
 export const resetPassword = async (req, res) => {
   console.log("Reset password request received:", req.body)
 
@@ -244,7 +248,7 @@ export const resetPassword = async (req, res) => {
     }
 
     try {
-      // Verify the reset token (using SECRET_KEY to match your setup)
+      // Verify the reset token
       const decoded = jwt.verify(token, process.env.SECRET_KEY)
 
       if (decoded.type !== "password_reset") {
