@@ -10,7 +10,7 @@ const AdminSidebar = () => {
   const location = useLocation();
 
   const links = [
-    { to: '/admin/dashboard', label: 'Dashboard', icon: <LayoutDashboard /> },
+    { to: '/admin', label: 'Dashboard', icon: <LayoutDashboard /> },
     { to: '/admin/approvals', label: 'Approvals', icon: <ShieldCheck /> },
     { to: '/admin/listings', label: 'Listings', icon: <FilePlus2 /> },
     { to: '/admin/users', label: 'Users', icon: <Users /> },
