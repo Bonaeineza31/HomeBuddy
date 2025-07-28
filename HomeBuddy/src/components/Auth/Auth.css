@@ -133,7 +133,7 @@
 }
 
 .auth-form select:focus {
-  border-color: #7fe8c9; /* match your app's primary color */
+  border-color: #7fe8c9; /* match app's primary color */
 }
 
 .form-group {
