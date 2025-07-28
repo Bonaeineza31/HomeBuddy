@@ -133,7 +133,7 @@
 }
 
 .auth-form select:focus {
-  border-color: #7fe8c9; /* match your app's primary color */
+  border-color: #7fe8c9; /* match app's primary color */
 }
 
 .form-group {
@@ -357,4 +357,29 @@
 
 .form-help span{
     color: #00B5C3;
+}
+
+.password-wrapper {
+ position: relative;
+}
+
+.password-wrapper input {
+ width: 100%;
+ padding-right: 40px;
+}
+
+.toggle-password {
+ position: absolute;
+ right: 18px;
+ top: 50%;
+ transform: translateY(-50%);
+ background: transparent;
+ border: none;
+ cursor: pointer;
+ padding: 0;
+ margin: 0;
+ color: #555;
+ display: flex;
+ align-items: center;
+ justify-content: center;
 }
