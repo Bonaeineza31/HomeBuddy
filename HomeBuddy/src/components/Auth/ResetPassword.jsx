@@ -1,7 +1,8 @@
 "use client"
 
 import { useState, useEffect } from "react"
-
+import './index.css'
+import './Auth.css'
 const ResetPasswordPage = () => {
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
