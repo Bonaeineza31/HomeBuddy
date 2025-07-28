@@ -10,13 +10,11 @@ const ResetPasswordPage = () => {
   const [token, setToken] = useState('');
 
   useEffect(() => {
-    // Get token from URL query parameter
     const urlParams = new URLSearchParams(window.location.search);
     const tokenFromUrl = urlParams.get('token');
     
     if (tokenFromUrl) {
       setToken(tokenFromUrl);
-      // You could add token verification here if your backend supports it
       setTokenValid(true);
     } else {
       setTokenValid(false);
@@ -67,7 +65,13 @@ const ResetPasswordPage = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to reset password.');
+        if (response.status === 400 && data.error.includes('token')) {
+          throw new Error('Invalid or expired reset token');
+        } else if (response.status === 404) {
+          throw new Error('User not found');
+        } else {
+          throw new Error(data.error || 'Failed to reset password');
+        }
       }
 
       setMessage('Password reset successful! Redirecting to login...');
@@ -97,8 +101,7 @@ const ResetPasswordPage = () => {
         <p>This password reset link is invalid or has expired.</p>
         {error && (
           <div>
-            <span>⚠️</span>
-            {error}
+            <span>⚠️</span> {error}
           </div>
         )}
         <a href="/forgot-password">Request New Reset Link</a>
@@ -115,15 +118,13 @@ const ResetPasswordPage = () => {
 
       {error && (
         <div>
-          <span>⚠️</span>
-          {error}
+          <span>⚠️</span> {error}
         </div>
       )}
       
       {message && (
         <div>
-          <span>✅</span>
-          {message}
+          <span>✅</span> {message}
         </div>
       )}
 

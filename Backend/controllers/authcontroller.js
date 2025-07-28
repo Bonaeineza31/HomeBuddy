@@ -119,9 +119,9 @@ export const signup = async (req, res) => {
     const user = new User(userData);
     await user.save();
 
-    // Notify admin (if not an admin registering)
+    // Send admin notification in background (don't await to prevent delays)
     if (!isAdmin) {
-      await sendEmail({
+      sendEmail({
         to: process.env.ADMIN_EMAIL,
         subject: `🔔 New ${role} Registration - Approval Needed`,
         html: `
@@ -141,7 +141,7 @@ export const signup = async (req, res) => {
             </a>
           </p>
         `
-      });
+      }).catch(err => console.error('Failed to send admin notification:', err));
     }
 
     res.status(201).json({
@@ -192,17 +192,17 @@ export const forgotPassword = async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Send password reset email
+    // Send password reset email immediately
     await sendEmail({
       to: email,
-      subject: '🔑 Password Reset Request - HomeBuddy',
+      subject: '🔐 Password Reset Request - HomeBuddy',
       html: `
         <h2>Password Reset Request</h2>
         <p>Hello ${user.firstName} ${user.lastName},</p>
         <p>We received a request to reset your password for your HomeBuddy account.</p>
         <p>Click the link below to reset your password (valid for 1 hour):</p>
         <p>
-          <a href="https://home-buddy-eta.vercel.app/reset-password?token=${resetToken}" 
+          <a href="https://home-buddy-eta.vercel.app/resetpassword?token=${resetToken}" 
              target="_blank" 
              style="background-color: #2c2c3a; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
             Reset Password
